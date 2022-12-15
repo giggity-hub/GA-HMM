@@ -9,4 +9,5 @@
 
 
 ### Data
++ Important! Data is excluded from git
 + FSDD Recordings have to be placed in `/data/fsdd`

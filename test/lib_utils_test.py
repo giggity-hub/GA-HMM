@@ -1,4 +1,4 @@
-from utils import rand_stochastic_matrix
+from lib.utils import rand_stochastic_matrix
 
 
 def test_rand_stochastic_matrix():

@@ -1,6 +1,6 @@
 import numpy
 from typing import List
-from ga.ga import Individual, GeneticAlgorithm
+from ga.ga import Chromosome, GaHMM
 import random
 import numpy.random as npr
 
@@ -29,66 +29,63 @@ import numpy.random as npr
 #     return crossover_func
 
 
-def mean_crossover(parents: List[Individual] , ga_instance: GeneticAlgorithm):
-    child_genes = (parents[0].genes + parents[1].genes) / 2
+# def mean_crossover(parents: List[Individual] , ga_instance: GeneticAlgorithm):
+#     child_genes = (parents[0].genes + parents[1].genes) / 2
 
-    child = Individual(
-        genes=child_genes,
-        normalize_genes=True
-    )
+#     child = Individual(
+#         genes=child_genes,
+#         normalize_genes=True
+#     )
 
-    return child
+#     return [child]
 
-def single_point_crossover(parents: List[Individual], ga_instance: GeneticAlgorithm):
-    # how many crossover points are there?
-    # [start] [transition] [emission]
+def single_point_crossover(parents: List[Chromosome], gabw: GaHMM):
+    # Does not conform to the legal cut points
+    crossover_index = random.randrange(0, gabw.n_genes)
 
-    genes1 = parents[0].genes 
-    genes2 = parents[1].genes
+    child_genes = numpy.empty(gabw.n_genes)
+    child_genes[:crossover_index] = parents[0].genes[:crossover_index]
+    child_genes[crossover_index:] = parents[1].genes[crossover_index:]
 
-    crossover_index = random.randrange(0, len(genes1))
+    child = Chromosome(child_genes)
+    return [child]
 
-    child_genes = numpy.concatenate((
-        genes1[0:crossover_index],
-        genes2[crossover_index:]
-    ))
+# 
 
-    child = Individual(
-        genes=child_genes, 
-        normalize_genes=True
-    )
+# def n_point_crossover(crossover_rate: float, n_cross_T:int=1, n_cross_E:int=2 ):
 
-    return child
-
-def n_point_crossover(n, crossover_rate):
-
-    
-
-    def crossover(parents:List[Individual], ga_instance: GeneticAlgorithm):
+#     def crossover(parents:List[Chromosome], gabw: GaHMM):
         
-        no_crossover = random.uniform(0,1) > crossover_rate
-        if no_crossover:
-            return parents
+#         no_crossover = random.uniform(0,1) > crossover_rate
+#         if no_crossover:
+#             return parents
 
-        # one crossover in transition matrix 
+#         slice_points = numpy.empty(n_cross_T + n_cross_E + 3)
+#         slice_points
 
-        tp_a = parents[0].transition_probs
-        tp_b = parents[1].transition_probs
+#         lo, hi, _ = gabw.range['T']
+#         slice_points[:n_cross_T] = npr.randint(lo, hi, size=n_cross_T)
 
-        ep_a = parents[0].emission_probs
-        ep_b = parents[1].emission_probs
+#         lo, hi, _ = gabw.range['E']
+
+#         slice_points[n_cross_T:n_cross_E] =  npr.randint(lo, hi, size=n_cross_E)
+
+#         slice_points = [0, gabw.n_states, *sorted(slice_points), gabw.n_genes]
+
+#         child_a_genes = []
+#         child_b_genes = []
+#         for i in range(len(slice_points) -1):
+#             start = slice_points[i]
+#             stop = slice_points[i+1]
+
+#             child_a_genes += parents[i % 2].genes[start:stop]
+#             child_b_genes += parents[1 - (i % 2)].genes[start:stop]
+
+#         children = [
+#             Chromosome(child_a_genes),
+#             Chromosome(child_b_genes),
+#         ]
+#         return children
 
 
-        # + transition offset
-        tp_crossover = numpy.random.randint()
-        # + emission offset
-        ep_crossovers = sorted([npr.choice(len(ep_a)) for i in range(2)])
-
-        slice_points = [0, n, ]
-
-        random.uniform()
-
-        # double crossover in 
-        return parents
-
-    return crossover
+#     return crossover

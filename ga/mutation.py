@@ -1,23 +1,47 @@
 from lib.utils import rand_stochastic_vector, normalize_vector
 import numpy
 import random 
-from ga.ga import Individual
+from ga.ga import Chromosome, GaHMM
 
-
-def constant_uniform_mutation(strength: float, mutation_chance: float):
+def constant_uniform_mutation(mutation_threshold: float):
     # strength has to be in range(0,1)
+    
+    def mutation_func(chromosome: Chromosome, gabw: GaHMM):
+        mutation_chance = numpy.random.rand(gabw.len['ET'])
 
-    def mutation_func(individual: Individual, ga_instance):
-        for i in range(len(individual.genes)):
-            mutate_gene = random.random() >= mutation_chance
-            if mutate_gene:
-                individual.genes[i] += random.uniform(-strength, strength)
+        start_index = gabw.range['E'][0]
+        for i in range(gabw.len['ET']):
+            if mutation_chance[i] >= mutation_threshold:
+                chromosome.genes[start_index+i] = random.uniform(0,1)
 
-        individual.normalize_genes()
-        return individual
-
+        return chromosome
       
     return mutation_func
+
+
+# def n_point_mutation(mutation_rate: float, n_mut_T:int=1, n_mut_E:int=2):
+
+#     def mutation_func(chromosome: Chromosome, gabw: GaHMM):
+#         no_mutation = random.uniform(0,1) > mutation_rate
+#         if no_mutation:
+#             return chromosome
+
+#         mutation_indices = []
+        
+#         lo, hi, _ = gabw.range['T']
+#         # mutation_indices += numpy.random.randint(lo, hi, size=n_mut_T)
+#         mutation_indices += random.sample(range(lo,hi), k=n_mut_T)
+
+#         lo, hi, _ = gabw.range['E']
+#         # mutation_indices += numpy.random.randint(lo, hi, size=n_mut_E)
+#         mutation_indices += random.sample(range(lo,hi), k=n_mut_E)
+        
+#         for i in mutation_indices:
+#             chromosome.genes[i] = numpy.random.uniform(0,1)
+        
+#         return chromosome
+        
+#     return mutation_func
 
 
 

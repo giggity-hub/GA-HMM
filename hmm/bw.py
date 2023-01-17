@@ -11,42 +11,53 @@ class HMM:
         self.pi = pi 
         self.a = a 
         self.b = b
+        self.N = b.shape[0] # N = number of States
+        self.M = b.shape[1] # M = number of symbols
 
     def fit(self, O: numpy.ndarray, max_iterations):
         for i in range(max_iterations):
-            alpha, c = self.calc_alpha(O)
-            beta, v = self.calc_beta(O)
-
-            gamma = self.calc_gamma(alpha, beta)
+            alpha = self.calc_alpha(O)
+            beta = self.calc_beta(O)
+            # xi[t, i, j] = Probability of being in state i in time t and state j in time t+1
             xi = self.calc_xi(O, alpha, beta)
+
+            # Probability of being in state i in time t
+            gamma = self.calc_gamma(alpha, beta)
+
+            # tau[i, j] = expected number of transitions from i to j
+            tau = numpy.sum(xi[:-1,:], axis=0)
+            # taui = expected number of transitions from i
+            taui = numpy.sum(gamma[:-1,:], axis=0)
+
+            # nu[i] = expected number of times in state i
+            nu = numpy.sum(gamma, axis=0, keepdims=True).T
             
-            self.a = gamma[1, :]
-        
-            self.a = numpy.sum(xi, axis=0) / numpy.sum(gamma, axis=0)
+            # Omega[i, k] = Expected number of times in state i and observing symbol k
+            omega = numpy.zeros(shape=(self.N, self.M))
 
-            for i in range(len(self.a)):
-                
-                for k in range(self.b.shape[1]):
-                    shish = 0
-                    saas = 0
+            # nu[i] = expected number of times in state j
+
+            for i in range(self.N):
+                for k in range(self.M):
                     for t in range(len(O)):
-                        shish += gamma[t, i] * (1 if O[t] == k else 0)
-                        saas += gamma[t, i]
+                        if O[t] == k:
+                            omega[i,k] += gamma[t,i ]
+
+            
+
+            self.pi = gamma[0, :]
+            self.a = tau / taui
+            self.b = omega / nu 
+
+            
 
 
-                    self.b[i, k] = shish / saas
 
-        # print(self.a)
-        # print(self.b)
-        # print(self.pi)
-
-    
     def calc_xi(self, O, alpha, beta):
         xi = numpy.zeros(shape=(len(O) - 1, len(self.a), len(self.a)))
 
         for t in range(len(O) - 1):
             for i in range(len(self.a)):
-                # for j in range(len(self.a)):
                 xi[t, i, :] = alpha[t, i] * self.a[i, :] * self.b[:, O[t+1]] * beta[t+1, :]
             xi[t] = xi[t] / numpy.sum(xi[t])
 
@@ -56,7 +67,15 @@ class HMM:
     # Rabiner (27)
     # gamma[i, t] = the probability of being in state S_i at time t
     # gamma.shape = (len(O), len(self.a))
+
+    # def calc_gamma(self, xi):
+    #     # Rabiner (38)
+    #     gamma = numpy.sum(xi, axis=2)
+    #     return gamma
+
     def calc_gamma(self, alpha: numpy.ndarray, beta: numpy.ndarray):
+        # Rabiner (27)
+        # gamma[i, t] = the probability of being in state i at time t
         product = alpha * beta
         norm = numpy.sum(product, axis=1, keepdims=True)
         gamma = product / norm 
@@ -103,72 +122,94 @@ class HMM:
 
     def calc_beta(self, O: numpy.ndarray):
         T = len(O) - 1
+        t = 0
+        beta = numpy.zeros(shape=(T + 1, self.N))
+        beta[T, :] = 1
+
+        for t in range(T-1, -1, -1):
+            for i in range(self.N):
+                beta[t, i] = numpy.sum(beta[t+1,:] * self.a[i,:] * self.b[:, O[t+1]])
+        
+        return beta
+
+    def calc_beta_scaled(self, O: numpy.ndarray):
+        T = len(O) - 1
         beta = numpy.zeros(shape=(len(O), len(self.a)))
         beta[T ,:] = 1
 
-        v = numpy.zeros(len(O))
-        v[T] = 1 / numpy.sum(beta[T, :])
+        scalars = numpy.zeros(len(O))
+        scalars[T] = 1 / numpy.sum(beta[T, :])
 
         for t in range(T - 1, -1, -1):
             for i in range(len(self.a)):
                 beta[t, i] = numpy.sum(self.a[i, :] * self.b[:, O[t+1]] * beta[t+1,:])
             
-            v[t] = 1 / numpy.sum(beta[t, :])
-            beta[t, :] = v[t] * beta[t, :]
+            beta[t, :], scalars[t] = self.scale_probabilities(beta[t, :])
 
-        return beta, v
+        return beta, scalars
+
+    
+
+    def scale_probabilities(self, vector):
+        scalar = 1 / numpy.sum(vector)
+        return vector*scalar, scalar
+
+    def calc_alpha(self, O: numpy.ndarray):
+        # Initialization:
+        t = 0
+        alpha = numpy.zeros(shape=(len(O), len(self.a)))
+        alpha[t, :] = self.pi * self.b[:, O[t]]
+
+        # Recursion:
+        for t in range(1, len(O)):
+            for i in range(self.N):
+                S = numpy.sum(self.a[:, i] * alpha[t-1, :])
+                alpha[t, i] = S * self.b[i, O[t]]
+
+        # Unscaled Log Prob:
+        # T = len(O) -1
+        # P = numpy.sum(alpha[T,:])
+        # log_P = numpy.log(P)
+
+        return alpha
+
+    def calc_expected_num_of_transitions_between(self, xi, O):
+        # See Rabiner (39b)
+
+        tau = numpy.sum(xi, axis=0)
+        return tau
+
+    def calc_expected_num_of_transitions_from(self, gamma):
+       pass
+
 
 
     # See Listing 3.10
-    def calc_alpha(self, O: numpy.ndarray):
-
-        # # fixed_t
-        # max_t = 10
+    def calc_alpha_scaled(self, O: numpy.ndarray):
         
-        # # initialization
-        # alpha = numpy.zeros(shape=(len(O), len(self.a)))
-        # alpha[0, :] = self.pi * self.b[:, O[0]]
+        # Initialization:
+        t = 0
+        alpha = numpy.zeros(shape=(len(O), len(self.a)))
+        alpha[t, :] = self.pi * self.b[:, O[t]]
+        scalars = numpy.zeros(len(O))
+        alpha[t, :], scalars[t] = self.scale_probabilities(alpha[t,:])
 
-        # c1 = numpy.zeros(len(O))
-        # c1[0] = 1 / numpy.sum(alpha[0, :])
-        # # res = numpy.log(numpy.sum(alpha[0,:]))
-
-        # for t in range(1, len(O)):
-            
-        #     for j in range(len(self.a)):
-        #         # Induction Step
-        #         alpha[t, j] = numpy.sum(alpha[t-1, :] * self.a[:, j]) * self.b[j, O[t]]
-
-        #     c1[t] = (c1[t-1]) * (1 / numpy.sum(alpha[t,:]))
-
-        # print(c1)
-        # print(numpy.log(c1))
-
-        alpha_scaled = numpy.zeros(shape=(len(O), len(self.a)))
-        c2 = numpy.zeros(len(O))
-
-        alpha_scaled[0, :] = self.pi * self.b[:, O[0]]
-
-        c2[0] = 1 / numpy.sum(alpha_scaled[0, :])
-        alpha_scaled[0, :] = alpha_scaled[0, :] * c2[0]
-
+        # Recursion:
         for t in range(1, len(O)):
             for i in range(len(self.a)):
-                s = numpy.sum(alpha_scaled[t-1, :] * self.a[:, i] )
-                alpha_scaled[t, i] = self.b[i, O[t]] * s
+                s = numpy.sum(alpha[t-1, :] * self.a[:, i] )
+                alpha[t, i] = self.b[i, O[t]] * s
 
-            c2[t] = 1 / numpy.sum(alpha_scaled[t, :])
-            alpha_scaled[t, :] = alpha_scaled[t, :] * c2[t]
+            alpha[t, :], scalars[t] = self.scale_probabilities(alpha[t,:])
             
-        return alpha_scaled, c2
-
-
-    def alpha_scaled(self, t, i, O, alpha_scaled):
-        pass
+        return alpha, scalars
 
     def log_prob(self, O):
-        _, c2 = self.calc_alpha(O)
-        return - numpy.sum(numpy.log(c2))
+        _, scalars = self.calc_alpha_scaled(O)
+        return - numpy.sum(numpy.log(scalars))
+
+
+
 
 def main():
     n_states = 3
@@ -181,7 +222,7 @@ def main():
     T = 12
     O = npr.randint(low=0, high=n_symbols,  size=T)
     hmm = HMM(pi, b, a)
-    prob = hmm.calc_alpha(O)
+    prob = hmm.calc_alpha_scaled(O)
     print(prob)
 
 if __name__ == '__main__':

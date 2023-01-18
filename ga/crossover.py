@@ -39,15 +39,17 @@ import numpy.random as npr
 
 #     return [child]
 
-def single_point_crossover(parents: List[Chromosome], gabw: GaHMM):
-    # Does not conform to the legal cut points
-    crossover_index = random.randrange(0, gabw.n_genes)
 
-    child_genes = numpy.empty(gabw.n_genes)
-    child_genes[:crossover_index] = parents[0].genes[:crossover_index]
-    child_genes[crossover_index:] = parents[1].genes[crossover_index:]
 
-    child = Chromosome(child_genes)
+def single_point_crossover(parents: List[Chromosome], gabw: GaHMM=None):
+
+    parent_a, parent_b = parents
+    lo, hi = parent_a.range['ET']
+
+    crossover_index = random.randrange(lo, hi)
+
+    child = parent_a.clone()
+    child.genes[:crossover_index] = parent_b.genes[:crossover_index].copy()
     return [child]
 
 # 

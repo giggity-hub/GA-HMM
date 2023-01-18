@@ -1,5 +1,8 @@
 function [A,B,c,LogLik, Alfa, Beta, Gama, tau, taui, nu, Omega]=baum_welch_norm(A,B,O,c)
-
+    % A - mxm (state transitions matrix)
+    % B = nxm (confusions matrix)
+    % O = 1xN (observations vector)
+    % c = 1xm (priors vector) 
     [Alfa,LogLik]=forward_algorithm_norm(A,B,O,c);
     Beta=backward_algorithm_norm(A,B,O);
     Gama=compute_gama(Alfa,Beta);

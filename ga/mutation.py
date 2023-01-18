@@ -4,11 +4,17 @@ import random
 from ga.ga import Chromosome, GaHMM
 
 def constant_uniform_mutation(mutation_threshold: float):
-    # strength has to be in range(0,1)
+    """_summary_
+
+    Args:
+        mutation_threshold (float): For every gene in the chromosome a random number is generated.
+        If the random number is greater or equal than the mutation_threshold the gene is replaced by a random number
+    """
+
     
     def mutation_func(chromosome: Chromosome, gabw: GaHMM):
-        mutation_chance = numpy.random.rand(gabw.len['ET'])
-
+        mutation_chance = random.uniform(0,1)
+        chromosome.range['E']
         start_index = gabw.range['E'][0]
         for i in range(gabw.len['ET']):
             if mutation_chance[i] >= mutation_threshold:

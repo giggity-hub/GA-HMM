@@ -1,4 +1,8 @@
 function [Alfa,LogLik] = forward_algorithm_norm(A,B,O,c)
+    % A - mxm (state transitions matrix)
+    % B - nxm (confusion matrix)
+    % O - 1xN (observations vector)
+    % c - 1xm (priors vector)
     [m,~]=size(B);
     N=length(O);
     u=zeros(1,N)

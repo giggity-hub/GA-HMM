@@ -6,8 +6,8 @@ import matplotlib.pyplot as plt
 from typing import Callable, List, Dict, Tuple
 from hmm.hmm import random_left_right_hmm_params
 import lib.utils as utils
-
-
+from hmm.bw import BaumWelch
+import copy
 
 
 # child A
@@ -24,125 +24,85 @@ import lib.utils as utils
 # createFromGenes
 
 
-class Moped:
-    def __init__(self, genes: numpy.ndarray, n_symbols, n_states):
+
+
+class Chromosome:
+    def __init__(self, genes: numpy.ndarray, n_symbols, n_states, mask=None):
         self.n_symbols = n_symbols
         self.n_states = n_states
         self.genes = genes
+        self.n_genes = len(genes)
+
+        self.log_probability = float('-inf')
+        self.fitness = 0
+        self.rank = 0
+
+        # genes = list of data
+        # mutable_indices = list of indices for genes
+        # genes[mutable_indices[0]]
+        # 
+        # sliceable_indices = list of points where slicing is possible without renormalization
+        # indices S, E, T for each of the thre categories
+
+        # len(mutable_indices['e'])
+        self.mutatable_indices = {
+            'S'
+            'E'
+            'T'
+            'SE'
+            'ET'
+            'SET'
+        }
 
         self.range = {
             'S': (0, n_states, n_states),
             'E': (n_states, (n_states + n_states*n_symbols), n_symbols),
-            'T': ((n_states + n_states*n_symbols), self.n_genes, n_states)
+            'T': ((n_states + n_states*n_symbols), self.n_genes, n_states),
         }
+        self.range['SE'] = (self.range['S'][0], self.range['E'][1])
+        self.range['ET'] = (self.range['E'][0], self.range['T'][1])
+        self.range['SET'] = (self.range['S'][0], self.range['T'][1])
 
         self.slice = {
-            'S': numpy.s_[self.range['S'][0]: self.range['S'][1]],
-            'E': numpy.s_[self.range['E'][0]: self.range['E'][1]],
-            'T': numpy.s_[self.range['T'][0]: self.range['T'][1]]
+            'S':   numpy.s_[self.range['S'][0]: self.range['S'][1]],
+            'E':   numpy.s_[self.range['E'][0]: self.range['E'][1]],
+            'T':   numpy.s_[self.range['T'][0]: self.range['T'][1]],
+            'ET':  numpy.s_[self.range['E'][0]: self.range['T'][1]],
+            'SET': numpy.s_[self.range['S'][0]: self.range['T'][1]]
         }
 
-        self.S = self.genes[self.slice['S']]
-        self.E = self.genes[self.slice['E']].reshape((n_states, n_symbols))
-        self.T = self.genes[self.slice['T']].reshape((n_states, n_states))
+        self.legal_indices = {
+            'S': [i for i in range(*self.range['S'])],
+            'E': [i for i in range(*self.range['E'])],
+            'T': [i for i in range(*self.range['T'])],
+        }
+        self.legal_indices['SE'] = self.legal_indices['S'] + self.legal_indices['E']
+        self.legal_indices['ET'] = self.legal_indices['E'] + self.legal_indices['T']
+        self.legal_indices['SET'] = self.legal_indices['SE'] + self.legal_indices['T']
 
+    def compressed(self):
 
-    def forward(self, O: numpy.ndarray, ):
-        # Wichtig Zeit ist auf der Y achse und State auf der X achse (damit multiplikation einfacher wird)
-        alpha_shape = (len(observation_seq), self.n_states)
-        alpha = numpy.zeros(alpha_shape)
-
-        # Initialize Alpha with the starting probabilities times first observation symbol
-        first_observation = observation_seq[0]
-        alpha[0, :] = self.S * self.E[:, first_observation]
-
-        for t in range(1, len(O)):
-            for j in range(self.n_states):
-                
-
-                alpha[t, j] = moped * self.E[j, O[t]]
-
-
-                alpha[t, :] = sum(alpha[t - 1] * self.T[j, :]) * self.E[:, observation_seq[t]]
-
-            
-                # Matrix Computation Steps
-                #                  ((1x2) . (1x2))      *     (1)
-                #                        (1)            *     (1)
-                alpha[t, j] = alpha[t - 1].dot(a[:, j]) * b[j, V[t]]
-
-                
- 
-        return alpha
-
-    def transition_prob(self, from_state: int, to_state: int):
         pass
 
-
-
-class ChromosomeSchmomosome:
-    genes: numpy.array
-    probability: float
-    fitness: float
-    rank: int
-    def __init__(self, states_count: int, symbols_count: int, genes: numpy.array) -> None:
-        self.genes: numpy.array = genes
-        self.probability: float = float('-inf')
-        self.fitness: float = 0
-        self.rank: int = 0
-        self.states_count = states_count 
-        self.symbols_count = symbols_count
-    
-    def __lt__(self, other):
-        return self.probability < other.probability
-    
-    def __gt__(self, other):
-        return self.probability > other.probability
-
-
-    def forward(observation_sequence: numpy.ndarray, time_index: int, final_state_index: int):
+    def raw(self):
         pass
-
-    def calculate_forward_trellis(self, observation_sequence: numpy.ndarray):
-        observation_sequence_length = observation_sequence.shape[1]
-        alpha = numpy.zeros((self.states_count, observation_sequence_length))
-
-        alpha[0, :] = 
-
-    def b(self, state_index, observation_index):
         
-        emission_probability_matrix = self.genes[]
+    def clone(self):
+        
+        clone = copy.copy(self)
+        clone_genes = self.genes.copy()
+        clone.genes = clone_genes
 
-    
-
-        # callculate initial probabilities
-
-    def single_observation_log_prob(self, observation_sequence: numpy.ndarray):
-        total = 0
-        for i in range(self.states_count):
-            total += self.forward(
-                observation_sequence=observation_sequence,
-                time_index=
-                )
+        return clone
+        
 
 
-class Chromosome:
-    genes: numpy.array
-    probability: float
-    fitness: float
-    rank: int
-    def __init__(self, genes: numpy.array) -> None:
-        self.genes: numpy.array = genes
-        self.probability: float = float('-inf')
-        self.fitness: float = 0
-        self.rank: int = 0
-    
     def __lt__(self, other):
         return self.probability < other.probability
     
     def __gt__(self, other):
         return self.probability > other.probability
-
+    
 
 
 

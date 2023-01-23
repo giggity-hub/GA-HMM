@@ -10,82 +10,66 @@ from hmm.bw import BaumWelch
 import copy
 
 
-# child A
-# Child B
-
-# How to create a child without the ga instance
-# child = parentA.copy()
-# child.genes[x:y] = parent[1].genes[x:y]
-
-# ChromosomeFactory
-
-# createfromHMM
-# createRandom
-# createFromGenes
-
-
-
-
 class Chromosome:
-    def __init__(self, genes: numpy.ndarray, n_symbols, n_states, mask=None):
-        self.n_symbols = n_symbols
-        self.n_states = n_states
-        self.genes = genes
-        self.n_genes = len(genes)
+    def __init__(self, start_vector:numpy.ndarray, emission_matrix:numpy.ndarray, transition_matrix:numpy.ndarray):
+        self.start_vector = start_vector
+        self.emission_matrix = emission_matrix
+        self.transition_matrix = transition_matrix
 
+        self.n_states = emission_matrix.shape[0] 
+        self.n_symbols = emission_matrix.shape[1]
+
+        self.n_genes = self.calc_n_genes()
+
+        self.indices_range = {
+            'S': (0, self.n_states, self.n_states),
+            'E': (self.n_states, (self.n_states + self.n_states*self.n_symbols), self.n_symbols),
+            'T': ((self.n_states + self.n_states*self.n_symbols), self.n_genes, self.n_states),
+        }
+
+        genes = self.create_genes_from_matrices()
+        self.genes = self.mask_immutable_genes(genes)
+        
         self.log_probability = float('-inf')
         self.fitness = 0
         self.rank = 0
 
-        # genes = list of data
-        # mutable_indices = list of indices for genes
-        # genes[mutable_indices[0]]
-        # 
-        # sliceable_indices = list of points where slicing is possible without renormalization
-        # indices S, E, T for each of the thre categories
+    def calc_n_genes(self):
+        return self.n_states + self.n_states*self.n_symbols + self.n_states**2
+            
+    def create_genes_from_matrices(self):
+        genes = numpy.empty(self.n_genes)
 
-        # len(mutable_indices['e'])
-        self.mutatable_indices = {
-            'S'
-            'E'
-            'T'
-            'SE'
-            'ET'
-            'SET'
-        }
+        start_S, stop_S, _ = self.indices_range['S']
+        start_E, stop_E, _ = self.indices_range['E']
+        start_T, stop_T, _ = self.indices_range['T']
 
-        self.range = {
-            'S': (0, n_states, n_states),
-            'E': (n_states, (n_states + n_states*n_symbols), n_symbols),
-            'T': ((n_states + n_states*n_symbols), self.n_genes, n_states),
-        }
-        self.range['SE'] = (self.range['S'][0], self.range['E'][1])
-        self.range['ET'] = (self.range['E'][0], self.range['T'][1])
-        self.range['SET'] = (self.range['S'][0], self.range['T'][1])
+        genes[start_S:stop_S] = self.start_vector
+        genes[start_E:stop_E] = self.emission_matrix.flatten()
+        genes[start_T:stop_T] = self.transition_matrix.flatten()
 
-        self.slice = {
-            'S':   numpy.s_[self.range['S'][0]: self.range['S'][1]],
-            'E':   numpy.s_[self.range['E'][0]: self.range['E'][1]],
-            'T':   numpy.s_[self.range['T'][0]: self.range['T'][1]],
-            'ET':  numpy.s_[self.range['E'][0]: self.range['T'][1]],
-            'SET': numpy.s_[self.range['S'][0]: self.range['T'][1]]
-        }
+        return genes
+        
+    def mask_immutable_genes(self, genes: numpy.ndarray) ->numpy.ma.masked_array:
+        """Applies the mask if provided. Otherwise masks all indices where the value is equal to 0 or 1
 
-        self.legal_indices = {
-            'S': [i for i in range(*self.range['S'])],
-            'E': [i for i in range(*self.range['E'])],
-            'T': [i for i in range(*self.range['T'])],
-        }
-        self.legal_indices['SE'] = self.legal_indices['S'] + self.legal_indices['E']
-        self.legal_indices['ET'] = self.legal_indices['E'] + self.legal_indices['T']
-        self.legal_indices['SET'] = self.legal_indices['SE'] + self.legal_indices['T']
+        Args:
+            genes (_type_): _description_
+            mask (_type_): _description_
 
-    def compressed(self):
+        Returns:
+            _type_: _description_
+        """
 
-        pass
+        return numpy.ma.masked_equal(numpy.logical_or(genes == 1, genes == 0), genes, copy=False)
 
-    def raw(self):
-        pass
+    def normalize(self):
+        self.start_vector = self.start_vector / numpy.sum(self.start_vector)
+        self.transition_matrix = self.transition_matrix / numpy.sum(self.transition_matrix, axis=1, keepdims=True)
+        self.emission_matrix = self.emission_matrix / numpy.sum(self.emission_matrix, axis=1, keepdims=True)
+
+        self.genes = self.create_genes_from_matrices()
+
         
     def clone(self):
         
@@ -95,13 +79,11 @@ class Chromosome:
 
         return clone
         
-
-
-    def __lt__(self, other):
-        return self.probability < other.probability
+    def __lt__(self, other: 'Chromosome'):
+        return self.log_probability < other.log_probability
     
-    def __gt__(self, other):
-        return self.probability > other.probability
+    def __gt__(self, other: 'Chromosome'):
+        return self.log_probability > other.log_probability
     
 
 
@@ -144,31 +126,10 @@ class GaHMM:
         self.param_generator_func = staticmethod(param_generator_func)
 
         # Calculated Attributes
-        self.n_genes = n_states + n_states**2 + n_states*n_symbols
-        self.alphabet = [i for i in range(n_symbols)]
         self.offspring_count = self.population_size - self.keep_elitism
         self.current_generation = 0
 
-        self.range = {
-            'S': (0, n_states, n_states),
-            'E': (n_states, (n_states + n_states*n_symbols), n_symbols),
-            'T': ((n_states + n_states*n_symbols), self.n_genes, n_states)}
-
-        self.len = {
-            'S': n_states,
-            'E': n_states*n_symbols,
-            'T': n_states**2,
-            'ET': n_states*n_symbols + n_states**2 }
-
-        self.slice = {
-            'S': numpy.s_[self.range['S'][0]: self.range['S'][1]],
-            'E': numpy.s_[self.range['E'][0]: self.range['E'][1]],
-            'T': numpy.s_[self.range['T'][0]: self.range['T'][1]],}
-
-        self.shape = {
-            'S': (self.n_states,),
-            'E': (self.n_states, self.n_symbols),
-            'T': (self.n_states, self.n_states)}
+        self.population = [self.new_chromosome() for i in range(self.population_size)]
 
         self.logs = {
             'total': [],
@@ -177,11 +138,9 @@ class GaHMM:
             'mean': [],
         }
 
-        self.legal_slice_points: List[int] = [i for X in ['S', 'E', 'T'] for i in range(*self.range[X])] + [self.n_genes]
-        self.population = [self.new_chromosome() for i in range(self.population_size)]
-
     
     def update_fitness(self):
+   
         total_probability = 0
         min_probability = float('inf')
         max_probability = float('-inf')
@@ -189,7 +148,7 @@ class GaHMM:
         
         for chromosome in self.population:
             log_prob = self.fitness_func(chromosome, self)
-            chromosome.probability = log_prob
+            chromosome.log_probability = log_prob
             total_probability += log_prob
             prob_sum += numpy.exp(log_prob)
 
@@ -212,9 +171,9 @@ class GaHMM:
         for i in range(self.population_size):
             chromosome = self.population[i]
 
-            numpy.exp(chromosome.probability) / prob_sum
+            # numpy.exp(chromosome.probability) / prob_sum
 
-            chromosome.fitness = chromosome.probability/total_probability
+            # chromosome.fitness = chromosome.probability/total_probability
             chromosome.rank = i
 
 
@@ -244,7 +203,8 @@ class GaHMM:
 
             if self.normalize_after_mutation:
                 for chromosome in offspring:
-                    self.normalize_chromosome(chromosome)
+                    chromosome.normalize()
+
 
             # neue population ist keep elitism + offspring
             elites = self.population[:self.keep_elitism]
@@ -281,13 +241,7 @@ class GaHMM:
 
     def new_chromosome(self) -> Chromosome:
         S, E, T = self.param_generator_func(self.n_states, self.n_symbols)
-        genes = numpy.empty(self.n_genes)
-
-        genes[self.slice['S']] = S
-        genes[self.slice['E']] = E.flatten()
-        genes[self.slice['T']] = T.flatten()
-
-        return Chromosome(genes)
+        return Chromosome(S, E, T)
 
     def new_hmm(self):
         S, E, T = self.param_generator_func(self.n_states, self.n_symbols)

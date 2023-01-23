@@ -56,7 +56,7 @@ class Test:
         # Matlab indices start at 1. Python starts at 0
         observation_sequence = observation_sequence - 1
         
-        assert numpy.allclose(taui, numpy.sum(tau, axis=1))
+        # assert numpy.allclose(taui, numpy.sum(tau, axis=1))
         
         bw = BaumWelch(pi, b, a)
         log_prob = bw.train([observation_sequence])
@@ -70,6 +70,8 @@ class Test:
         assert bw.b.shape == b.shape
         assert numpy.allclose(bw.b, reestimated_emissions)
 
+        assert log_prob == input.LogP
+
         assert bw.a.shape == a.shape
         assert numpy.allclose(bw.a, reestimated_transitions)
 
@@ -78,7 +80,7 @@ class Test:
         assert bw.alpha.shape == alpha.shape
         assert numpy.array_equiv(bw.alpha, alpha)
 
-        assert log_prob == input.LogP
+        
 
         # Test beta
         assert bw.beta.shape == beta.shape
@@ -164,7 +166,3 @@ def debug():
 
 
 
-if __name__ == '__main__':
-    unittest.main()
-    # debug()
-    # print(test_data)

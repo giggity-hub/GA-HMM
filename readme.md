@@ -11,6 +11,8 @@
 
 ### Run Tests
 + `pytest hmm/`
+## Breakpoints
++ add the `--pdb` flag to create a breakpoint where the test fails
 
 ### Project Structure
 + This project uses asolute imports 

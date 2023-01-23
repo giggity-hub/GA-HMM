@@ -41,11 +41,12 @@ import numpy.random as npr
 
 
 
+
 def single_point_crossover(parents: List[Chromosome], gabw: GaHMM=None):
 
     parent_a, parent_b = parents
-    lo, hi = parent_a.range['ET']
-
+    
+    lo, hi, _ = parent_a.indices_range['E']
     crossover_index = random.randrange(lo, hi)
 
     child = parent_a.clone()

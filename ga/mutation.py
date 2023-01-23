@@ -13,12 +13,16 @@ def constant_uniform_mutation(mutation_threshold: float):
 
     
     def mutation_func(chromosome: Chromosome, gabw: GaHMM):
-        mutation_chance = random.uniform(0,1)
-        chromosome.range['E']
-        start_index = gabw.range['E'][0]
-        for i in range(gabw.len['ET']):
-            if mutation_chance[i] >= mutation_threshold:
-                chromosome.genes[start_index+i] = random.uniform(0,1)
+        
+
+        start, stop, _ = chromosome.indices_range['S']
+        for i in range(start, stop):
+            is_unmasked = chromosome.genes[i] != numpy.ma.masked
+            if is_unmasked:
+                mutation_chance = random.uniform(0,1)
+                if mutation_chance >= mutation_threshold:
+                    chromosome.genes[i] = random.uniform(0,1)
+                
 
         return chromosome
       

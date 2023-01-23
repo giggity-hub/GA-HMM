@@ -69,6 +69,7 @@ class BaumWelch:
         # Initialization:
         t = 0
         alpha = numpy.zeros(shape=(len(O), self.N))
+        
         alpha[t, :] = self.pi * self.b[:, O[t]]
         scalars = numpy.zeros(len(O))
         scalars[t] = 1 / numpy.sum(alpha[t,:])

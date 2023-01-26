@@ -1,9 +1,26 @@
-from lib.utils import rand_stochastic_vector, normalize_vector
 import numpy
 import random 
-from ga.ga import Chromosome, GaHMM
+import ga.numba_ga as ga
+from ga.types import ChromosomeSlices, ChromosomeMask, MutationFunction
 
-def constant_uniform_mutation(mutation_threshold: float):
+
+def numba_constant_uniform_mutation2(mutation_threshold: float) -> MutationFunction:
+
+    def mutation_func(chromosome: numpy.ndarray, slices: ChromosomeSlices, mask: ChromosomeMask, gabw: ga.GaHMM):
+
+        for i in range(len(chromosome)):
+                is_mutable = not mask[i]
+                if is_mutable:
+                    mutation_chance = random.uniform(0,1)
+                    if mutation_chance <= mutation_threshold:
+                        chromosome[i] = random.uniform(0,1)
+                        
+        return chromosome
+    
+    return mutation_func
+
+
+def numba_constant_uniform_mutation(mutation_threshold: float):
     """_summary_
 
     Args:
@@ -12,19 +29,32 @@ def constant_uniform_mutation(mutation_threshold: float):
     """
 
     
-    def mutation_func(chromosome: Chromosome, gabw: GaHMM):
-        
+    def mutation_func(children: numpy.ndarray, slices: ChromosomeSlices, mask: ChromosomeMask, gabw: ga.GaHMM):
+        """chromosomes sind ne menge an children !! kein einzelnes chromosome
 
-        start, stop, _ = chromosome.indices_range['S']
-        for i in range(start, stop):
-            is_unmasked = chromosome.genes[i] != numpy.ma.masked
-            if is_unmasked:
-                mutation_chance = random.uniform(0,1)
-                if mutation_chance >= mutation_threshold:
-                    chromosome.genes[i] = random.uniform(0,1)
+        Args:
+            chromosome (numpy.ndarray): 2D numpy array
+            slices (ga.ChromosomeSlices): _description_
+            mask (numpy.ndarray): _description_
+            gabw (ga.GaHMM): _description_
+
+        Returns:
+            _type_: _description_
+        """
+
+        chromosomes = children.copy()
+
+        n_chromosomes, n_genes = chromosomes.shape
+        for i in range(n_chromosomes):
+            for j in range(n_genes):
+                is_mutable = not mask[j]
+                if is_mutable:
+                    mutation_chance = random.uniform(0,1)
+                    if mutation_chance <= mutation_threshold:
+                        chromosomes[i, j] = random.uniform(0,1)
                 
 
-        return chromosome
+        return chromosomes
       
     return mutation_func
 

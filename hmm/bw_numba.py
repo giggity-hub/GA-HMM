@@ -3,13 +3,9 @@ from typing import Tuple, NamedTuple, List
 from lib.utils import rand_stochastic_matrix, rand_stochastic_vector
 import numpy.random as npr
 from numba import njit, jit
+from hmm.types import MultipleObservationSequences, HmmParams
 
-class MultipleObservationSequences(NamedTuple):
-    """_summary_
-    """
-    slices: numpy.ndarray
-    arrays: numpy.ndarray
-    length: int
+
 
 def multiple_observation_sequences_from_ndarray_list(ndarray_list: List[numpy.ndarray]) -> MultipleObservationSequences:
     """Concatenates a list of 1-D arrays and also remembers their slices
@@ -30,10 +26,7 @@ def multiple_observation_sequences_from_ndarray_list(ndarray_list: List[numpy.nd
     
     return MultipleObservationSequences(slices=indices, arrays=unified_array, length=len(ndarray_list))
 
-class HmmParams(NamedTuple):
-    start_vector: numpy.ndarray
-    emission_matrix: numpy.ndarray
-    transition_matrix: numpy.ndarray
+
 
 @njit(inline='always')
 def calc_beta_scaled( O: numpy.ndarray, b:numpy.ndarray, a:numpy.ndarray, scalars: numpy.ndarray):
@@ -115,16 +108,7 @@ def calc_gamma(xi, alpha):
     gamma[T-1, :] = alpha[T-1,:]
     return gamma
 
-def calc_mean_log_prob(hmm_params: HmmParams, all_observation_seqs: List[numpy.ndarray]):
-    pi, b, a = hmm_params
-    total_log_prob = 0
-    for observation_seq in all_observation_seqs:
-        _, log_prob = calc_alpha_scaled(observation_seq, pi, b, a)
-        total_log_prob += log_prob
-    
-    n_seqs = len(all_observation_seqs)
-    mean_log_prob = total_log_prob / n_seqs
-    return mean_log_prob
+
 
 
 @njit(inline='always')
@@ -219,66 +203,42 @@ def calc_omega(gamma: numpy.ndarray, O: numpy.ndarray, n_symbols: int):
     return omega
 
 
-
-
-
 @njit(inline='always')
 def train(pi: numpy.ndarray, b: numpy.ndarray, a:numpy.ndarray, all_observations: MultipleObservationSequences, n_iterations: int=1):
     
     for i in range(n_iterations):
         pi, b, a, log_prob_total = reestimate_multiple_observations(pi, b, a, all_observations )
     return pi, b, a, log_prob_total
-    
-    
 
-def baum_welch(hmm_params: HmmParams, observation_sequences, n_iterations=1) -> HmmParams:
+@njit(inline='always')
+def calc_log_prob(pi, b, a, O:numpy.ndarray):
+    alpha, scalars = calc_alpha_scaled(O, pi, b, a)
+    log_prob = -numpy.sum(numpy.log(scalars))
+    return log_prob
+
+@njit(inline='always')
+def calc_total_log_prob(hmm_params: HmmParams, all_observation_seqs: MultipleObservationSequences):
     pi, b, a = hmm_params
-    n_states, n_symbols = b.shape
+    total_log_prob = 0
 
-    log_prob_sum = 0
-    gamma_sum = 0
-    tau_sum = 0
-    taui_sum = 0
-    nu_sum = 0
-    omega_sum = 0
+    slices, array, length = all_observation_seqs
 
-    for O in observation_sequences:
-        alpha, scalars = calc_alpha_scaled(O, pi, b, a)
-        beta = calc_beta_scaled(O, b, a, scalars)
+    for i in range(length):
+        start = slices[i]
+        stop = slices[i+1]
 
-        # Probability of being in state i in time t
-        gamma = calc_gamma(alpha, beta)
+        single_observation_seq = array[start:stop]
+        log_prob = calc_log_prob(pi, b, a, single_observation_seq)
+        total_log_prob += log_prob
+    
+    return total_log_prob
 
-        # xi[t, i, j] = Probability of being in state i in time t and state j in time t+1
-        xi = calc_xi_from_gamma(gamma, O)
+def calc_mean_log_prob(hmm_params: HmmParams, all_observation_seqs: MultipleObservationSequences):
+    total_log_prob = calc_total_log_prob(hmm_params, all_observation_seqs)
+    mean_log_prob = total_log_prob / all_observation_seqs.length
+    return mean_log_prob
 
-        # tau[i, j] = expected number of transitions from i to j
-        tau = calc_tau(xi)
 
-        # taui[i] = expected number of transitions from i
-        taui = calc_taui(tau)
-
-        # nu[i] = expected number of times in state i
-        nu = calc_nu(gamma)
-        
-        # Omega[i, k] = Expected number of times in state i and observing symbol k
-        omega = calc_omega(gamma, O, n_states, n_symbols)
-
-        # Increment all those motherfuckers
-
-        gamma_sum += gamma
-        tau_sum += tau
-        taui_sum += taui
-        nu_sum += nu
-        omega_sum += omega
-
-    n_observation_sequences = len(observation_sequences)
-
-    pi = gamma_sum[0,:] / n_observation_sequences
-    b = omega_sum / nu_sum
-    a = tau_sum / taui_sum
-
-    return HmmParams(pi, b, a)
 
 
 

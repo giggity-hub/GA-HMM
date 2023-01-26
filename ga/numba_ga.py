@@ -4,131 +4,39 @@ from pomegranate import HiddenMarkovModel, DiscreteDistribution
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 from typing import Callable, List, Dict, Tuple, NamedTuple
-from hmm.hmm import random_left_right_hmm_params
+from hmm.hmm import random_left_right_hmm_params2, ParamGeneratorFunction2
 import lib.utils as utils
-from hmm.bw import BaumWelch
-import copy
 from numba import jit, njit
-from hmm.bw_numba import HmmParams
-
-class SliceTuple(NamedTuple):
-    start: int
-    stop: int
-    step: int
-
-class ChromosomeSlices(NamedTuple):
-    start_probs: SliceTuple
-    emission_probs: SliceTuple
-    transition_probs: SliceTuple
-    fitness: SliceTuple
-    rank: SliceTuple
+from hmm.types import HmmParams
+from ga.types import FitnessFunction, CrossoverFunction, MutationFunction, SelectionFunction, ChromosomeSlices, ChromosomeMask, SliceTuple
 
 
-
-
-
-
-
-class Chromosome:
-    def __init__(self, start_vector:numpy.ndarray, emission_matrix:numpy.ndarray, transition_matrix:numpy.ndarray):
-        self.start_vector = start_vector
-        self.emission_matrix = emission_matrix
-        self.transition_matrix = transition_matrix
-
-        self.n_states = emission_matrix.shape[0] 
-        self.n_symbols = emission_matrix.shape[1]
-
-        self.n_genes = self.calc_n_genes()
-
-        self.indices_range = {
-            'S': (0, self.n_states, self.n_states),
-            'E': (self.n_states, (self.n_states + self.n_states*self.n_symbols), self.n_symbols),
-            'T': ((self.n_states + self.n_states*self.n_symbols), self.n_genes, self.n_states),
-        }
-
-        genes = self.create_genes_from_matrices()
-        self.genes = self.mask_immutable_genes(genes)
-        
-        self.log_probability = float('-inf')
-        self.fitness = 0
-        self.rank = 0
-
-    def calc_n_genes(self):
-        return self.n_states + self.n_states*self.n_symbols + self.n_states**2
-            
-    def create_genes_from_matrices(self):
-        genes = numpy.empty(self.n_genes)
-
-        start_S, stop_S, _ = self.indices_range['S']
-        start_E, stop_E, _ = self.indices_range['E']
-        start_T, stop_T, _ = self.indices_range['T']
-
-        genes[start_S:stop_S] = self.start_vector
-        genes[start_E:stop_E] = self.emission_matrix.flatten()
-        genes[start_T:stop_T] = self.transition_matrix.flatten()
-
-        return genes
-        
-    def mask_immutable_genes(self, genes: numpy.ndarray) ->numpy.ma.masked_array:
-        """Applies the mask if provided. Otherwise masks all indices where the value is equal to 0 or 1
-
-        Args:
-            genes (_type_): _description_
-            mask (_type_): _description_
-
-        Returns:
-            _type_: _description_
-        """
-
-        return numpy.ma.masked_equal(numpy.logical_or(genes == 1, genes == 0), genes, copy=False)
-
-    def normalize(self):
-        self.start_vector = self.start_vector / numpy.sum(self.start_vector)
-        self.transition_matrix = self.transition_matrix / numpy.sum(self.transition_matrix, axis=1, keepdims=True)
-        self.emission_matrix = self.emission_matrix / numpy.sum(self.emission_matrix, axis=1, keepdims=True)
-
-        self.genes = self.create_genes_from_matrices()
-
-        
-    def clone(self):
-        
-        clone = copy.copy(self)
-        clone_genes = self.genes.copy()
-        clone.genes = clone_genes
-
-        return clone
-        
-    def __lt__(self, other: 'Chromosome'):
-        return self.log_probability < other.log_probability
-    
-    def __gt__(self, other: 'Chromosome'):
-        return self.log_probability > other.log_probability
-    
-
-
-
-
-
-
-
+class Logs(NamedTuple):
+    max: numpy.ndarray
+    min: numpy.ndarray
+    mean: numpy.ndarray
+    total: numpy.ndarray
 
 
 class GaHMM:
-    population: List[Chromosome] = []
-
+    param_generator_func: ParamGeneratorFunction2 = random_left_right_hmm_params2
+    fitness_func: FitnessFunction = None
+    parent_select_func: SelectionFunction = None
+    mutation_func: MutationFunction = None
+    crossover_func: CrossoverFunction = None
     def __init__(
         self,
         n_symbols: int,
         n_states: int,
         population_size: int,
         n_generations: int,
-        fitness_func: Callable[[Chromosome, 'GaHMM'], float],
-        parent_select_func: Callable[[List[Chromosome], int, 'GaHMM'], List[List[Chromosome]]],
-        mutation_func: Callable[[Chromosome], Chromosome], 
-        crossover_func: Callable[[List[Chromosome]], Chromosome],
+        # fitness_func: FitnessFunction,
+        # parent_select_func: SelectionFunction,
+        # mutation_func: MutationFunction, 
+        # crossover_func: CrossoverFunction,
         keep_elitism=1,
         normalize_after_mutation=True,
-        param_generator_func: Callable[[int, int], Tuple[numpy.array, numpy.ndarray, numpy.ndarray]] = random_left_right_hmm_params,
+        param_generator_func: ParamGeneratorFunction2 = random_left_right_hmm_params2,
         ) -> None:
 
         # Parametrized Attributes
@@ -136,10 +44,11 @@ class GaHMM:
         self.n_states = n_states
         self.population_size = population_size
         self.n_generations = n_generations
-        self.fitness_func = staticmethod(fitness_func)
-        self.parent_select_func = staticmethod(parent_select_func)
-        self.mutation_func = staticmethod(mutation_func)
-        self.crossover_func = staticmethod(crossover_func)
+        self.n_genes = self.calc_n_genes(n_states, n_symbols)
+        # self.fitness_func = staticmethod(fitness_func)
+        # self.parent_select_func: SelectionFunction = staticmethod(parent_select_func)
+        # self.mutation_func: MutationFunction = staticmethod(mutation_func)
+        # self.crossover_func = staticmethod(crossover_func)
         self.keep_elitism=keep_elitism
         self.normalize_after_mutation=normalize_after_mutation
         self.param_generator_func = staticmethod(param_generator_func)
@@ -148,18 +57,40 @@ class GaHMM:
         self.offspring_count = self.population_size - self.keep_elitism
         self.current_generation = 0
 
-        self.population = [self.new_chromosome() for i in range(self.population_size)]
+        # self.population = [self.new_chromosome() for i in range(self.population_size)]
+        self.slices = self.calculate_slices(self.n_states, self.n_symbols)
+        # self.population = self.initialize_population(self.slices, self.n_states, self.n_symbols, self.population_size, self.param_generator_func)
 
-        self.logs = {
-            'total': [],
-            'max': [],
-            'min': [],
-            'mean': [],
-        }
+        self.population = self.initialize_population()
+        # Assign Ranks to have default values for selection function
+        self.assign_ranks_to_population()
+        self.logs = self.initialize_logs()
+        self.chromosome_mask = self.initialize_chromosome_mask()
 
-    @staticmethod
-    @njit
-    def calculate_slices(n_states: int, n_symbols: int) -> ChromosomeSlices:
+    def calc_n_genes(self, n_states: int, n_symbols: int) -> int:
+        len_start_probs = n_states
+        len_emission_probs = n_states*n_symbols
+        len_transition_probs = n_states*n_states
+        len_silent_states = 2 #One gene for fitness and one for Rank
+        total_len =  len_start_probs + len_emission_probs + len_transition_probs + len_silent_states
+        return total_len
+
+    def initialize_chromosome_mask(self) -> ChromosomeMask:
+        gene_sum = numpy.sum(self.population, axis=0)
+
+        n_genes = self.population.shape[1]
+        mask = numpy.zeros(n_genes, dtype=bool)
+
+        for i in range(n_genes):
+            mask[i] = gene_sum[i] == 0 or gene_sum[i] == 1
+
+        mask[self.slices.fitness.start] = True
+        mask[self.slices.rank.start] = True
+
+        return mask
+    # @njit
+    # @staticmethod
+    def calculate_slices(self, n_states: int, n_symbols: int) -> ChromosomeSlices:
         len_start_probs = n_states
         len_transition_probs = n_states*n_states
         len_emission_probs = n_states * n_symbols
@@ -181,136 +112,206 @@ class GaHMM:
         )
 
         return chromosome_slices
-
-    @staticmethod
-    @njit
-    def initialize_population(
-        slices: ChromosomeSlices,
-        n_states: int,
-        n_symbols: int,
-        population_size: int, 
-        param_generator_func: Callable[[int, int], Tuple[numpy.array, numpy.ndarray, numpy.ndarray]]):
-        chromosome_length = slices.rank.stop
-
-        population = numpy.zeros((population_size, chromosome_length))
-
-        for i in range(population_size):
-            start_vector, emission_matrix, transition_matrix = param_generator_func(n_states, n_symbols)
-            start, stop, _ = slices.start_probs
-            population[i, start: stop] = start_vector
-            start, stop, _ = slices.emission_probs
-            population[i, start: stop] = emission_matrix.flatten()
-            start, stop, _ = slices.transition_probs
-            population[i, start: stop] = transition_matrix.flatten()
         
+    # @njit
+    # @staticmethod
+    def initialize_population(self):
+
+        chromosome_length = self.slices.rank.stop
+
+        population = numpy.zeros((self.population_size, chromosome_length))
+
+        for i in range(self.population_size):
+            hmm_params = self.param_generator_func(self.n_states, self.n_symbols)
+            chromosome = self.hmm_params2chromosome(hmm_params)
+            population[i] = chromosome
+
         return population
 
+        # return population
     
+    def initialize_logs(self):
+        max_arr = numpy.zeros(self.n_generations)
+        min_arr = numpy.zeros(self.n_generations)
+        mean_arr = numpy.zeros(self.n_generations)
+        total_arr = numpy.zeros(self.n_generations)
+        return Logs(max_arr, min_arr, mean_arr, total_arr)
 
-    def calculate_fitness(population: numpy.ndarray, slices: ChromosomeSlices, fitness_func: Callable[[HmmParams], float]):
-        population_size = population.shape[0]
-        n_states = slices.transition_probs.step
-        n_symbols = slices.emission_probs.step
+
+    
+    # @staticmethod
+    def calculate_fitness(self):
+        population_size = self.population.shape[0]
+        n_states = self.slices.transition_probs.step
+        n_symbols = self.slices.emission_probs.step
 
         for i in range(population_size):
-            start, stop, _ = slices.start_probs
-            start_vector = population[i, start:stop]
-            start, stop, _ = slices.emission_probs
-            emission_matrix = population[i, start:stop].reshape((n_symbols, n_states))
-            start, stop, _ = slices.transition_probs
-            transition_matrix = population[i, start:stop].reshape((n_states, n_states))
+            
+            hmm_params = self.chromosome2hmm_params(self.population[i])
+            log_prob = self.fitness_func(hmm_params)
+            self.population[i, self.slices.fitness.start] = log_prob
 
-            hmm_params = HmmParams(start_vector, emission_matrix, transition_matrix)
+        # return population
 
-            log_prob = fitness_func(hmm_params)
-            population[i, slices.fitness] = log_prob
+    def chromosome2hmm_params(self, chromosome: numpy.ndarray):
+        n_states = self.slices.transition_probs.step
+        n_symbols = self.slices.emission_probs.step
+
+        start, stop, _ = self.slices.start_probs
+        start_vector = chromosome[start:stop]
+
+        start, stop, _ = self.slices.emission_probs
+        emission_matrix = chromosome[start:stop].reshape((n_states, n_symbols))
+
+        start, stop, _ = self.slices.transition_probs
+        transition_matrix = chromosome[start:stop].reshape((n_states, n_states))
+
+        hmm_params = HmmParams(start_vector.copy(), emission_matrix.copy(), transition_matrix.copy())
+        return hmm_params
+
+    def hmm_params2chromosome(self, hmm_params: HmmParams):
+        n_genes = self.slices.rank.stop
+        chromosome=numpy.zeros(n_genes)
+
+        start, stop, _ = self.slices.start_probs
+        chromosome[start: stop] = hmm_params.start_vector
+        start, stop, _ = self.slices.emission_probs
+        chromosome[start: stop] = hmm_params.emission_matrix.flatten()
+        start, stop, _ = self.slices.transition_probs
+        chromosome[start: stop] = hmm_params.transition_matrix.flatten()
+
+        return chromosome
+
+
+    # @staticmethod
+    # @njit
+    def sort_population(self):
+        fitness_index = self.slices.fitness.start
+        self.population = self.population[self.population[:, fitness_index].argsort()]
+        self.population = numpy.flip(self.population, axis=0)
+        # fitness_col = self.population[:, self.slices.fitness.start]
+        # self.population = numpy.flip(self.population[fitness_col.argsort()])
+
     
-    def update_fitness(self):
-   
+
+    def update_logs(self):
+        
         total_probability = 0
         min_probability = float('inf')
         max_probability = float('-inf')
         prob_sum = 0
-        
-        for chromosome in self.population:
-            log_prob = self.fitness_func(chromosome, self)
-            chromosome.log_probability = log_prob
-            total_probability += log_prob
-            prob_sum += numpy.exp(log_prob)
 
-            if log_prob < min_probability:
-                min_probability = log_prob
+        fitness_values = self.population[:, self.slices.fitness.start]
+        gen_max = fitness_values.max()
+        gen_min = fitness_values.min()
+        gen_total = fitness_values.sum()
+        gen_mean = gen_total / self.population_size
+
+        self.logs.max[self.current_generation] = gen_max
+        self.logs.min[self.current_generation] = gen_min
+        self.logs.total[self.current_generation] = gen_total
+        self.logs.mean[self.current_generation] = gen_mean
+
+
+        # # Update Fitness and Rank
+        # self.population.sort(reverse=True)
+        # for i in range(self.population_size):
+        #     chromosome = self.population[i]
+
+        #     # numpy.exp(chromosome.probability) / prob_sum
+
+        #     # chromosome.fitness = chromosome.probability/total_probability
+        #     chromosome.rank = i
+
+    
+    def assign_ranks_to_population(self):
+        # population_size = population.shape[0]
+        self.population[:, self.slices.rank.start] = numpy.arange(0, self.population_size)
+
+    def normalize_chromosomes(self):
+        
+        # assume that elites are still normalized
+        self.normalize(self.slices.start_probs)
+        self.normalize(self.slices.emission_probs)
+        self.normalize(self.slices.transition_probs)
+
+    def normalize(self, slice_tuple):
+        
+        start, stop, step = slice_tuple
+        
+        for i in range(start, stop, step):
+            lo = i
+            hi = i+step
+
+            probs = self.population[:, lo: hi]
             
-            if log_prob > max_probability:
-                max_probability = log_prob
+            probs_sum = numpy.sum(probs, axis=1)
+            
+            probs_sum_t = numpy.atleast_2d(probs_sum).T
+            
+            moped = (probs / probs_sum_t)
+
+            self.population[:, lo:hi] = moped
+    
+    def do_selection_step(self):
+        parents = self.parent_select_func(self.population, self.offspring_count, self.slices, self)
+        return parents
+
+    def do_crossover_step(self, parents):
+
+        children = numpy.empty((self.offspring_count ,self.n_genes))
+        child_index = 0
+
+        n_parents = parents.shape[0]
+        parents_per_child = 2
+        for parent_index in range(0, n_parents, parents_per_child):
+            
+            par = parents[parent_index : parent_index+parents_per_child]
+            child = self.crossover_func(par, self.slices, self)
+            children[child_index] = child
+
+        return children
+
+    def do_mutation_step(self, children):
+        n_children = children.shape[0]
+
+        for i in range(n_children):
+            mutated_child = self.mutation_func(children[i], self.slices, self.chromosome_mask, self)
+            children[i] = mutated_child
         
-        mean_probability = total_probability/self.population_size
-
-        self.logs['max'].append(max_probability)
-        self.logs['min'].append(min_probability)
-        self.logs['mean'].append(mean_probability)
-        self.logs['total'].append(total_probability)
-
-
-        # Update Fitness and Rank
-        self.population.sort(reverse=True)
-        for i in range(self.population_size):
-            chromosome = self.population[i]
-
-            # numpy.exp(chromosome.probability) / prob_sum
-
-            # chromosome.fitness = chromosome.probability/total_probability
-            chromosome.rank = i
-
-
-    def normalize_chromosome(self, chromosome: Chromosome):
-        for i in range(len(self.legal_slice_points) - 1):
-            start = self.legal_slice_points[i]
-            stop = self.legal_slice_points[i+1]
-            chromosome.genes[start:stop] = normalize_vector(chromosome.genes[start:stop])
-        
-        return chromosome
+        return children
 
     def start(self):
-        for iteration in self.n_generations:
-            self.update_fitness()
+        for iteration in range(self.n_generations):
+            print(f'starting iteration {iteration}')
+            self.current_generation = iteration
 
-            parent_pairs = self.parent_select_func(self.population, self.offspring_count, self)
-            offspring = []
-            for parents in parent_pairs:
-                children = self.crossover_func(parents, self)
-                offspring += children
+            self.calculate_fitness()
+            self.sort_population()
+            self.assign_ranks_to_population()
 
-            if len(offspring) != self.offspring_count:
-                raise ValueError(f'The number of offspring after crossover and mutation is {len(offspring)} and does not match the expected Value of {self.offspring_count}')
+            self.update_logs()
 
-            offspring = [self.mutation_func(c, self) for c in offspring]
+            parents = self.do_selection_step()
+            children = self.do_crossover_step(parents)
+            children = self.do_mutation_step(children)
 
+            # The next population is elites of current population plus children
+            self.population[self.keep_elitism:, :] = children
 
-            if self.normalize_after_mutation:
-                for chromosome in offspring:
-                    chromosome.normalize()
-
-
-            # neue population ist keep elitism + offspring
-            elites = self.population[:self.keep_elitism]
-            self.population = elites + offspring
-            
+            self.normalize_chromosomes()
 
         return self.logs
 
     def plot(self):
         x = range(self.n_generations)
         
-        plt.plot(x, self.logs['max'], label='max')
-        plt.plot(x, self.logs['mean'], label='mean')
-        plt.plot(x, self.logs['min'], label='min')
+        plt.plot(x, self.logs.max, label='max')
+        plt.plot(x, self.logs.mean, label='mean')
+        plt.plot(x, self.logs.min, label='min')
 
         plt.legend()
         plt.show()
 
 
-    def new_chromosome(self) -> Chromosome:
-        S, E, T = self.param_generator_func(self.n_states, self.n_symbols)
-        return Chromosome(S, E, T)
 

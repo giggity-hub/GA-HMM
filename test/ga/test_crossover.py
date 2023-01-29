@@ -1,14 +1,27 @@
 import pytest
 from ga.types import CrossoverFunction
-from ga.crossover import numba_single_point_crossover2, combine_parent_states
+
 from ga.numba_ga import GaHMM
 import numpy
 import math
 from test.assertions import assert_all_values_are_probabilities, assert_no_shared_memory
+from ga.crossover import ( 
+    uniform_states_crossover,
+    n_point_crossover_factory,
+    arithmetic_mean_crossover,
+    uniform_crossover,
+    rank_weighted)
 
 crossover_functions = [
-    numba_single_point_crossover2,
-    combine_parent_states
+    uniform_states_crossover,
+    rank_weighted(uniform_states_crossover),
+    n_point_crossover_factory(1),
+    n_point_crossover_factory(2),
+    n_point_crossover_factory(3),
+    arithmetic_mean_crossover,
+    rank_weighted(arithmetic_mean_crossover),
+    uniform_crossover,
+    rank_weighted(uniform_crossover)
 ]
 
 @pytest.fixture(params=crossover_functions)
@@ -38,6 +51,8 @@ def child(parents, crossover_func: CrossoverFunction, gabw_mock: GaHMM):
 def test_child_has_same_length_as_parents(parents, child):
     n_genes = parents.shape[1]
     assert child.shape == (n_genes, )
+
+# def test_child_genes_are_masked(child, gabw_mock: GaHMM):
 
 
 def test_all_child_values_are_probabilities(child):

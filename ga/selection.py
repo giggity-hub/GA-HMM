@@ -25,15 +25,37 @@ from ga.types import SelectionFunction
 
 
 
+
+
+
+def moped(select_parent_index, population, n_parents):
+    n_genes = population.shape[1]
+    parents = numpy.empty((n_parents, n_genes))
+
+    for i in range(n_parents -1):
+        parent_a_index = select_parent_index()
+        parent_b_index = select_parent_index()
+
+        parents[i] = population[parent_a_index, :].copy()
+        parents[i+1] = population[parent_b_index, :].copy()
+
+    return parents.copy()
+
+# def roulette_wheel_selection(
+#     population: numpy.ndarray,
+#     n_offspring: int,
+#     slices: ga.ChromosomeSlices,
+#     gabw: ga.GaHMM
+#     ) -> numpy.ndarray:
+
+#     total_fitness = gabw.logs.total[gabw.current_generation]
+
+#     selection_probs = numpy.arange(population_size, 0, -1) / total_rank
+#     select_parent_index = 
+
+
+
 def rank_selection(population_size:int) -> SelectionFunction:
-    """_summary_
-
-    Args:
-        population_size (int): 
-
-    Returns:
-        SelectionFunction: _description_
-    """
 
     def gauss_sum(n):
         return (n**2 + n)//2
@@ -51,18 +73,9 @@ def rank_selection(population_size:int) -> SelectionFunction:
         gabw: ga.GaHMM
         ) -> numpy.ndarray:
 
-        n_genes = population.shape[1]
         n_parents = n_offspring*2
-        parents = numpy.empty((n_parents, n_genes))
-
-        for i in range(n_parents -1):
-            parent_a_index = selectOne()
-            parent_b_index = selectOne()
-
-            parents[i] = population[parent_a_index, :].copy()
-            parents[i+1] = population[parent_b_index, :].copy()
-
-        return parents.copy()
+        parents = moped(selectOne, population, n_parents)
+        return parents
 
     return selection_func
 

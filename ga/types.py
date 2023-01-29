@@ -11,6 +11,9 @@ if TYPE_CHECKING:
 
 ChromosomeMask = npt.NDArray[numpy.bool_]
 
+Chromosome = npt.NDArray[numpy.float64]
+
+Population = npt.NDArray[numpy.float64]
 
 class SliceTuple(NamedTuple):
     start: int

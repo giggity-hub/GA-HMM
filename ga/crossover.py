@@ -49,30 +49,52 @@ def numba_single_point_crossover2(parents: numpy.ndarray, slices: ChromosomeSlic
     child = numpy.zeros(parents.shape[1])
     child[:crossover_index] = parents[0, :crossover_index].copy()
     child[crossover_index:] = parents[1, crossover_index:].copy()
-
-    child = child
+    
+    child = child.copy()
+    # child = parents[0, :].copy()
     return child
 
+def combine_parent_states(parents: numpy.ndarray, slices: ChromosomeSlices, gabw: ga.GaHMM) -> numpy.ndarray:
+
+    # 0 and 2**n -1 are excluded because the child should be never be the same as either parent
+    one_below_only_ones_in_binary = 2**gabw.n_states -2
+    crossover_pattern = numpy.random.randint(low=1, high=one_below_only_ones_in_binary)
+
+    child = parents[0].copy()
+
+    for state_index in range(gabw.n_states):
+        parent_index = crossover_pattern & 1
+
+        start, stop, _ = gabw.get_emission_probs_slice_for_state(state_index)
+        child[start:stop] = parents[parent_index][start:stop].copy()
+
+        start, stop, _ = gabw.get_transition_probs_slice_for_state(state_index)
+        child[start:stop] = parents[parent_index][start:stop].copy()
+
+        crossover_pattern = crossover_pattern >> 1
+
+    return child
+        
 
 
-def numba_single_point_crossover(parents: numpy.ndarray, slices: ChromosomeSlices ,gabw: ga.GaHMM=None) -> numpy.ndarray:
-    n_parents, n_genes = parents.shape
-    n_children = n_parents // 2
-    children = numpy.zeros((n_children, n_genes))
-    child_index = 0
+# def numba_single_point_crossover(parents: numpy.ndarray, slices: ChromosomeSlices ,gabw: ga.GaHMM=None) -> numpy.ndarray:
+#     n_parents, n_genes = parents.shape
+#     n_children = n_parents // 2
+#     children = numpy.zeros((n_children, n_genes))
+#     child_index = 0
 
-    for i in range(0, n_parents, 2):
-        lo, hi, _ = slices.emission_probs
-        crossover_index = random.randrange(lo, hi)
+#     for i in range(0, n_parents, 2):
+#         lo, hi, _ = slices.emission_probs
+#         crossover_index = random.randrange(lo, hi)
 
-        children[child_index, :crossover_index] = parents[i, :crossover_index].copy()
-        children[child_index, crossover_index:] = parents[i+1, crossover_index:].copy()
+#         children[child_index, :crossover_index] = parents[i, :crossover_index].copy()
+#         children[child_index, crossover_index:] = parents[i+1, crossover_index:].copy()
 
-    # child_genes = numpy.zeros((1, n_genes))
-    # child_genes[0, :crossover_index] = parents[0, :crossover_index].copy()
-    # child_genes[0, crossover_index:] = parents[1, crossover_index:].copy()
+#     # child_genes = numpy.zeros((1, n_genes))
+#     # child_genes[0, :crossover_index] = parents[0, :crossover_index].copy()
+#     # child_genes[0, crossover_index:] = parents[1, crossover_index:].copy()
 
-    return children
+#     return children
 
     
 

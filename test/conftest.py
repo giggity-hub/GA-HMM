@@ -4,19 +4,24 @@ import hmm.bw_numba as bw
 from hmm.hmm import random_left_right_hmm_params
 import ga.numba_ga as ga
 from ga.mutation import numba_constant_uniform_mutation
-from ga.crossover import numba_single_point_crossover
+# from ga.crossover import numba_single_point_crossover
 from ga.fitness import numba_mean_log_prob_fitness
 from ga.selection import rank_selection
 import numpy
 import math
 import os
+from numba import jit, config
+
+
 
 
 @pytest.fixture
 def numba_disable_jit():
-    os.environ["NUMBA_DISABLE_JIT"] = "1"
+    # os.environ["NUMBA_DISABLE_JIT"] = "1"
+    config.DISABLE_JIT = True
     yield
-    os.environ["NUMBA_DISABLE_JIT"] = "0"
+    config.DISABLE_JIT = False
+    # os.environ["NUMBA_DISABLE_JIT"] = "0"
 
 @pytest.fixture
 def numba_developer_mode():
@@ -55,26 +60,26 @@ def digit_observation_sequences():
     observation_sequences = bw.multiple_observation_sequences_from_ndarray_list(samples)
     return observation_sequences
 
-@pytest.fixture
-def gabw(digit_observation_sequences):
+# @pytest.fixture
+# def gabw(digit_observation_sequences):
 
-    mutation_func = numba_constant_uniform_mutation(0)
-    crossover_func = numba_single_point_crossover
-    parent_select_func = rank_selection
-    fitness_func = numba_mean_log_prob_fitness(digit_observation_sequences)
+#     mutation_func = numba_constant_uniform_mutation(0)
+#     crossover_func = numba_single_point_crossover
+#     parent_select_func = rank_selection
+#     fitness_func = numba_mean_log_prob_fitness(digit_observation_sequences)
 
-    gabw = ga.GaHMM(
-        n_symbols=128,
-        n_states=4,
-        population_size=20,
-        n_generations=10,
-        fitness_func=fitness_func,
-        parent_select_func=parent_select_func,
-        mutation_func=mutation_func,
-        crossover_func=crossover_func,
-        keep_elitism=1
-    )
-    return gabw
+#     gabw = ga.GaHMM(
+#         n_symbols=128,
+#         n_states=4,
+#         population_size=20,
+#         n_generations=10,
+#         fitness_func=fitness_func,
+#         parent_select_func=parent_select_func,
+#         mutation_func=mutation_func,
+#         crossover_func=crossover_func,
+#         keep_elitism=1
+#     )
+#     return gabw
 
 # @pytest.fixture
 # def digit_hmm_params_generator(digit_hmm_n_states, digit_hmm_n_symbols):

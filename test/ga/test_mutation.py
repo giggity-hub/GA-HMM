@@ -5,7 +5,7 @@ import numpy
 import pytest
 
 mutation_functions = [
-    numba_constant_uniform_mutation2(mutation_threshold=0.1)
+    numba_constant_uniform_mutation2(mutation_threshold=0)
 ]
 
 @pytest.fixture(params=mutation_functions)
@@ -18,7 +18,7 @@ def gabw_mock():
         n_symbols=128,
         n_states=4,
         population_size=13,
-        n_generations=10
+        n_generations=100
     )
 
 @pytest.fixture
@@ -30,6 +30,17 @@ def chromosome_before_mutation(gabw_mock: GaHMM):
 def chromosome_mask(gabw_mock):
     mask = numpy.random.randint(low=0, high=2, size=gabw_mock.n_genes, dtype=bool)
     return mask
+
+@pytest.fixture
+def chromosome_mask_full(gabw_mock):
+    mask = numpy.ones(gabw_mock.n_genes, dtype=bool)
+    return mask
+
+@pytest.fixture
+def chromosome_mask_empty(gabw_mock):
+    mask = numpy.zeros(gabw_mock.n_genes, dtype=bool)
+    return mask
+
 
 @pytest.fixture
 def chromosome_after_mutation(chromosome_before_mutation, mutation_func: MutationFunction, chromosome_mask, gabw_mock):
@@ -54,6 +65,17 @@ def test_no_masked_values_changed(chromosome_before_mutation, chromosome_mask, c
     masked_after_mutation = chromosome_after_mutation * chromosome_mask
     assert numpy.array_equal(masked_before_mutation, masked_after_mutation)
 
+
+def test_no_values_changed_with_full_mask(chromosome_before_mutation, chromosome_mask_full, mutation_func: MutationFunction, gabw_mock):
+    chromosome = mutation_func(chromosome_before_mutation, gabw_mock.slices, chromosome_mask_full, gabw_mock)
+
+    assert numpy.array_equal(chromosome_before_mutation, chromosome)
+
+# def test_all_values_changed_with_empty_mask(chromosome_before_mutation, chromosome_mask_empty, mutation_func: MutationFunction, gabw_mock):
+#     chromosome = mutation_func(chromosome_before_mutation, gabw_mock.slices, chromosome_mask_empty, gabw_mock)
+
+#     difference = chromosome_before_mutation - chromosome
+#     assert numpy.all(difference !=0)
 
 
 

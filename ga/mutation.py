@@ -4,18 +4,33 @@ import ga.numba_ga as ga
 from ga.types import ChromosomeSlices, ChromosomeMask, MutationFunction
 
 
+def delete_random_emission_symbols(n_zeros: int):
+
+    def mutation_func(chromosome: numpy.ndarray, slices: ChromosomeSlices, mask: ChromosomeMask, gabw: ga.GaHMM):
+        chromosome = chromosome.copy()
+        start, stop, _ = slices.emission_probs
+        indices = numpy.random.randint(low=start, high=stop, size=n_zeros)
+        for i in range(len(indices)):
+            index = indices[i]
+            chromosome[index] = 0
+
+        return chromosome
+    
+    return mutation_func
+
 def numba_constant_uniform_mutation2(mutation_threshold: float) -> MutationFunction:
 
     def mutation_func(chromosome: numpy.ndarray, slices: ChromosomeSlices, mask: ChromosomeMask, gabw: ga.GaHMM):
-
-        for i in range(len(chromosome)):
-                is_mutable = not mask[i]
-                if is_mutable:
-                    mutation_chance = random.uniform(0,1)
-                    if mutation_chance <= mutation_threshold:
-                        chromosome[i] = random.uniform(0,1)
+        chromosome = chromosome.copy()
+        start, stop, _ = slices.emission_probs
+        for i in range(start, stop):
+            is_mutable = not mask[i]
+            if is_mutable:
+                mutation_chance = random.uniform(0,1)
+                if mutation_chance <= mutation_threshold:
+                    chromosome[i] = random.uniform(0,1)
                         
-        return chromosome
+        return chromosome.copy()
     
     return mutation_func
 

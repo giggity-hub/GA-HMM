@@ -6,6 +6,7 @@ import numpy
 from numba import njit
 from hmm.types import HmmParams
 
+
 ParamGeneratorFunction = Callable[
     [
         Annotated[int, 'n_states'],

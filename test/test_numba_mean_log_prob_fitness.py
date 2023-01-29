@@ -8,12 +8,12 @@ import pytest
 
 
 
-def setup_function(function):
-    config.NUMBA_DEVELOPER_MODE = 1
+# def setup_function(function):
+#     config.NUMBA_DEVELOPER_MODE = 1
 
 
-def teardown_function(function):
-    config.NUMBA_DEVELOPER_MODE = 0
+# def teardown_function(function):
+#     config.NUMBA_DEVELOPER_MODE = 0
 
 
 @pytest.fixture

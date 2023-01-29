@@ -67,7 +67,7 @@ def calc_alpha_scaled( O: numpy.ndarray, pi: numpy.ndarray, b:numpy.ndarray, a:n
     # Recursion:
     for t in range(1, len(O)):
         for i in range(N):
-            alpha[t, i] = 0
+            # alpha[t, i] = 0
             for j in range(N):
                 alpha[t,i] = alpha[t,i] + alpha[t-1, j] * a[j,i]
 
@@ -214,6 +214,7 @@ def train(pi: numpy.ndarray, b: numpy.ndarray, a:numpy.ndarray, all_observations
 def calc_log_prob(pi, b, a, O:numpy.ndarray):
     alpha, scalars = calc_alpha_scaled(O, pi, b, a)
     log_prob = -numpy.sum(numpy.log(scalars))
+    assert not numpy.isnan(log_prob)
     return log_prob
 
 @njit(inline='always')
@@ -230,11 +231,13 @@ def calc_total_log_prob(hmm_params: HmmParams, all_observation_seqs: MultipleObs
         single_observation_seq = array[start:stop]
         log_prob = calc_log_prob(pi, b, a, single_observation_seq)
         total_log_prob += log_prob
-    
+
+    assert not numpy.isnan(total_log_prob)
     return total_log_prob
 
 def calc_mean_log_prob(hmm_params: HmmParams, all_observation_seqs: MultipleObservationSequences):
     total_log_prob = calc_total_log_prob(hmm_params, all_observation_seqs)
+    assert not numpy.isnan(total_log_prob)
     mean_log_prob = total_log_prob / all_observation_seqs.length
     return mean_log_prob
 

@@ -52,16 +52,17 @@ def rank_selection(population_size:int) -> SelectionFunction:
         ) -> numpy.ndarray:
 
         n_genes = population.shape[1]
-        parents = numpy.empty((n_offspring*2, n_genes))
+        n_parents = n_offspring*2
+        parents = numpy.empty((n_parents, n_genes))
 
-        for i in range(n_offspring):
+        for i in range(n_parents -1):
             parent_a_index = selectOne()
             parent_b_index = selectOne()
 
-            parents[i] = population[parent_a_index]
-            parents[i+1] = population[parent_b_index]
+            parents[i] = population[parent_a_index, :].copy()
+            parents[i+1] = population[parent_b_index, :].copy()
 
-        return parents
+        return parents.copy()
 
     return selection_func
 

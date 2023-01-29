@@ -8,8 +8,30 @@ from hmm.hmm import random_left_right_hmm_params2, ParamGeneratorFunction2
 import lib.utils as utils
 from numba import jit, njit
 from hmm.types import HmmParams
-from ga.types import FitnessFunction, CrossoverFunction, MutationFunction, SelectionFunction, ChromosomeSlices, ChromosomeMask, SliceTuple
+from ga.types import (
+    FitnessFunction, 
+    CrossoverFunction, 
+    MutationFunction, 
+    SelectionFunction, 
+    ChromosomeSlices, 
+    ChromosomeMask, 
+    SliceTuple,
+    Chromosome)
+import pytest
 
+def assert_is_row_stochastic(matrix: numpy.ndarray):
+    max_deviation = 1e-8
+    matrix = numpy.atleast_2d(matrix) #For the case that a vector with only 1-Dimension is supplied
+    assert numpy.sum(matrix, axis=1) == pytest.approx(numpy.ones(len(matrix)))
+    assert numpy.min(matrix) >= 0
+    assert numpy.max(matrix) < (1 + max_deviation)
+
+def assert_chromosomes_are_row_stochastic(chromosomes: numpy.ndarray, gabw):
+    for i in range(len(chromosomes)):
+        hmm_params = gabw.chromosome2hmm_params(chromosomes[i])
+        assert_is_row_stochastic(hmm_params.start_vector)
+        assert_is_row_stochastic(hmm_params.emission_matrix)
+        assert_is_row_stochastic(hmm_params.transition_matrix)
 
 class Logs(NamedTuple):
     max: numpy.ndarray
@@ -67,6 +89,19 @@ class GaHMM:
         self.logs = self.initialize_logs()
         self.chromosome_mask = self.initialize_chromosome_mask()
 
+    def get_transition_probs_slice_for_state(self, state_index: int) -> SliceTuple:
+        start, _, step = self.slices.emission_probs
+        emissions_start = start + step * state_index
+        emissions_stop = start + step * (state_index + 1)
+
+        return SliceTuple(emissions_start, emissions_stop, step=1)
+
+    def get_emission_probs_slice_for_state(self, state_index: int) -> SliceTuple:
+        start, _, step = self.slices.transition_probs
+        transition_start = start + step * state_index
+        transition_stop = start + step * (state_index + 1)
+        return SliceTuple(transition_start, transition_stop, step=1)
+
     def calc_n_genes(self, n_states: int, n_symbols: int) -> int:
         len_start_probs = n_states
         len_emission_probs = n_states*n_symbols
@@ -76,13 +111,18 @@ class GaHMM:
         return total_len
 
     def initialize_chromosome_mask(self) -> ChromosomeMask:
-        gene_sum = numpy.sum(self.population, axis=0)
+        # Genes that have a 1 or zero stay the same during multiplication
+        # gene_prod = numpy.prod(self.population, axis=0)
+        # gene_sum = numpy.sum(self.population, axis=0)
 
         n_genes = self.population.shape[1]
         mask = numpy.zeros(n_genes, dtype=bool)
 
-        for i in range(n_genes):
-            mask[i] = gene_sum[i] == 0 or gene_sum[i] == 1
+        for i in range(n_genes - 2):
+            if self.population[0, i] == 0:
+                mask[i] = True
+            elif self.population[0,i] == 1:
+                mask[i] = True
 
         mask[self.slices.fitness.start] = True
         mask[self.slices.rank.start] = True
@@ -149,6 +189,7 @@ class GaHMM:
             
             hmm_params = self.chromosome2hmm_params(self.population[i])
             log_prob = self.fitness_func(hmm_params)
+            assert not numpy.isnan(log_prob)
             self.population[i, self.slices.fitness.start] = log_prob
 
         # return population
@@ -255,51 +296,95 @@ class GaHMM:
     
     def do_selection_step(self):
         parents = self.parent_select_func(self.population, self.offspring_count, self.slices, self)
-        return parents
+        return parents.copy()
 
     def do_crossover_step(self, parents):
 
-        children = numpy.empty((self.offspring_count ,self.n_genes))
+        children = numpy.zeros((self.offspring_count ,self.n_genes))
         child_index = 0
 
         n_parents = parents.shape[0]
         parents_per_child = 2
         for parent_index in range(0, n_parents, parents_per_child):
             
-            par = parents[parent_index : parent_index+parents_per_child]
+            par = parents[parent_index : (parent_index+parents_per_child), :].copy()
             child = self.crossover_func(par, self.slices, self)
-            children[child_index] = child
+            children[child_index, :] = child.copy()
 
-        return children
+            child_index +=1
+            
+        # reset hidden genes
+        # children[:, self.slices.fitness.start] = float('-inf')
+        # children[:, self.slices.rank.start] = 0
+
+        return children.copy()
+
+
+        
+
 
     def do_mutation_step(self, children):
         n_children = children.shape[0]
+        
 
         for i in range(n_children):
-            mutated_child = self.mutation_func(children[i], self.slices, self.chromosome_mask, self)
-            children[i] = mutated_child
+            mutated_child = self.mutation_func(children[i, :], self.slices, self.chromosome_mask, self)
+            children[i] = mutated_child.copy()
         
-        return children
+        return children.copy()
+
+    def smooth_emission_probabilities(self):
+        # Emission values can't be zero otherwise Baum-Welch doesn't work
+        smoothing_value = 1e-10
+        start, stop, _ = self.slices.emission_probs
+        self.population[:, start:stop] = self.population[:, start: stop] + smoothing_value
 
     def start(self):
         for iteration in range(self.n_generations):
-            print(f'starting iteration {iteration}')
+            # print(f'starting iteration {iteration}')
             self.current_generation = iteration
 
+            assert not numpy.any(numpy.isnan(self.population))
+            assert_chromosomes_are_row_stochastic(self.population, self)
             self.calculate_fitness()
+            assert not numpy.any(numpy.isnan(self.population))
+            assert_chromosomes_are_row_stochastic(self.population, self)
             self.sort_population()
+            assert not numpy.any(numpy.isnan(self.population))
+            assert_chromosomes_are_row_stochastic(self.population, self)
             self.assign_ranks_to_population()
+            assert not numpy.any(numpy.isnan(self.population))
+            assert_chromosomes_are_row_stochastic(self.population, self)
 
             self.update_logs()
+            assert not numpy.any(numpy.isnan(self.population))
+            assert_chromosomes_are_row_stochastic(self.population, self)
 
             parents = self.do_selection_step()
-            children = self.do_crossover_step(parents)
-            children = self.do_mutation_step(children)
+            assert not numpy.any(numpy.isnan(parents))
+            assert_chromosomes_are_row_stochastic(parents, self)
+            children_after_cross = self.do_crossover_step(parents)
+            # Hier war Noch alles Gucci
+            assert not numpy.any(numpy.isnan(children_after_cross))
+            # assert_chromosomes_are_row_stochastic(children, self)
+            # children = self.population[self.keep_elitism:, :].copy()
+            children = self.do_mutation_step(children_after_cross.copy())
+            assert not numpy.any(numpy.isnan(children))
+
+            # assert_chromosomes_are_row_stochastic(children, self)
 
             # The next population is elites of current population plus children
             self.population[self.keep_elitism:, :] = children
-
+            
+            # self.population = self.population.copy()
+            assert not numpy.any(numpy.isnan(self.population))
+            # assert_chromosomes_are_row_stochastic(self.population, self)
+            self.smooth_emission_probabilities()
             self.normalize_chromosomes()
+            assert not numpy.any(numpy.isnan(self.population))
+            assert_chromosomes_are_row_stochastic(self.population, self)
+        
+
 
         return self.logs
 

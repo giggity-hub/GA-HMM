@@ -3,6 +3,7 @@ from ga.selection import rank_selection
 import pytest
 from ga.numba_ga import GaHMM
 import numpy
+from test.assertions import assert_chromosomes_are_row_stochastic
 
 selection_functions = [
     rank_selection(population_size=13)
@@ -31,6 +32,8 @@ def parents(selection_func: SelectionFunction, n_offspring, gabw_mock: GaHMM):
     return parents
 
 
+
+
 def test_parents_shape(parents, n_offspring, gabw_mock: GaHMM):
     assert parents.shape == (n_offspring*2 ,gabw_mock.n_genes)
 
@@ -41,6 +44,9 @@ def test_population_unchanged(selection_func, gabw_mock: GaHMM, n_offspring):
 
     assert numpy.array_equal(population_before_selection, gabw_mock.population)
 
+
+def test_parents_row_stochasticity(parents, gabw_mock):
+    assert_chromosomes_are_row_stochastic(parents, gabw_mock)
 
 
 

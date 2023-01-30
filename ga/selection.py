@@ -39,17 +39,82 @@ def _selection(population, n_parents, parent_indices):
 
     return parents.copy()
 
-# def roulette_wheel_selection(
-#     population: numpy.ndarray,
-#     n_offspring: int,
-#     slices: ga.ChromosomeSlices,
-#     gabw: ga.GaHMM
-#     ) -> numpy.ndarray:
+def invert_and_normalize_scale(ndarr, ndarr_min, ndarr_max):
+    ndarr_inverted =  -ndarr + ndarr_min + ndarr_max
+    ndarr_normalized = ndarr_inverted / ndarr_inverted.sum()
+    return ndarr_normalized
 
-#     total_fitness = gabw.logs.total[gabw.current_generation]
 
-#     selection_probs = numpy.arange(population_size, 0, -1) / total_rank
-#     select_parent_index = 
+def stochastic_universal_sampling_selection(
+    population: numpy.ndarray,
+    n_parents: int,
+    slices: ga.ChromosomeSlices,
+    gabw: ga.GaHMM
+    ) -> numpy.ndarray:
+
+    """_summary_https://sci-hub.hkvisa.net/10.1007/978-3-540-73190-0_3
+    """
+
+    # create range with steps 1/n_parents
+    # move that range by some random offset in range(0,1)
+    # take modulo damit noch alle elemente wider im moped sind
+
+    pointers = numpy.arange(0, 1, step=1/n_parents)
+    pointers_offset = numpy.random.rand()
+    pointers = (pointers + pointers_offset) % 1
+
+
+def tournament_selection_factory(tournament_size):
+
+    def selection_func(
+        population: numpy.ndarray,
+        n_parents: int,
+        slices: ga.ChromosomeSlices,
+        gabw: ga.GaHMM
+        ) -> numpy.ndarray:
+
+        tournament = npr.choice(len(population), size=n_parents*tournament_size).reshape((tournament_size, n_parents))
+        tournament = numpy.sort(tournament, axis=0)
+
+        tournament_selection_probs_scale = numpy.arange(tournament_size, 0, -1)
+        tournament_selection_pros = tournament_selection_probs_scale / numpy.sum(tournament_selection_probs_scale)
+        tournament_winners = npr.choice(tournament_size, size=n_parents, p=tournament_selection_pros)
+
+        parents_indices = numpy.take(tournament, tournament_winners, axis=0)
+        parents = numpy.take(parents, parents_indices)
+
+        return parents
+
+    return selection_func
+
+    
+
+def random_selection(
+    population: numpy.ndarray,
+    n_parents: int,
+    slices: ga.ChromosomeSlices,
+    gabw: ga.GaHMM
+    ) -> numpy.ndarray:
+
+    parent_indices = npr.choice(len(population), size=n_parents)
+    parents = _selection(population, n_parents, parent_indices)
+    return parents
+
+def roulette_wheel_selection(
+    population: numpy.ndarray,
+    n_parents: int,
+    slices: ga.ChromosomeSlices,
+    gabw: ga.GaHMM
+    ) -> numpy.ndarray:
+
+    fitness_values = population[gabw.slices.fitness.start]
+    
+    selection_probs = invert_and_normalize_scale(fitness_values, fitness_values[0], fitness_values[-1])
+    population_size = population.shape[0]
+
+    parent_indices = npr.choice(population_size, p=selection_probs, size=n_parents)
+    parents = _selection(population, n_parents, parent_indices)
+    return parents
 
 
 

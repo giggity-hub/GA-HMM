@@ -2,7 +2,7 @@ import numpy
 import random 
 import ga.numba_ga as ga
 from ga.types import ChromosomeSlices, ChromosomeMask, MutationFunction
-
+from numba import jit
 
 def delete_random_emission_symbols(n_zeros: int):
 
@@ -18,8 +18,10 @@ def delete_random_emission_symbols(n_zeros: int):
     
     return mutation_func
 
+
 def numba_constant_uniform_mutation2(mutation_threshold: float) -> MutationFunction:
 
+    # @jit(nopython=True, cache=True, parallel=True)
     def mutation_func(chromosome: numpy.ndarray, slices: ChromosomeSlices, mask: ChromosomeMask, gabw: ga.GaHMM):
         chromosome = chromosome.copy()
         start, stop, _ = slices.emission_probs

@@ -52,6 +52,8 @@ class GaHMM:
         n_states: int,
         population_size: int,
         n_generations: int,
+        n_parents_per_mating: int = 2,
+        n_children_per_mating: int = 1,
         # fitness_func: FitnessFunction,
         # parent_select_func: SelectionFunction,
         # mutation_func: MutationFunction, 
@@ -67,6 +69,10 @@ class GaHMM:
         self.population_size = population_size
         self.n_generations = n_generations
         self.n_genes = self.calc_n_genes(n_states, n_symbols)
+        self.n_parents_per_mating = n_parents_per_mating
+        self.n_children_per_mating = n_children_per_mating
+        
+        
         # self.fitness_func = staticmethod(fitness_func)
         # self.parent_select_func: SelectionFunction = staticmethod(parent_select_func)
         # self.mutation_func: MutationFunction = staticmethod(mutation_func)
@@ -76,7 +82,22 @@ class GaHMM:
         self.param_generator_func = staticmethod(param_generator_func)
 
         # Calculated Attributes
-        self.offspring_count = self.population_size - self.keep_elitism
+        self.n_children_per_generation = self.population_size - self.keep_elitism
+
+        # 2
+        # 20
+
+        # 3
+        # 20
+
+        # 3
+        # 5
+
+        # rename offspring count to children per generation
+        assert self.n_children_per_generation % self.n_children_per_mating == 0
+        self.n_matings_per_generation = self.n_children_per_generation // self.n_children_per_mating
+        self.n_parents_per_generation = self.n_matings_per_generation * self.n_parents_per_mating
+
         self.current_generation = 0
 
         # self.population = [self.new_chromosome() for i in range(self.population_size)]
@@ -295,31 +316,36 @@ class GaHMM:
             self.population[:, lo:hi] = moped
     
     def do_selection_step(self):
-        parents = self.parent_select_func(self.population, self.offspring_count, self.slices, self)
+        
+        parents = self.parent_select_func(self.population, self.n_parents_per_generation, self.slices, self)
         return parents.copy()
 
     def do_crossover_step(self, parents):
 
-        children = numpy.zeros((self.offspring_count ,self.n_genes))
+        children = numpy.zeros((self.n_children_per_generation ,self.n_genes))
         child_index = 0
 
-        n_parents = parents.shape[0]
-        parents_per_child = 2
-        for parent_index in range(0, n_parents, parents_per_child):
+        for parent_index in range(0, self.n_parents_per_generation, self.n_parents_per_mating):
             
-            par = parents[parent_index : (parent_index+parents_per_child), :].copy()
-            child = self.crossover_func(par, self.slices, self)
-            children[child_index, :] = child.copy()
+            par = parents[parent_index : (parent_index+ self.n_parents_per_mating), :].copy()
+            childs = self.crossover_func(par, self.n_children_per_mating, self.slices, self)
 
-            child_index +=1
-            
-        # reset hidden genes
-        # children[:, self.slices.fitness.start] = float('-inf')
-        # children[:, self.slices.rank.start] = 0
+            children[child_index:(child_index + len(childs)), : ] = childs
 
-        return children.copy()
+            child_index +=len(childs)
+
+        
+        if not child_index == len(children): raise Exception( "The Crossover Function does not support the provided n_children_per_mating" )
 
 
+        children = self.assign_default_values_to_hidden_genes(children)
+
+        return children
+
+    def assign_default_values_to_hidden_genes(self, population):
+        population[:, self.slices.rank.start] = 0
+        population[:, self.slices.fitness.start]= float('-inf')
+        return population
         
 
 

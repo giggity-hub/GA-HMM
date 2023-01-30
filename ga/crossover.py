@@ -5,8 +5,9 @@ import random
 import ga.numba_ga as ga
 from ga.types import ChromosomeSlices, CrossoverFunction
 rng = numpy.random.default_rng()
+from numba import njit, jit
 
-
+@jit(nopython=True, cache=True, parallel=True)
 def _crossover(parents, parent_indices, crossover_indices):
     n_children, n_crossover_points = parent_indices.shape
     n_parents, n_genes = parents.shape
@@ -25,34 +26,65 @@ def _crossover(parents, parent_indices, crossover_indices):
     
     return children
 
-def calculate_rank_weighted_selection_probs(parents: numpy.ndarray, slices):
-    ranks = parents[:, slices.rank.start]
-    selection_probs = ranks / ranks.sum()
+
+def calculate_rank_weighted_selection_probs(ranks: numpy.ndarray, population_size: int):
+    """Calculate probabilities of being selected as parent proportional to parents rank.
+
+    Args:
+        parents (numpy.ndarray): _description_
+        slices (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
+    
+    inverse_ranks = population_size - ranks
+
+    selection_probs = inverse_ranks / inverse_ranks.sum()
     return selection_probs
 
 def rank_weighted(crossover_func: CrossoverFunction) -> CrossoverFunction:
 
-    def weighted_crossover_func(parents: numpy.ndarray, slices: ChromosomeSlices, gabw: ga.GaHMM) -> numpy.ndarray:
-        selection_probs = calculate_rank_weighted_selection_probs(parents, slices)
-        child = crossover_func(parents, slices, gabw, selection_probs)
+    def weighted_crossover_func(parents: numpy.ndarray, n_children: int, slices: ChromosomeSlices, gabw: ga.GaHMM) -> numpy.ndarray:
+        ranks = parents[:, slices.rank.start]
+        selection_probs = calculate_rank_weighted_selection_probs(ranks, population_size=gabw.population_size)
+        child = crossover_func(parents, n_children, slices, gabw, selection_probs)
         return child
 
     return weighted_crossover_func
 
+def select_parent_indices(n_parents: int, n_children: int, n_crossover_points: int, selection_probs=None):
+    """Returns parent indices array so that parent_indices[i, j] = which parent to choose for child i, gene j
 
-def every_parent_at_least_once(parent_indices, n_parents):
+    Args:
+        n_parents (_type_): _description_
+        n_children (_type_): _description_
+        n_crossover_points (_type_): _description_
+        selection_probs (_type_): _description_
 
-    # Will throw an error if len(parent_indices) < n_parents
-    rand_indices = rng.choice(len(parent_indices), size=n_parents, replace=False)
-
-    for parent_index in range(n_parents):
-        index = rand_indices[parent_index]
-        parent_indices[index] = parent_index
-    
+    Returns:
+        _type_: (n_children x n_crossover_points)
+    """
+    parent_indices = numpy.random.choice(n_parents, size=(n_crossover_points*n_children), p=selection_probs)
+    parent_indices = parent_indices.reshape((n_children, n_crossover_points))
     return parent_indices
 
 
-def arithmetic_mean_crossover(parents: numpy.ndarray, slices: ChromosomeSlices, gabw: ga.GaHMM, selection_probs=1) -> numpy.ndarray:
+# def every_parent_at_least_once(parent_indices, n_parents):
+
+#     # Will throw an error if len(parent_indices) < n_parents
+#     rand_indices = rng.choice(len(parent_indices), size=n_parents, replace=False)
+
+#     for parent_index in range(n_parents):
+#         index = rand_indices[parent_index]
+#         parent_indices[index] = parent_index
+    
+#     return parent_indices
+
+
+
+def arithmetic_mean_crossover(parents: numpy.ndarray, unused_n_children: int, slices: ChromosomeSlices, gabw: ga.GaHMM, selection_probs=1) -> numpy.ndarray:
+    # n_children has no effect since a group of parents only has one mean value
     child = parents[0].copy()
     n_parents = parents.shape[0]
 
@@ -64,64 +96,65 @@ def arithmetic_mean_crossover(parents: numpy.ndarray, slices: ChromosomeSlices, 
 
     child[start:stop] = parents_mean
 
-    return child
+    return numpy.atleast_2d(child)
 
 
-
-
-# default_probabilities = numpy.ones(1)
-
-# random parent_indices
-
-# random parent indices -> guarantee different values
-
-# random parent indicies -> guarantee different values with selection probs
-
-
-
-
-
-def uniform_crossover(parents: numpy.ndarray, slices: ChromosomeSlices, gabw: ga.GaHMM, selection_probs=None) -> numpy.ndarray:
+# Can have infinite children (some may be same tho)
+def uniform_crossover(parents: numpy.ndarray, n_children: int, slices: ChromosomeSlices, gabw: ga.GaHMM, selection_probs=None) -> numpy.ndarray:
     n_parents = parents.shape[0]
     low, high, _ = slices.emission_probs
     n_crossover_points = high - low
     
     crossover_indices = numpy.arange(low, high+1, step=1)
-    parent_indices = numpy.random.choice(n_parents, size=n_crossover_points, p=selection_probs)
+    parent_indices = select_parent_indices(n_parents, n_children, n_crossover_points, selection_probs)
 
-    child = parents[0].copy()
-    child = _crossover(child, parents, parent_indices, crossover_indices)
-    return child
+    children = _crossover(parents, parent_indices, crossover_indices)
+    return children
 
 # Can not be weighted
-def n_point_crossover_factory(n_crossover_points: int) -> CrossoverFunction:
-    """Supports usage of more than two parents per child. n_crossover_points should be at least one greater than the number of parents
+# def n_point_crossover_factory(n_crossover_points: int, n_parents_per_mating: int, n_children_per_mating: int) -> CrossoverFunction:
+#     """Supports usage of more than two parents per child. n_crossover_points should be at least one greater than the number of parents
 
-    Args:
-        n_crossover_points (int): _description_
+#     Args:
+#         n_crossover_points (int): _description_
 
-    Returns:
-        CrossoverFunction: _description_
-    """
+#     Returns:
+#         CrossoverFunction: _description_
+#     """
 
-    def crossover_func(parents: numpy.ndarray, slices: ChromosomeSlices, gabw: ga.GaHMM) -> numpy.ndarray:
-        low, high, _ = slices.emission_probs
+#     expected_state_counts
 
-        n_parents = parents.shape[0]
+#     if n_parents_per_mating != n_children_per_mating or (n_crossover_points + 1) < n_children_per_mating:
 
-        crossover_indices = numpy.empty(n_crossover_points + 2, dtype=int)
-        crossover_indices[0] = low
-        crossover_indices[1] = high
-        crossover_indices[2:] = numpy.random.randint(low, high, size=n_crossover_points)
-        crossover_indices.sort()
+#     parents 5
+#     children 3
+#     crossoverpoints = 10
+#     n_children = n_parents
 
-        parent_indices = numpy.arange(n_crossover_points + 1) % n_parents
+#     if n_crossover_points < n_parents_per_mating
 
-        child = parents[0].copy()
-        child = _crossover(child, parents, parent_indices, crossover_indices)
-        return child
+
+#     def crossover_func(parents: numpy.ndarray, n_children: int, slices: ChromosomeSlices, gabw: ga.GaHMM) -> numpy.ndarray:
+#         low, high, _ = slices.emission_probs
+
+#         n_parents_per_mating = parents.shape[0]
+        
+#         crossover_indices = numpy.empty(n_crossover_points + 2, dtype=int)
+#         crossover_indices[0] = low
+#         crossover_indices[1] = high
+#         crossover_indices[2:] = numpy.random.randint(low, high, size=n_crossover_points)
+#         crossover_indices.sort()
+        
+
+#         parent_indices_for_first_child = numpy.arange(n_crossover_points + 1)
+#         parent_indices_repeated_across_second_dim = parent_indices_for_first_child * numpy.ones((1, n_children), dtype=int)
+#         parent_indices_offset = parent_indices_repeated_across_second_dim + numpy.arange(n_children).reshape((n_children, 1))
+#         parent_indices = parent_indices_offset % n_parents_per_mating
+
+#         children = _crossover(parents, parent_indices, crossover_indices)
+#         return children
     
-    return crossover_func
+#     return crossover_func
 
 # def numba_single_point_crossover2(parents: numpy.ndarray, slices: ChromosomeSlices, gabw: ga.GaHMM) -> numpy.ndarray:
 #     lo, hi, _ = slices.emission_probs
@@ -136,20 +169,26 @@ def n_point_crossover_factory(n_crossover_points: int) -> CrossoverFunction:
 #     # child = parents[0, :].copy()
 #     return child
 
-def uniform_states_crossover(parents: numpy.ndarray, n_children, slices: ChromosomeSlices, gabw: ga.GaHMM, selection_probs=None) -> numpy.ndarray:
 
-    n_parents = parents.shape[0]
 
-    parent_indices = numpy.random.choice(n_parents, size=(gabw.n_states*n_children), p=selection_probs).reshape((n_children, gabw.n_states))
-    # parent_indices = every_parent_at_least_once(parent_indices, n_parents)
 
-    crossover_indices = numpy.empty(gabw.n_states*2 + 1)
+def uniform_states_crossover(parents: numpy.ndarray, n_children: int, slices: ChromosomeSlices, gabw: ga.GaHMM, selection_probs=None) -> numpy.ndarray:
+
+    parent_indices = select_parent_indices(
+        n_parents= parents.shape[0], 
+        n_children = n_children, 
+        n_crossover_points= gabw.n_states,
+        selection_probs=selection_probs)
+
+
+    crossover_indices = numpy.empty(gabw.n_states*2 + 1, dtype=int)
 
     start, stop, step = slices.emission_probs
     crossover_indices[:gabw.n_states] = numpy.arange(start=start, stop=stop, step=step)
 
     start, stop, step = slices.transition_probs
     crossover_indices[gabw.n_states:] = numpy.arange(start=start, stop=stop+1, step=step)
+
  
     children = _crossover(parents, parent_indices, crossover_indices)
     return children

@@ -2,8 +2,8 @@ import pytest
 from ga.numba_ga import GaHMM
 from ga.fitness import numba_mean_log_prob_fitness
 from ga.mutation import numba_constant_uniform_mutation2, delete_random_emission_symbols
-from ga.crossover import numba_single_point_crossover2
-from ga.selection import rank_selection
+from ga.crossover import uniform_crossover
+from ga.selection import rank_selection_factory
 import numpy
 from ga.types import ChromosomeSlices
 from hmm.bw_numba import multiple_observation_sequences_from_ndarray_list
@@ -13,9 +13,6 @@ from test.assertions import (
     assert_all_values_are_log_probabilities,
     assert_chromosomes_are_row_stochastic
 )
-
-
-
 
 @pytest.fixture
 def gabw_mock():
@@ -46,8 +43,8 @@ def gabw(gabw_mock: GaHMM, observation_sequences):
     gabw_mock.fitness_func = numba_mean_log_prob_fitness(observation_sequences)
     # gabw_mock.mutation_func = numba_constant_uniform_mutation2(mutation_threshold=0.1)
     gabw_mock.mutation_func = delete_random_emission_symbols(n_zeros=1)
-    gabw_mock.crossover_func = numba_single_point_crossover2
-    gabw_mock.parent_select_func = rank_selection(gabw_mock.population_size)
+    gabw_mock.crossover_func = uniform_crossover
+    gabw_mock.parent_select_func = rank_selection_factory(gabw_mock.population_size)
     return gabw_mock
 
 
@@ -149,7 +146,7 @@ def test_normalize_chromosomes(gabw: GaHMM):
 
 def test_do_selection(gabw: GaHMM):
     parents = gabw.do_selection_step()
-    assert parents.shape == (gabw.offspring_count*2, gabw.n_genes)
+    assert parents.shape == (gabw.n_parents_per_generation, gabw.n_genes)
 
     assert_chromosomes_are_row_stochastic(parents, gabw)
     assert_chromosomes_are_row_stochastic(gabw.population, gabw)
@@ -167,7 +164,7 @@ def mutated_children(children, gabw: GaHMM):
     return gabw.do_mutation_step(children)
 
 def test_children_shape(children, gabw: GaHMM):
-    assert children.shape == (gabw.offspring_count, gabw.n_genes)
+    assert children.shape == (gabw.n_children_per_generation, gabw.n_genes)
 
 def test_child_genes_are_probabilities(children, gabw: GaHMM):
     children_without_silent_genes = children[:, :-2]
@@ -192,5 +189,3 @@ def test_mutated_genes_are_probabilities(mutated_children):
 
 def test_start(gabw: GaHMM):
     gabw.start()
-
-    assert False

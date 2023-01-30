@@ -1,12 +1,7 @@
 import pytest
 from data.digits import load_dataset
 import hmm.bw_numba as bw
-from hmm.hmm import random_left_right_hmm_params
-import ga.numba_ga as ga
-from ga.mutation import numba_constant_uniform_mutation
-# from ga.crossover import numba_single_point_crossover
-from ga.fitness import numba_mean_log_prob_fitness
-from ga.selection import rank_selection
+
 import numpy
 import math
 import os

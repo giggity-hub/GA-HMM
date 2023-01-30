@@ -4,6 +4,7 @@ import numpy.random as npr
 import numpy
 import ga.numba_ga as ga
 from ga.types import SelectionFunction
+from numba import jit
 
 # def pairwise_fittest(
 #     population: List[Chromosome], 
@@ -27,17 +28,14 @@ from ga.types import SelectionFunction
 
 
 
-
-def moped(select_parent_index, population, n_parents):
+@jit(nopython=True, cache=True)
+def _selection(population, n_parents, parent_indices):
     n_genes = population.shape[1]
     parents = numpy.empty((n_parents, n_genes))
 
-    for i in range(n_parents -1):
-        parent_a_index = select_parent_index()
-        parent_b_index = select_parent_index()
-
-        parents[i] = population[parent_a_index, :].copy()
-        parents[i+1] = population[parent_b_index, :].copy()
+    for i in range(n_parents):
+        parent_index = parent_indices[i]
+        parents[i] = population[parent_index, :].copy()
 
     return parents.copy()
 
@@ -55,26 +53,24 @@ def moped(select_parent_index, population, n_parents):
 
 
 
-def rank_selection(population_size:int) -> SelectionFunction:
+def rank_selection_factory(population_size:int) -> SelectionFunction:
 
     def gauss_sum(n):
         return (n**2 + n)//2
     
     total_rank = gauss_sum(population_size)
     selection_probs = numpy.arange(population_size, 0, -1) / total_rank
-
-    def selectOne():
-        return npr.choice(population_size, p=selection_probs)
+        
 
     def selection_func(
         population: numpy.ndarray,
-        n_offspring: int,
+        n_parents: int,
         slices: ga.ChromosomeSlices,
         gabw: ga.GaHMM
         ) -> numpy.ndarray:
 
-        n_parents = n_offspring*2
-        parents = moped(selectOne, population, n_parents)
+        parent_indices = npr.choice(population_size, p=selection_probs, size=n_parents)
+        parents = _selection(population, n_parents, parent_indices)
         return parents
 
     return selection_func

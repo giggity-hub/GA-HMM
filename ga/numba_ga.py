@@ -41,26 +41,23 @@ class Logs(NamedTuple):
 
 
 class GaHMM:
-    param_generator_func: ParamGeneratorFunction2 = random_left_right_hmm_params2
+    param_generator_func: ParamGeneratorFunction2 = staticmethod(random_left_right_hmm_params2)
     fitness_func: FitnessFunction = None
     parent_select_func: SelectionFunction = None
     mutation_func: MutationFunction = None
     crossover_func: CrossoverFunction = None
+    n_parents_per_mating: int = 2
+    n_children_per_mating: int = 1
+    keep_elitism: int = 1
+    normalize_after_mutation: bool = True
+    current_generation: int = 0
+
     def __init__(
         self,
         n_symbols: int,
         n_states: int,
         population_size: int,
         n_generations: int,
-        n_parents_per_mating: int = 2,
-        n_children_per_mating: int = 1,
-        # fitness_func: FitnessFunction,
-        # parent_select_func: SelectionFunction,
-        # mutation_func: MutationFunction, 
-        # crossover_func: CrossoverFunction,
-        keep_elitism=1,
-        normalize_after_mutation=True,
-        param_generator_func: ParamGeneratorFunction2 = random_left_right_hmm_params2,
         ) -> None:
 
         # Parametrized Attributes
@@ -68,47 +65,32 @@ class GaHMM:
         self.n_states = n_states
         self.population_size = population_size
         self.n_generations = n_generations
+
+        # Ab hier beginnt der Müll:
         self.n_genes = self.calc_n_genes(n_states, n_symbols)
-        self.n_parents_per_mating = n_parents_per_mating
-        self.n_children_per_mating = n_children_per_mating
-        
-        
-        # self.fitness_func = staticmethod(fitness_func)
-        # self.parent_select_func: SelectionFunction = staticmethod(parent_select_func)
-        # self.mutation_func: MutationFunction = staticmethod(mutation_func)
-        # self.crossover_func = staticmethod(crossover_func)
-        self.keep_elitism=keep_elitism
-        self.normalize_after_mutation=normalize_after_mutation
-        self.param_generator_func = staticmethod(param_generator_func)
-
-        # Calculated Attributes
-        self.n_children_per_generation = self.population_size - self.keep_elitism
-
-        # 2
-        # 20
-
-        # 3
-        # 20
-
-        # 3
-        # 5
-
-        # rename offspring count to children per generation
-        assert self.n_children_per_generation % self.n_children_per_mating == 0
-        self.n_matings_per_generation = self.n_children_per_generation // self.n_children_per_mating
-        self.n_parents_per_generation = self.n_matings_per_generation * self.n_parents_per_mating
-
-        self.current_generation = 0
-
-        # self.population = [self.new_chromosome() for i in range(self.population_size)]
         self.slices = self.calculate_slices(self.n_states, self.n_symbols)
-        # self.population = self.initialize_population(self.slices, self.n_states, self.n_symbols, self.population_size, self.param_generator_func)
-
         self.population = self.initialize_population()
         # Assign Ranks to have default values for selection function
         self.assign_ranks_to_population()
         self.logs = self.initialize_logs()
         self.chromosome_mask = self.initialize_chromosome_mask()
+
+        self.calc_n_parents_and_children_per_generation()
+
+
+    def calc_n_parents_and_children_per_generation(self):
+        self.n_children_per_generation = self.population_size - self.keep_elitism
+        self.n_matings_per_generation = self.n_children_per_generation // self.n_children_per_mating
+        self.n_parents_per_generation = self.n_matings_per_generation * self.n_parents_per_mating
+
+    def validate(self):
+
+        children_per_generation_is_multiple_of_children_per_mating = self.n_children_per_generation % self.n_children_per_mating == 0
+        if not children_per_generation_is_multiple_of_children_per_mating:
+            raise ValueError("Number of Children per Generation must be divisible by Number of Childrens Per Mating")
+
+        
+
 
     def get_transition_probs_slice_for_state(self, state_index: int) -> SliceTuple:
         start, _, step = self.slices.emission_probs
@@ -365,9 +347,9 @@ class GaHMM:
         start, stop, _ = self.slices.emission_probs
         self.population[:, start:stop] = self.population[:, start: stop] + smoothing_value
 
-    def start(self):
+    def next_iteration(self):
+        # print(f'starting iteration {iteration}')
         for iteration in range(self.n_generations):
-            # print(f'starting iteration {iteration}')
             self.current_generation = iteration
 
             assert not numpy.any(numpy.isnan(self.population))
@@ -409,10 +391,12 @@ class GaHMM:
             self.normalize_chromosomes()
             assert not numpy.any(numpy.isnan(self.population))
             assert_chromosomes_are_row_stochastic(self.population, self)
-        
 
+    def start(self):
+        self.calc_n_parents_and_children_per_generation()
+        self.validate()
+        self.next_iteration()
 
-        return self.logs
 
     def plot(self):
         x = range(self.n_generations)

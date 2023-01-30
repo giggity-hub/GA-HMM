@@ -19,19 +19,6 @@ from ga.types import (
     Chromosome)
 import pytest
 
-def assert_is_row_stochastic(matrix: numpy.ndarray):
-    max_deviation = 1e-8
-    matrix = numpy.atleast_2d(matrix) #For the case that a vector with only 1-Dimension is supplied
-    assert numpy.sum(matrix, axis=1) == pytest.approx(numpy.ones(len(matrix)))
-    assert numpy.min(matrix) >= 0
-    assert numpy.max(matrix) < (1 + max_deviation)
-
-def assert_chromosomes_are_row_stochastic(chromosomes: numpy.ndarray, gabw):
-    for i in range(len(chromosomes)):
-        hmm_params = gabw.chromosome2hmm_params(chromosomes[i])
-        assert_is_row_stochastic(hmm_params.start_vector)
-        assert_is_row_stochastic(hmm_params.emission_matrix)
-        assert_is_row_stochastic(hmm_params.transition_matrix)
 
 class Logs(NamedTuple):
     max: numpy.ndarray
@@ -113,10 +100,8 @@ class GaHMM:
         total_len =  len_start_probs + len_emission_probs + len_transition_probs + len_silent_states
         return total_len
 
+
     def initialize_chromosome_mask(self) -> ChromosomeMask:
-        # Genes that have a 1 or zero stay the same during multiplication
-        # gene_prod = numpy.prod(self.population, axis=0)
-        # gene_sum = numpy.sum(self.population, axis=0)
 
         n_genes = self.population.shape[1]
         mask = numpy.zeros(n_genes, dtype=bool)
@@ -256,17 +241,6 @@ class GaHMM:
         self.logs.total[self.current_generation] = gen_total
         self.logs.mean[self.current_generation] = gen_mean
 
-
-        # # Update Fitness and Rank
-        # self.population.sort(reverse=True)
-        # for i in range(self.population_size):
-        #     chromosome = self.population[i]
-
-        #     # numpy.exp(chromosome.probability) / prob_sum
-
-        #     # chromosome.fitness = chromosome.probability/total_probability
-        #     chromosome.rank = i
-
     
     def assign_ranks_to_population(self):
         # population_size = population.shape[0]
@@ -330,11 +304,9 @@ class GaHMM:
         return population
         
 
-
     def do_mutation_step(self, children):
         n_children = children.shape[0]
         
-
         for i in range(n_children):
             mutated_child = self.mutation_func(children[i, :], self.slices, self.chromosome_mask, self)
             children[i] = mutated_child.copy()
@@ -352,45 +324,21 @@ class GaHMM:
         for iteration in range(self.n_generations):
             self.current_generation = iteration
 
-            assert not numpy.any(numpy.isnan(self.population))
-            assert_chromosomes_are_row_stochastic(self.population, self)
             self.calculate_fitness()
-            assert not numpy.any(numpy.isnan(self.population))
-            assert_chromosomes_are_row_stochastic(self.population, self)
             self.sort_population()
-            assert not numpy.any(numpy.isnan(self.population))
-            assert_chromosomes_are_row_stochastic(self.population, self)
             self.assign_ranks_to_population()
-            assert not numpy.any(numpy.isnan(self.population))
-            assert_chromosomes_are_row_stochastic(self.population, self)
-
             self.update_logs()
-            assert not numpy.any(numpy.isnan(self.population))
-            assert_chromosomes_are_row_stochastic(self.population, self)
+
 
             parents = self.do_selection_step()
-            assert not numpy.any(numpy.isnan(parents))
-            assert_chromosomes_are_row_stochastic(parents, self)
             children_after_cross = self.do_crossover_step(parents)
-            # Hier war Noch alles Gucci
-            assert not numpy.any(numpy.isnan(children_after_cross))
-            # assert_chromosomes_are_row_stochastic(children, self)
-            # children = self.population[self.keep_elitism:, :].copy()
             children = self.do_mutation_step(children_after_cross.copy())
-            assert not numpy.any(numpy.isnan(children))
 
-            # assert_chromosomes_are_row_stochastic(children, self)
 
-            # The next population is elites of current population plus children
             self.population[self.keep_elitism:, :] = children
-            
-            # self.population = self.population.copy()
-            assert not numpy.any(numpy.isnan(self.population))
-            # assert_chromosomes_are_row_stochastic(self.population, self)
             self.smooth_emission_probabilities()
             self.normalize_chromosomes()
-            assert not numpy.any(numpy.isnan(self.population))
-            assert_chromosomes_are_row_stochastic(self.population, self)
+
 
     def start(self):
         self.calc_n_parents_and_children_per_generation()

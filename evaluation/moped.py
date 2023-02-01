@@ -3,7 +3,7 @@
 
 from hmm.hmm import random_left_right_hmm_params
 import numpy as np
-import hmm.bw_core as bw
+import hmm.bw as bw
 from data.digits import DigitDataset
 import matplotlib.pyplot as plt
 import seaborn as sns

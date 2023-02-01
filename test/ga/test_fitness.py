@@ -3,7 +3,7 @@ from ga.fitness import numba_mean_log_prob_fitness
 import pytest
 from ga.numba_ga import GaHMM
 import numpy
-from hmm.bw_core import multiple_observation_sequences_from_ndarray_list
+from hmm.hmm import multiple_observation_sequences_from_ndarray_list
 from hmm.hmm import random_left_right_hmm_params
 from test.assertions import assert_is_log_prob
 

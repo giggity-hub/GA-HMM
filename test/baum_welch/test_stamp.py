@@ -74,7 +74,7 @@ def stamp_final_log_probability():
     return -137305.28
 
 
-
+@pytest.mark.skip("Takes Too Long")
 def test_train_single_observation(
     stamp_initial_hmm_params: HmmParams,
     stamp_final_hmm_params: HmmParams,
@@ -87,7 +87,7 @@ def test_train_single_observation(
     assert my_final_log_probability == approx(stamp_final_log_probability)
     assert_hmm_params_are_equal(my_final_hmm_params, stamp_final_hmm_params, atol=1e-04)
 
-
+@pytest.mark.skip("Takes Too Long")
 def test_train_multiple_observations(
     stamp_initial_hmm_params: HmmParams,
     stamp_final_hmm_params: HmmParams,

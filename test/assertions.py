@@ -5,7 +5,7 @@ from ga.numba_ga import GaHMM
 from hmm.types import HmmParams
 
 def assert_is_log_prob(log_prob):
-    assert type(log_prob) == numpy.float64
+    assert isinstance(log_prob, (numpy.floating, float))
     assert not math.isnan(log_prob)
     assert log_prob < 0
 

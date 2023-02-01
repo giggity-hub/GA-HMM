@@ -6,7 +6,7 @@ from ga.crossover import uniform_crossover
 from ga.selection import rank_selection_factory
 import numpy
 from ga.types import ChromosomeSlices
-from hmm.bw_core import multiple_observation_sequences_from_ndarray_list
+from hmm.hmm import multiple_observation_sequences_from_ndarray_list
 
 from test.assertions import (
     assert_all_values_are_probabilities,

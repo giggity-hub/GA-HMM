@@ -2,9 +2,10 @@ import math
 import numpy
 import pytest
 from ga.numba_ga import GaHMM
+from hmm.types import HmmParams
 
 def assert_is_log_prob(log_prob):
-    assert type(log_prob) == float
+    assert type(log_prob) == numpy.float64
     assert not math.isnan(log_prob)
     assert log_prob < 0
 
@@ -44,8 +45,27 @@ def assert_chromosomes_are_row_stochastic(chromosomes: numpy.ndarray, gabw: GaHM
         assert_is_row_stochastic(hmm_params.emission_matrix)
         assert_is_row_stochastic(hmm_params.transition_matrix)
 
+
+def assert_valid_hmm_params(hmm_params: HmmParams ):
+    start_vector, emission_matrix, transition_matrix = hmm_params
+    n_states, n_symbols = emission_matrix.shape
+
+    assert start_vector.shape == (n_states, )
+    assert transition_matrix.shape == (n_states, n_states)
+
+    assert_is_row_stochastic(start_vector)
+    assert_is_row_stochastic(transition_matrix)
+    assert_is_row_stochastic(emission_matrix)
+
+    
+
 def assert_no_shared_memory(ndarray: numpy.ndarray):
     # If an Arrays shares memory with another array the base points to the array it shares memory with
     # If an Array does not share memory the base is None
     assert not type(ndarray.base) == numpy.ndarray
     assert ndarray.base == None
+
+def assert_hmm_params_are_equal(hmm_params_1: HmmParams, hmm_params_2: HmmParams, atol):
+    assert numpy.allclose(hmm_params_1.start_vector, hmm_params_2.start_vector, atol=atol)
+    assert numpy.allclose(hmm_params_1.emission_matrix, hmm_params_2.emission_matrix, atol=atol)
+    assert numpy.allclose(hmm_params_1.transition_matrix, hmm_params_2.transition_matrix, atol=atol)

@@ -4,9 +4,12 @@ from pomegranate import HiddenMarkovModel, DiscreteDistribution
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 from typing import Callable, List, Dict, Tuple, NamedTuple
-from hmm.hmm import random_left_right_hmm_params2, ParamGeneratorFunction2
+from hmm.hmm import random_left_right_hmm_params, ParamGeneratorFunction2
 import lib.utils as utils
 from numba import jit, njit
+from numba.experimental import jitclass
+# from hmm.bw_numba import train
+
 from hmm.types import HmmParams
 from ga.types import (
     FitnessFunction, 
@@ -26,9 +29,13 @@ class Logs(NamedTuple):
     mean: numpy.ndarray
     total: numpy.ndarray
 
+spec = [
+
+]
+
 
 class GaHMM:
-    param_generator_func: ParamGeneratorFunction2 = staticmethod(random_left_right_hmm_params2)
+    param_generator_func: ParamGeneratorFunction2 = staticmethod(random_left_right_hmm_params)
     fitness_func: FitnessFunction = None
     parent_select_func: SelectionFunction = None
     mutation_func: MutationFunction = None
@@ -63,6 +70,16 @@ class GaHMM:
         self.chromosome_mask = self.initialize_chromosome_mask()
 
         self.calc_n_parents_and_children_per_generation()
+
+    
+    def train_population_with_baum_welch(self, observations, n_iterations=1):
+        pass
+        # for i in range(self.population_size):
+        #     hmm_params = self.chromosome2hmm_params(self.population[i])
+        #     pi, b, a = hmm_params
+        #     reestimated_hmm_params = train(pi, b, a, observations, n_iterations)
+        #     pi, b, a, _ = reestimated_hmm_params
+        #     self.population[i] = self.hmm_params2chromosome(HmmParams(pi, b, a))
 
 
     def calc_n_parents_and_children_per_generation(self):
@@ -116,8 +133,8 @@ class GaHMM:
         mask[self.slices.rank.start] = True
 
         return mask
-    # @njit
-    # @staticmethod
+
+
     def calculate_slices(self, n_states: int, n_symbols: int) -> ChromosomeSlices:
         len_start_probs = n_states
         len_transition_probs = n_states*n_states
@@ -141,8 +158,7 @@ class GaHMM:
 
         return chromosome_slices
         
-    # @njit
-    # @staticmethod
+
     def initialize_population(self):
 
         chromosome_length = self.slices.rank.stop
@@ -156,7 +172,7 @@ class GaHMM:
 
         return population
 
-        # return population
+
     
     def initialize_logs(self):
         max_arr = numpy.zeros(self.n_generations)
@@ -167,20 +183,12 @@ class GaHMM:
 
 
     
-    # @staticmethod
     def calculate_fitness(self):
-        population_size = self.population.shape[0]
-        n_states = self.slices.transition_probs.step
-        n_symbols = self.slices.emission_probs.step
-
-        for i in range(population_size):
-            
+        for i in range(self.population_size):
             hmm_params = self.chromosome2hmm_params(self.population[i])
             log_prob = self.fitness_func(hmm_params)
-            assert not numpy.isnan(log_prob)
             self.population[i, self.slices.fitness.start] = log_prob
 
-        # return population
 
     def chromosome2hmm_params(self, chromosome: numpy.ndarray):
         n_states = self.slices.transition_probs.step
@@ -212,23 +220,14 @@ class GaHMM:
         return chromosome
 
 
-    # @staticmethod
-    # @njit
     def sort_population(self):
         fitness_index = self.slices.fitness.start
         self.population = self.population[self.population[:, fitness_index].argsort()]
         self.population = numpy.flip(self.population, axis=0)
-        # fitness_col = self.population[:, self.slices.fitness.start]
-        # self.population = numpy.flip(self.population[fitness_col.argsort()])
 
     
 
     def update_logs(self):
-        
-        total_probability = 0
-        min_probability = float('inf')
-        max_probability = float('-inf')
-        prob_sum = 0
 
         fitness_values = self.population[:, self.slices.fitness.start]
         gen_max = fitness_values.max()

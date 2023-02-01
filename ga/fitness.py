@@ -3,7 +3,7 @@
 # from ga.ga import Chromosome, GaHMM
 # from typing import List, Callable
 # from hmm.bw import BaumWelch
-from hmm.bw_numba import calc_mean_log_prob
+from hmm.bw_core import calc_mean_log_prob
 from hmm.types import HmmParams, MultipleObservationSequences
 from numba import jit, njit
 from ga.types import FitnessFunction

@@ -3,8 +3,8 @@ from ga.fitness import numba_mean_log_prob_fitness
 import pytest
 from ga.numba_ga import GaHMM
 import numpy
-from hmm.bw_numba import multiple_observation_sequences_from_ndarray_list
-from hmm.hmm import random_left_right_hmm_params2
+from hmm.bw_core import multiple_observation_sequences_from_ndarray_list
+from hmm.hmm import random_left_right_hmm_params
 from test.assertions import assert_is_log_prob
 
 @pytest.fixture
@@ -37,7 +37,7 @@ def fitness_func(observation_sequences):
 
 @pytest.fixture
 def hmm_params(gabw_mock: GaHMM):
-    return random_left_right_hmm_params2(gabw_mock.n_states, gabw_mock.n_symbols)
+    return random_left_right_hmm_params(gabw_mock.n_states, gabw_mock.n_symbols)
 
 
 def test_is_log_prob(hmm_params, fitness_func: FitnessFunction):

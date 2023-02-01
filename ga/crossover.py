@@ -7,6 +7,7 @@ from ga.types import ChromosomeSlices, CrossoverFunction
 rng = numpy.random.default_rng()
 from numba import njit, jit
 
+
 @jit(nopython=True, cache=True, parallel=True)
 def _crossover(parents, parent_indices, crossover_indices):
     n_children, n_crossover_points = parent_indices.shape
@@ -80,7 +81,6 @@ def select_parent_indices(n_parents: int, n_children: int, n_crossover_points: i
 #         parent_indices[index] = parent_index
     
 #     return parent_indices
-
 
 
 def arithmetic_mean_crossover(parents: numpy.ndarray, unused_n_children: int, slices: ChromosomeSlices, gabw: ga.GaHMM, selection_probs=1) -> numpy.ndarray:

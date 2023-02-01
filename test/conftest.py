@@ -1,6 +1,6 @@
 import pytest
 from data.digits import load_dataset
-import hmm.bw_numba as bw
+import hmm.bw_core as bw
 
 import numpy
 import math

@@ -1,5 +1,5 @@
 from ga.types import FitnessFunction
-from ga.fitness import numba_mean_log_prob_fitness
+from ga.fitness import mean_log_prob_fitness
 import pytest
 from ga.numba_ga import GaHMM
 import numpy
@@ -33,7 +33,7 @@ def observation_sequences(gabw_mock):
 
 @pytest.fixture
 def fitness_func(observation_sequences):
-    return numba_mean_log_prob_fitness(observation_sequences)
+    return mean_log_prob_fitness(observation_sequences)
 
 @pytest.fixture
 def hmm_params(gabw_mock: GaHMM):

@@ -2,7 +2,7 @@ import math
 import numpy
 import pytest
 from ga.numba_ga import GaHMM
-from hmm.types import HmmParams
+from hmm.types import HmmParams, MultipleHmmParams
 
 def assert_is_log_prob(log_prob):
     assert isinstance(log_prob, (numpy.floating, float))
@@ -38,6 +38,13 @@ def assert_is_row_stochastic(matrix: numpy.ndarray):
     assert numpy.min(matrix) >= 0
     assert numpy.max(matrix) < (1 + max_deviation)
 
+def assert_is_stochastic_across_axis(ndarr: numpy.ndarray, axis):
+    max_deviation = 1e-8
+    sum_arr =  numpy.sum(ndarr, axis=axis)
+    assert sum_arr == pytest.approx(numpy.ones_like(sum_arr))
+    assert numpy.min(ndarr) >= 0
+    assert numpy.max(ndarr) < (1 + max_deviation)
+
 def assert_chromosomes_are_row_stochastic(chromosomes: numpy.ndarray, gabw: GaHMM):
     for i in range(len(chromosomes)):
         hmm_params = gabw.chromosome2hmm_params(chromosomes[i])
@@ -57,6 +64,17 @@ def assert_valid_hmm_params(hmm_params: HmmParams ):
     assert_is_row_stochastic(transition_matrix)
     assert_is_row_stochastic(emission_matrix)
 
+def assert_valid_multiple_hmm_params(hmm_params: MultipleHmmParams):
+    PIs, Bs, As = hmm_params
+
+    n_hmms, n_states, n_symbols = Bs.shape
+
+    assert PIs.shape == (n_hmms, n_states)
+    assert As.shape == (n_hmms, n_states, n_states)
+
+    assert_is_stochastic_across_axis(PIs, axis=1)
+    assert_is_stochastic_across_axis(Bs, axis=2 )
+    assert_is_stochastic_across_axis(As, axis=2)
     
 
 def assert_no_shared_memory(ndarray: numpy.ndarray):

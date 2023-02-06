@@ -15,17 +15,31 @@ Chromosome = npt.NDArray[numpy.float64]
 
 Population = npt.NDArray[numpy.float64]
 
-class SliceTuple(NamedTuple):
+class RangeTuple(NamedTuple):
     start: int
     stop: int
     step: int
 
+# class ChromosomeSlices(NamedTuple):
+#     start_probs: SliceTuple
+#     emission_probs: SliceTuple
+#     transition_probs: SliceTuple
+#     fitness: SliceTuple
+#     rank: SliceTuple
+
 class ChromosomeSlices(NamedTuple):
-    start_probs: SliceTuple
-    emission_probs: SliceTuple
-    transition_probs: SliceTuple
-    fitness: SliceTuple
-    rank: SliceTuple
+    PI: slice
+    B: slice
+    A: slice
+    fitness: slice
+    rank: slice
+
+class ChromosomeRanges(NamedTuple):
+    PI: RangeTuple
+    B: RangeTuple
+    A: RangeTuple
+    fitness: RangeTuple
+    rank: RangeTuple
 
 FitnessFunction = Callable[[HmmParams], float]
 
@@ -41,8 +55,6 @@ CrossoverFunction = Callable[
 MutationFunction = Callable[
     [
         Annotated[numpy.ndarray, 'chromosome'],
-        ChromosomeSlices,
-        ChromosomeMask,
         'GaHMM'
     ],
     Annotated[numpy.ndarray, 'chromosome']

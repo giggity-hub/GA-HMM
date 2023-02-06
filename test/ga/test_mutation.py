@@ -1,11 +1,11 @@
-from ga.mutation import numba_constant_uniform_mutation2
+from ga.mutation import constant_uniform_mutation_factory
 from ga.types import MutationFunction
 from ga.numba_ga import GaHMM
 import numpy
 import pytest
 
 mutation_functions = [
-    numba_constant_uniform_mutation2(mutation_threshold=0)
+    constant_uniform_mutation_factory(mutation_threshold=0)
 ]
 
 @pytest.fixture(params=mutation_functions)

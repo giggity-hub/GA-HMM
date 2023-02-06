@@ -1,0 +1,10 @@
+\babel@toc {english}{}\relax 
+\babel@toc {german}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {english}{}\relax 
+\contentsline {chapter}{\numberline {1}Related Work}{1}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Genetische Algorithmen}{1}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Metaheuristische Algorithmen}{2}{section.1.2}%
+\contentsline {section}{\numberline {1.3}Genetischer Algorithmus für HMMs}{3}{section.1.3}%
+\babel@toc {german}{}\relax 
+\providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

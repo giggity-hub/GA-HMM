@@ -18,10 +18,11 @@ n_bw_iterations = 100
 n_states = 4
 n_symbols = 128
 
-hmm_params = [random_left_right_hmm_params(n_states, n_symbols) for i in range(n_hmms)]
+all_hmm_params = [random_left_right_hmm_params(n_states, n_symbols) for i in range(n_hmms)]
 log_probability_of_hmm_after_iteration = np.empty((n_hmms, n_bw_iterations))
 
 
-for i in range(len(hmm_params)):
-    reestimated_hmm_params, log_probaility_after_iteration = bw.train(hmm_params, observations, n_bw_iterations)
+for i in range(len(all_hmm_params)):
+    hmm_params = all_hmm_params[i]
+    reestimated_hmm_params, log_probaility_after_iteration = bw.train_multiple_observations(hmm_params, observations, n_bw_iterations)
     log_probability_of_hmm_after_iteration[i, :] = log_probaility_after_iteration

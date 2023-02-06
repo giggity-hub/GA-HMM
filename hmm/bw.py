@@ -1,7 +1,8 @@
 from hmm.bw_core import reestimate_multiple_observations, reestimate_single_observation, calc_log_prob
 import numpy
 from numba import njit
-from hmm.types import HmmParams, MultipleObservationSequences
+from hmm.types import HmmParams, MultipleObservationSequences, MultipleHmmParams
+from typing import Tuple
 
 def train_multiple_observations(hmm_params: HmmParams, all_observations: MultipleObservationSequences, n_iterations: int=1):
     pi, b, a = hmm_params
@@ -48,3 +49,64 @@ def calc_mean_log_prob(hmm_params: HmmParams, all_observation_seqs: MultipleObse
     total_log_prob = calc_total_log_prob(hmm_params, all_observation_seqs)
     mean_log_prob = total_log_prob / all_observation_seqs.length
     return mean_log_prob
+
+
+def calc_mean_log_prob_for_multiple_hmms(
+    all_hmm_params: MultipleHmmParams,
+    all_observation_seqs: MultipleObservationSequences
+    ) -> numpy.ndarray:
+
+    start_vectors, emission_matrices, transition_matrices = all_hmm_params
+    n_hmms = start_vectors.shape[0]
+
+    mean_log_prob_for_hmm = numpy.empty(n_hmms)
+
+    for hmm_index in range(n_hmms):
+        pi = start_vectors[hmm_index]
+        b = emission_matrices[hmm_index]
+        a = transition_matrices[hmm_index]
+        hmm_params = HmmParams(pi, b, a)
+
+        mean_log_prob = calc_mean_log_prob(hmm_params, all_observation_seqs)
+        mean_log_prob_for_hmm[hmm_index] = mean_log_prob
+
+    return mean_log_prob_for_hmm
+
+
+def train_multiple_hmms(
+    all_hmm_params: MultipleHmmParams, 
+    all_observation_seqs: MultipleObservationSequences, 
+    n_iterations: int
+    ) -> Tuple[MultipleHmmParams, numpy.ndarray]:
+    """hmm_log_prob_after_iteration[i, j] is the total log probability of the ith hmm after the jth bw iteration
+
+    Args:
+        all_hmm_params (MultipleHmmParams): _description_
+        all_observation_seqs (MultipleObservationSequences): _description_
+        n_iterations (int): _description_
+
+    Returns:
+        Tuple[MultipleHmmParams, numpy.ndarray]: _description_
+    """
+
+
+    start_vectors, emission_matrices, transition_matrices = all_hmm_params
+
+    n_hmms = start_vectors.shape[0]
+    hmm_log_prob_after_iteration = numpy.empty((n_hmms, n_iterations))
+
+    for hmm_index in range(n_hmms):
+        pi = start_vectors[hmm_index]
+        b = emission_matrices[hmm_index]
+        a = transition_matrices[hmm_index]
+
+        for iteration_index in range(n_iterations):
+            pi, b, a, log_prob_total = reestimate_multiple_observations(pi, b, a, all_observation_seqs)
+            hmm_log_prob_after_iteration[hmm_index, iteration_index] = log_prob_total
+
+        start_vectors[hmm_index] = pi
+        emission_matrices[hmm_index] = b
+        transition_matrices[hmm_index] = a
+
+    reestimated_hmm_params = MultipleHmmParams(start_vectors, emission_matrices, transition_matrices)
+    return reestimated_hmm_params, hmm_log_prob_after_iteration

@@ -3,6 +3,7 @@ import random
 import ga.numba_ga as ga
 from ga.types import ChromosomeSlices, ChromosomeMask, MutationFunction
 from numba import jit
+rng = numpy.random.default_rng()
 
 def delete_random_emission_symbols(n_zeros: int):
 
@@ -18,21 +19,37 @@ def delete_random_emission_symbols(n_zeros: int):
     
     return mutation_func
 
+def dynamic_uniform_mutation_factory(mutation_threshold: float, beta: float):
 
-def numba_constant_uniform_mutation2(mutation_threshold: float) -> MutationFunction:
-
-    # @jit(nopython=True, cache=True, parallel=True)
     def mutation_func(chromosome: numpy.ndarray, slices: ChromosomeSlices, mask: ChromosomeMask, gabw: ga.GaHMM):
+
+        mutation_strength_mod = (1 - gabw.current_generation/gabw.n_generations)**beta
+
         chromosome = chromosome.copy()
         start, stop, _ = slices.emission_probs
         for i in range(start, stop):
-            is_mutable = not mask[i]
-            if is_mutable:
-                mutation_chance = random.uniform(0,1)
-                if mutation_chance <= mutation_threshold:
-                    chromosome[i] = random.uniform(0,1)
+            mutation_chance = random.uniform(0,1)
+            if mutation_chance < mutation_threshold:
+                direction = rng.choice((-1,1))
+                mutatation_strength = rng.random()
+                chromosome[i] += direction * (1 - mutatation_strength**mutation_strength_mod)
                         
-        return chromosome.copy()
+        return chromosome
+    
+    return mutation_func
+
+def constant_uniform_mutation_factory(mutation_threshold: float) -> MutationFunction:
+
+    # @jit(nopython=True, cache=True, parallel=True)
+    def mutation_func(chromosome: numpy.ndarray, gabw: ga.GaHMM):
+
+        start, stop, _ = gabw.ranges.B
+        for i in range(start, stop):
+            mutation_chance = random.uniform(0,1)
+            if mutation_chance < mutation_threshold:
+                chromosome[i] = random.uniform(0,1) / gabw.n_symbols
+                        
+        return chromosome
     
     return mutation_func
 

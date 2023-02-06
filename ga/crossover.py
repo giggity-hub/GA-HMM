@@ -100,9 +100,10 @@ def arithmetic_mean_crossover(parents: numpy.ndarray, unused_n_children: int, sl
 
 
 # Can have infinite children (some may be same tho)
-def uniform_crossover(parents: numpy.ndarray, n_children: int, slices: ChromosomeSlices, gabw: ga.GaHMM, selection_probs=None) -> numpy.ndarray:
+def uniform_crossover(parents: numpy.ndarray, n_children: int, gabw: ga.GaHMM, selection_probs=None) -> numpy.ndarray:
     n_parents = parents.shape[0]
-    low, high, _ = slices.emission_probs
+
+    low, high, _ = gabw.ranges.B
     n_crossover_points = high - low
     
     crossover_indices = numpy.arange(low, high+1, step=1)

@@ -37,7 +37,7 @@ def _selection(population, n_parents, parent_indices):
         parent_index = parent_indices[i]
         parents[i] = population[parent_index, :].copy()
 
-    return parents.copy()
+    return parents
 
 def invert_and_normalize_scale(ndarr, ndarr_min, ndarr_max):
     ndarr_inverted =  -ndarr + ndarr_min + ndarr_max
@@ -130,7 +130,6 @@ def rank_selection_factory(population_size:int) -> SelectionFunction:
     def selection_func(
         population: numpy.ndarray,
         n_parents: int,
-        slices: ga.ChromosomeSlices,
         gabw: ga.GaHMM
         ) -> numpy.ndarray:
 

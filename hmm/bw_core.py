@@ -97,16 +97,11 @@ def calc_b_numer_and_denom(gamma: numpy.ndarray, O: numpy.ndarray, M: int):
 
     for i in range(N):
         for j in range(M):
-            # numer = 0
-            # denom = 0
-
             for t in range(T):
                 if O[t] == j:
                     numer[i, j] += gamma[t, i]
                 
                 denom[i, j] += gamma[t, i]
-            
-            # b[i,j] = numer / denom
 
     return numer, denom
 
@@ -143,8 +138,6 @@ def reestimate_multiple_observations(
     numer_b_total = numpy.zeros(b.shape)
     denom_b_total = numpy.zeros(b.shape)
     pi_total = numpy.zeros(pi.shape)
-
-    n_states, n_symbols = b.shape
 
     log_prob_total = 0
 

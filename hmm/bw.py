@@ -4,6 +4,7 @@ from numba import njit
 from hmm.types import HmmParams, MultipleObservationSequences, MultipleHmmParams
 from typing import Tuple
 
+@njit
 def train_multiple_observations(hmm_params: HmmParams, all_observations: MultipleObservationSequences, n_iterations: int=1):
     pi, b, a = hmm_params
 
@@ -15,6 +16,7 @@ def train_multiple_observations(hmm_params: HmmParams, all_observations: Multipl
     reestimated_hmm_params = HmmParams(pi, b, a)
     return reestimated_hmm_params, total_log_prob_after_iteration
 
+@njit
 def train_single_observation(hmm_params: HmmParams, all_observations: numpy.ndarray, n_iterations: int=1):
     pi, b, a = hmm_params
 
@@ -27,7 +29,7 @@ def train_single_observation(hmm_params: HmmParams, all_observations: numpy.ndar
     return reestimated_hmm_params, total_log_prob_after_iteration
 
 
-@njit(inline='always')
+@njit
 def calc_total_log_prob(hmm_params: HmmParams, all_observation_seqs: MultipleObservationSequences):
     pi, b, a = hmm_params
     total_log_prob = 0
@@ -44,14 +46,14 @@ def calc_total_log_prob(hmm_params: HmmParams, all_observation_seqs: MultipleObs
 
     return total_log_prob
 
-
+@njit
 def calc_mean_log_prob(hmm_params: HmmParams, all_observation_seqs: MultipleObservationSequences):
     total_log_prob = calc_total_log_prob(hmm_params, all_observation_seqs)
     mean_log_prob = total_log_prob / all_observation_seqs.length
     return mean_log_prob
 
-
-def calc_mean_log_prob_for_multiple_hmms(
+@njit
+def calc_total_log_prob_for_multiple_hmms(
     all_hmm_params: MultipleHmmParams,
     all_observation_seqs: MultipleObservationSequences
     ) -> numpy.ndarray:
@@ -59,7 +61,7 @@ def calc_mean_log_prob_for_multiple_hmms(
     start_vectors, emission_matrices, transition_matrices = all_hmm_params
     n_hmms = start_vectors.shape[0]
 
-    mean_log_prob_for_hmm = numpy.empty(n_hmms)
+    total_log_prob_for_hmm = numpy.empty(n_hmms)
 
     for hmm_index in range(n_hmms):
         pi = start_vectors[hmm_index]
@@ -67,12 +69,12 @@ def calc_mean_log_prob_for_multiple_hmms(
         a = transition_matrices[hmm_index]
         hmm_params = HmmParams(pi, b, a)
 
-        mean_log_prob = calc_mean_log_prob(hmm_params, all_observation_seqs)
-        mean_log_prob_for_hmm[hmm_index] = mean_log_prob
+        total_log_prob = calc_total_log_prob(hmm_params, all_observation_seqs)
+        total_log_prob_for_hmm[hmm_index] = total_log_prob
 
-    return mean_log_prob_for_hmm
+    return total_log_prob_for_hmm
 
-
+@njit
 def train_multiple_hmms(
     all_hmm_params: MultipleHmmParams, 
     all_observation_seqs: MultipleObservationSequences, 
@@ -88,7 +90,6 @@ def train_multiple_hmms(
     Returns:
         Tuple[MultipleHmmParams, numpy.ndarray]: _description_
     """
-
 
     start_vectors, emission_matrices, transition_matrices = all_hmm_params
 

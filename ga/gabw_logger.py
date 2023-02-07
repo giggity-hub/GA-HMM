@@ -35,7 +35,7 @@ class GABWLogger:
         self._insert(log_sequences, self.training_types.BW)
 
     def plot(self):
-        g = sns.lineplot(data=self.logs.T, legend=False)
+        g = sns.scatterplot(data=self.logs.T, legend=False, markers='.')
         # label_names = self.training_types._fields
         # plt.legend(title='Smoker', loc='upper left', labels=label_names)
         plt.show(g)

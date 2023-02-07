@@ -190,7 +190,7 @@ class GaHMM:
         self.n_parents_per_generation = self.n_matings_per_generation * self.n_parents_per_mating
 
     def calculate_fitness_values(self):
-        fitness_values = bw.calc_mean_log_prob_for_multiple_hmms(self.hmms, self.observations)
+        fitness_values = bw.calc_total_log_prob_for_multiple_hmms(self.hmms, self.observations)
         fitness_shape = (self.population_size, 1)
         fitness_column = fitness_values.reshape(fitness_shape)
         self.population[:, self.slices.fitness] = fitness_column
@@ -237,11 +237,11 @@ class GaHMM:
         
         return children
 
-    # def smooth_emission_probabilities(self, chromosomes: Population):
-    #     chromosomes = numpy.atleast_2d(chromosomes)
-    #     smoothing_value = 1e-10
-    #     chromosomes[self.slices.B] += smoothing_value
-    #     return chromosomes
+    def smooth_emission_probabilities(self, chromosomes: Population):
+        chromosomes = numpy.atleast_2d(chromosomes)
+        smoothing_value = 1e-10
+        chromosomes[:, self.slices.B] += smoothing_value
+        return chromosomes
 
     def normalize_population(self):
         PIs_normalization = numpy.atleast_2d(self.hmms.PIs.sum(axis=1)).T
@@ -267,9 +267,11 @@ class GaHMM:
             parents = self.do_selection_step()
             children = self.do_crossover_step(parents)
             mutated_children = self.do_mutation_step(children)
+            
+            smoothed_children = self.smooth_emission_probabilities(mutated_children)
             # normalized_children = self.normalize_children(children)
 
-            self.do_replacement_step(mutated_children)
+            self.do_replacement_step(smoothed_children)
             self.normalize_population()
 
             self.calculate_fitness_values()

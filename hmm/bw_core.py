@@ -5,7 +5,7 @@ from numba import njit, jit
 from hmm.types import MultipleObservationSequences
 
 
-@njit(inline='always')
+@njit
 def calc_beta_scaled( O: numpy.ndarray, b:numpy.ndarray, a:numpy.ndarray, scalars: numpy.ndarray):
     N = b.shape[0]
     T = len(O)
@@ -22,7 +22,7 @@ def calc_beta_scaled( O: numpy.ndarray, b:numpy.ndarray, a:numpy.ndarray, scalar
 
     return beta
 
-@njit(inline='always')
+@njit
 def calc_alpha_scaled( O: numpy.ndarray, pi: numpy.ndarray, b:numpy.ndarray, a:numpy.ndarray) -> Tuple[numpy.ndarray, numpy.ndarray]:
     # Initialization:
     N = b.shape[0]
@@ -105,7 +105,7 @@ def calc_b_numer_and_denom(gamma: numpy.ndarray, O: numpy.ndarray, M: int):
 
     return numer, denom
 
-@njit(inline='always')
+@njit
 def reestimate_single_observation(pi, b, a, O):
 
     
@@ -125,6 +125,7 @@ def reestimate_single_observation(pi, b, a, O):
 
     return pi, b, a, log_prob
 
+@njit
 def reestimate_multiple_observations(
     pi: numpy.ndarray, 
     b: numpy.ndarray, 
@@ -154,12 +155,12 @@ def reestimate_multiple_observations(
         pi_total += pi
 
         numer_a, denom_a = calc_a_numer_and_denom(gamma, di_gamma)
-        numer_a_total += numer_a
-        denom_a_total += denom_a
+        numer_a_total = numer_a_total + numer_a
+        denom_a_total = denom_a_total + denom_a
 
         numer_b, denom_b = calc_b_numer_and_denom(gamma, O, M=b.shape[1])
-        numer_b_total += numer_b
-        denom_b_total += denom_b
+        numer_b_total = numer_b_total + numer_b
+        denom_b_total = denom_b_total + denom_b
         
         log_prob = - numpy.sum(numpy.log(scalars))
         log_prob_total += log_prob
@@ -173,8 +174,7 @@ def reestimate_multiple_observations(
 
 
 
-
-@njit(inline='always')
+@njit
 def calc_log_prob(pi, b, a, O:numpy.ndarray):
     alpha, scalars = calc_alpha_scaled(O, pi, b, a)
     log_prob = -numpy.sum(numpy.log(scalars))

@@ -87,3 +87,6 @@ def assert_hmm_params_are_equal(hmm_params_1: HmmParams, hmm_params_2: HmmParams
     assert numpy.allclose(hmm_params_1.start_vector, hmm_params_2.start_vector, atol=atol)
     assert numpy.allclose(hmm_params_1.emission_matrix, hmm_params_2.emission_matrix, atol=atol)
     assert numpy.allclose(hmm_params_1.transition_matrix, hmm_params_2.transition_matrix, atol=atol)
+
+def assert_no_zeros_in_emissions_of_multiple_hmm_params(hmm_params: MultipleHmmParams):
+    assert numpy.count_nonzero(hmm_params.Bs) == hmm_params.Bs.size

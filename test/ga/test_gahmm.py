@@ -15,7 +15,7 @@ import numpy
 from ga.types import ChromosomeSlices, Population
 from hmm.hmm import multiple_observation_sequences_from_ndarray_list
 from hmm.types import HmmParams, MultipleHmmParams
-
+from data.digits import DigitDataset
 from test.assertions import (
     assert_all_values_are_probabilities,
     assert_all_values_are_log_probabilities,
@@ -30,18 +30,21 @@ def n_symbols():
 
 @pytest.fixture
 def observation_sequences(n_symbols):
-    sequences = []
-    n_sequences = 10
-    min_seq_length = 15
-    max_seq_length = 500
+    # sequences = []
+    # n_sequences = 10
+    # min_seq_length = 15
+    # max_seq_length = 500
 
-    for i in range(n_sequences):
-        seq_length = numpy.random.randint(low=min_seq_length, high=max_seq_length)
-        rand_sequence = numpy.random.randint(low=0, high=n_symbols, size=seq_length)
-        sequences.append(rand_sequence)
+    # for i in range(n_sequences):
+    #     seq_length = numpy.random.randint(low=min_seq_length, high=max_seq_length)
+    #     rand_sequence = numpy.random.randint(low=0, high=n_symbols, size=seq_length)
+    #     sequences.append(rand_sequence)
 
-    res = multiple_observation_sequences_from_ndarray_list(sequences)
-    return res
+    # res = multiple_observation_sequences_from_ndarray_list(sequences)
+    # return res
+    train_data = DigitDataset(dataset='train')
+    observations = train_data.get_first_n_observations(0, 10)
+    return observations
     
 
 @pytest.fixture
@@ -50,9 +53,10 @@ def gabw(observation_sequences):
         n_symbols=128,
         n_states=4,
         population_size=13,
-        n_generations=2,
+        n_generations=40,
         observations=observation_sequences
     )
+
     # gabw.fitness_func = mean_log_prob_fitness(observation_sequences)
     gabw.mutation_func = mutation.constant_uniform_mutation_factory(mutation_threshold=0.1)
     gabw.crossover_func = crossover.uniform_crossover
@@ -94,6 +98,7 @@ def test_do_mutation_step(gabw: GaHMM):
     assert numpy.array_equal(As_before, gabw.hmms.As)
     assert not numpy.array_equal(Bs_before, gabw.hmms.Bs)
 
+
 def test_do_selection_step(gabw: GaHMM):
     population_before = gabw.population.copy()
 
@@ -109,18 +114,22 @@ def test_do_crossover_step(gabw: GaHMM, parents: Population):
     children = gabw.do_crossover_step(parents)
     assert children.shape == (gabw.n_children_per_generation, gabw.n_genes)
 
-def test_train_with_bw_for_n_generations(gabw: GaHMM):
+
+def test_start(gabw: GaHMM):
     # gabw.n_generations = 0
     gabw.n_bw_iterations_before_ga = 10
 
     gabw.start()
+
 
 def test_normalize_population(unnormalized_gabw: GaHMM):
     unnormalized_gabw.normalize_population()
     assert_valid_multiple_hmm_params(unnormalized_gabw.hmms)
 
 def test_train_with_bw_for_n_iterations(gabw: GaHMM):
-    gabw._train_with_bw_for_n_iterations(n_iterations=3)
+    gabw.n_generations = 0
+    gabw.n_bw_iterations_before_ga = 300
+    gabw.start()
     assert_valid_multiple_hmm_params(gabw.hmms)
 
 

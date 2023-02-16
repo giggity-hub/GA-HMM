@@ -165,12 +165,14 @@ def reestimate_multiple_observations(
         log_prob = - numpy.sum(numpy.log(scalars))
         log_prob_total += log_prob
 
-
+    
     pi = pi_total / length
     a = numer_a_total / denom_a_total
     b = numer_b_total / denom_b_total
 
     return pi, b, a, log_prob_total
+
+
 
 
 

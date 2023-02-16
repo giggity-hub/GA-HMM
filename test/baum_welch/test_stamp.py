@@ -9,7 +9,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from pytest import approx
 import os
-from hmm.hmm import multiple_observation_sequences_from_ndarray_list
+from hmm.params import multiple_observation_sequences_from_ndarray_list
 
 @pytest.fixture
 def stamp_observation_sequence():
@@ -95,7 +95,7 @@ def test_train_multiple_observations(
     stamp_observation_sequence: numpy.ndarray):
     
     observation_sequence = multiple_observation_sequences_from_ndarray_list([stamp_observation_sequence])
-    my_final_hmm_params, log_prob_trace = bw.train_multiple_observations(stamp_initial_hmm_params, observation_sequence, n_iterations=100)
+    my_final_hmm_params, log_prob_trace = bw.train_single_hmm(stamp_initial_hmm_params, observation_sequence, n_iterations=100)
     my_final_log_probability = log_prob_trace[-1]
 
     assert my_final_log_probability == approx(stamp_final_log_probability)

@@ -10,12 +10,10 @@ from ga.gabw_logger import GABWLogger
 import ga.mutation as mutation
 import ga.crossover as crossover
 import ga.selection as selection
-
+from data.data import Observations
 import numpy
 from ga.types import ChromosomeSlices, Population
-from hmm.hmm import multiple_observation_sequences_from_ndarray_list
-from hmm.types import HmmParams, MultipleHmmParams
-from data.digits import DigitDataset
+
 from test.assertions import (
     assert_all_values_are_probabilities,
     assert_all_values_are_log_probabilities,
@@ -30,22 +28,9 @@ def n_symbols():
 
 @pytest.fixture
 def observation_sequences(n_symbols):
-    # sequences = []
-    # n_sequences = 10
-    # min_seq_length = 15
-    # max_seq_length = 500
-
-    # for i in range(n_sequences):
-    #     seq_length = numpy.random.randint(low=min_seq_length, high=max_seq_length)
-    #     rand_sequence = numpy.random.randint(low=0, high=n_symbols, size=seq_length)
-    #     sequences.append(rand_sequence)
-
-    # res = multiple_observation_sequences_from_ndarray_list(sequences)
-    # return res
-    train_data = DigitDataset(dataset='train')
-    observations = train_data.get_first_n_observations(0, 10)
-    return observations
-    
+    dataset = Observations('fsdd', n_symbols=128)
+    obs = dataset.get_first_n_observations_of_category(0, 10)
+    return obs
 
 @pytest.fixture
 def gabw(observation_sequences):
@@ -75,6 +60,7 @@ def unnormalized_gabw(gabw: GaHMM):
     gabw.hmms.As[:,:,:] = numpy.random.rand(*As_shape)
 
     return gabw
+
 
 @pytest.fixture
 def parents(gabw: GaHMM):
@@ -113,6 +99,7 @@ def test_do_selection_step(gabw: GaHMM):
 def test_do_crossover_step(gabw: GaHMM, parents: Population):
     children = gabw.do_crossover_step(parents)
     assert children.shape == (gabw.n_children_per_generation, gabw.n_genes)
+
 
 
 def test_start(gabw: GaHMM):

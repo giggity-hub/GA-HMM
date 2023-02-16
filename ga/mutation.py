@@ -38,6 +38,31 @@ def dynamic_uniform_mutation_factory(mutation_threshold: float, beta: float):
     
     return mutation_func
 
+
+def exchange_withing_row_crossover_factory(mutation_threshold: int):
+
+    def mutation_func(chromosome: numpy.ndarray, gabw: ga.GaHMM):
+
+        start, stop, step = gabw.ranges.B
+        state_index = 0
+        for lo in range(start, stop, step):
+            hi = lo+step
+            for i in range(lo, hi):
+                mutation_chance = random.uniform(0,1)
+                if mutation_chance < mutation_threshold:
+                    tau = random.uniform(0,1)
+                    tmp = chromosome[i]
+                    chromosome[i] = chromosome[i]*(1-tau)
+
+                    random_larry_index = rng.integers(low=lo, high=hi)
+                    chromosome[i] = random.uniform(0,1) / gabw.n_symbols
+                    chromosome[random_larry_index] = tmp*tau
+
+            state_index += 1
+        return chromosome
+    return mutation_func
+
+
 def constant_uniform_mutation_factory(mutation_threshold: float) -> MutationFunction:
 
     # @jit(nopython=True, cache=True, parallel=True)
@@ -48,11 +73,34 @@ def constant_uniform_mutation_factory(mutation_threshold: float) -> MutationFunc
             mutation_chance = random.uniform(0,1)
             if mutation_chance < mutation_threshold:
                 chromosome[i] = random.uniform(0,1) / gabw.n_symbols
-                        
+        
+        start, stop, _ = gabw.ranges.A
+        mask = gabw.mask
+        for i in range(start, stop):
+            if not mask[i]:
+                mutation_chance = random.uniform(0,1)
+                if mutation_chance < mutation_threshold:
+                    chromosome[i] = random.uniform(0,1) / gabw.n_symbols
+
         return chromosome
     
     return mutation_func
 
+def min_max_mutation_factory(mutation_threshold: int):
+
+    def mutation_func(chromosome: numpy.ndarray, gabw: ga.GaHMM):
+        low = numpy.min(chromosome[gabw.slices.B])
+        high = numpy.max(chromosome[gabw.slices.B])
+
+        start, stop, _ = gabw.ranges.B
+        for i in range(start, stop):
+            mutation_chance = random.uniform(0,1)
+            if mutation_chance < mutation_threshold:
+                chromosome[i] = random.uniform(low, high)
+
+        return chromosome
+
+    return mutation_func
 
 def numba_constant_uniform_mutation(mutation_threshold: float):
     """_summary_

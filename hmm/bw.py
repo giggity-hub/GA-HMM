@@ -3,30 +3,73 @@ import numpy
 from numba import njit
 from hmm.types import HmmParams, MultipleObservationSequences, MultipleHmmParams
 from typing import Tuple
+import numpy
+import math
+
+
 
 @njit
-def train_multiple_observations(hmm_params: HmmParams, all_observations: MultipleObservationSequences, n_iterations: int=1):
+def train_single_hmm(hmm_params: HmmParams, all_observations: MultipleObservationSequences, n_iterations: int=1):
     pi, b, a = hmm_params
 
     total_log_prob_after_iteration = numpy.empty(n_iterations)
     for i in range(n_iterations):
         pi, b, a, log_prob_total = reestimate_multiple_observations(pi, b, a, all_observations )
-        total_log_prob_after_iteration[i] = log_prob_total
+        if math.isnan(log_prob_total) and i > 0:
+            total_log_prob_after_iteration[i:] = total_log_prob_after_iteration[i-1]
+            break
+        else:
+            total_log_prob_after_iteration[i] = log_prob_total
 
     reestimated_hmm_params = HmmParams(pi, b, a)
     return reestimated_hmm_params, total_log_prob_after_iteration
+
+# @njit
+# def train_single_observation(hmm_params: HmmParams, all_observations: numpy.ndarray, n_iterations: int=1):
+#     pi, b, a = hmm_params
+
+#     total_log_prob_after_iteration = numpy.empty(n_iterations)
+#     for i in range(n_iterations):
+#         pi, b, a, log_prob_total = reestimate_single_observation(pi, b, a, all_observations )
+#         total_log_prob_after_iteration[i] = log_prob_total
+
+#     reestimated_hmm_params = HmmParams(pi, b, a)
+#     return reestimated_hmm_params, total_log_prob_after_iteration
 
 @njit
-def train_single_observation(hmm_params: HmmParams, all_observations: numpy.ndarray, n_iterations: int=1):
+def train_single_hmm_with_stop_conditions(
+    hmm_params: HmmParams, 
+    all_observations: MultipleObservationSequences,
+    max_n_iterations: int,
+    stop_if_improvement_less_than: float = 0.0001,
+    stop_if_probability_greater_than: float = 0.9999,
+    ):
+
+    max_log_prob = numpy.log(stop_if_probability_greater_than)
+    min_log_prob_improvement = numpy.log(stop_if_improvement_less_than)
+
     pi, b, a = hmm_params
 
-    total_log_prob_after_iteration = numpy.empty(n_iterations)
-    for i in range(n_iterations):
-        pi, b, a, log_prob_total = reestimate_single_observation(pi, b, a, all_observations )
+    total_log_prob_after_iteration = numpy.empty(max_n_iterations)
+    i = 0
+    while (i < max_n_iterations):
+        pi, b, a, log_prob_total = reestimate_multiple_observations(pi, b, a, all_observations )
         total_log_prob_after_iteration[i] = log_prob_total
+        
+        improvement = float('inf') if i < 1 else (log_prob_total - total_log_prob_after_iteration[i-1])
+        if (log_prob_total > max_log_prob) or (improvement < min_log_prob_improvement):
+            break
 
+        i+= 1
+
+    did_bw_stop_before_max_iteration = i < max_n_iterations
+    if did_bw_stop_before_max_iteration:
+        total_log_prob_after_iteration[i:] = total_log_prob_after_iteration[i]
+    
+    
     reestimated_hmm_params = HmmParams(pi, b, a)
     return reestimated_hmm_params, total_log_prob_after_iteration
+
 
 
 @njit
@@ -42,6 +85,7 @@ def calc_total_log_prob(hmm_params: HmmParams, all_observation_seqs: MultipleObs
 
         single_observation_seq = array[start:stop]
         log_prob = calc_log_prob(pi, b, a, single_observation_seq)
+
         total_log_prob += log_prob
 
     return total_log_prob

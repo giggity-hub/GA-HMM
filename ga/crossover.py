@@ -44,6 +44,7 @@ def calculate_rank_weighted_selection_probs(ranks: numpy.ndarray, population_siz
     selection_probs = inverse_ranks / inverse_ranks.sum()
     return selection_probs
 
+
 def rank_weighted(crossover_func: CrossoverFunction) -> CrossoverFunction:
 
     def weighted_crossover_func(parents: numpy.ndarray, n_children: int, slices: ChromosomeSlices, gabw: ga.GaHMM) -> numpy.ndarray:
@@ -53,6 +54,7 @@ def rank_weighted(crossover_func: CrossoverFunction) -> CrossoverFunction:
         return child
 
     return weighted_crossover_func
+
 
 def select_parent_indices(n_parents: int, n_children: int, n_crossover_points: int, selection_probs=None):
     """Returns parent indices array so that parent_indices[i, j] = which parent to choose for child i, gene j
@@ -112,50 +114,67 @@ def uniform_crossover(parents: numpy.ndarray, n_children: int, gabw: ga.GaHMM, s
     children = _crossover(parents, parent_indices, crossover_indices)
     return children
 
-# Can not be weighted
-# def n_point_crossover_factory(n_crossover_points: int, n_parents_per_mating: int, n_children_per_mating: int) -> CrossoverFunction:
-#     """Supports usage of more than two parents per child. n_crossover_points should be at least one greater than the number of parents
-
-#     Args:
-#         n_crossover_points (int): _description_
-
-#     Returns:
-#         CrossoverFunction: _description_
-#     """
-
-#     expected_state_counts
-
-#     if n_parents_per_mating != n_children_per_mating or (n_crossover_points + 1) < n_children_per_mating:
-
-#     parents 5
-#     children 3
-#     crossoverpoints = 10
-#     n_children = n_parents
-
-#     if n_crossover_points < n_parents_per_mating
+def _n_crossover_indices_in_range(n, low, high):
+    crossover_indices = numpy.empty(n + 2, dtype=int)
+    crossover_indices[0] = low
+    crossover_indices[-1] = high
+    crossover_indices[1:-1] = numpy.sort(numpy.random.randint(low, high, size=n))
+    return crossover_indices
 
 
-#     def crossover_func(parents: numpy.ndarray, n_children: int, slices: ChromosomeSlices, gabw: ga.GaHMM) -> numpy.ndarray:
-#         low, high, _ = slices.emission_probs
+def n_point_crossover_factory(n_crossover_points: int) -> CrossoverFunction:
 
-#         n_parents_per_mating = parents.shape[0]
+    def crossover_func(parents: numpy.ndarray, n_children: int, gabw: ga.GaHMM) -> numpy.ndarray:
+        low, high, _ = gabw.ranges.B
+
+        n_parents_per_mating = parents.shape[0]
         
-#         crossover_indices = numpy.empty(n_crossover_points + 2, dtype=int)
-#         crossover_indices[0] = low
-#         crossover_indices[1] = high
-#         crossover_indices[2:] = numpy.random.randint(low, high, size=n_crossover_points)
-#         crossover_indices.sort()
-        
+        crossover_indices = _n_crossover_indices_in_range(n_crossover_points, low, high)
 
-#         parent_indices_for_first_child = numpy.arange(n_crossover_points + 1)
-#         parent_indices_repeated_across_second_dim = parent_indices_for_first_child * numpy.ones((1, n_children), dtype=int)
-#         parent_indices_offset = parent_indices_repeated_across_second_dim + numpy.arange(n_children).reshape((n_children, 1))
-#         parent_indices = parent_indices_offset % n_parents_per_mating
 
-#         children = _crossover(parents, parent_indices, crossover_indices)
-#         return children
+        parent_indices_for_first_child = numpy.arange(n_crossover_points + 1)
+        parent_indices_repeated_across_second_dim = parent_indices_for_first_child * numpy.ones((1, n_children), dtype=int)
+        parent_indices_offset = parent_indices_repeated_across_second_dim + numpy.arange(n_children).reshape((n_children, 1))
+        parent_indices = parent_indices_offset % n_parents_per_mating
+
+        children = _crossover(parents, parent_indices, crossover_indices)
+        return children
     
-#     return crossover_func
+    return crossover_func
+
+
+
+
+def n_point_shuffle_crossover_factory(n_crossover_points:int):
+
+    def crossover_func(parents: numpy.ndarray, n_children: int, gabw: ga.GaHMM) -> numpy.ndarray:
+        n_parents, n_genes = parents.shape
+        indices = numpy.arange(n_genes)
+        shuffled_indices = rng.shuffle(indices)
+
+        low, high, _ = gabw.ranges.B
+        crossover_points = _n_crossover_indices_in_range(n_crossover_points, low, high)
+
+        n_crossover_sections = n_crossover_points + 1
+
+        children = numpy.empty((n_children, n_genes))
+        for j in range(n_children):
+            children[j] = parents[j % n_parents].copy()
+
+            for i in range(n_crossover_sections):
+                start= crossover_points[i]
+                stop = crossover_points[i + 1]
+                parent_index = (i + j) % n_parents
+                # children[j] = .take(shuffled_indices[start:stop]).copy()
+                children[j] = numpy.take(parents[parent_index], shuffled_indices[start:stop])
+
+        return children
+
+    return crossover_func
+
+def n_point_per_state_crossover_factory():
+    pass
+
 
 # def numba_single_point_crossover2(parents: numpy.ndarray, slices: ChromosomeSlices, gabw: ga.GaHMM) -> numpy.ndarray:
 #     lo, hi, _ = slices.emission_probs

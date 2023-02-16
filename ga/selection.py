@@ -6,26 +6,20 @@ import ga.numba_ga as ga
 from ga.types import SelectionFunction
 from numba import jit
 
+
 # def pairwise_fittest(
 #     population: List[Chromosome], 
 #     n_offspring: int, 
 #     gabw: GaHMM
 #     ) -> List[Tuple[Chromosome, Chromosome]]:
-    
 #     parent_pairs = []
 #     i = 0
-
 #     while len(parent_pairs) < n_offspring:
 #         parent1 = population[i % len(population)]
 #         parent2 = population[(i+1) % len(population)]
-
 #         parent_pairs.append((parent1, parent2))
 #         i+=1
-
 #     return parent_pairs
-
-
-
 
 
 @jit(nopython=True, cache=True)
@@ -38,6 +32,7 @@ def _selection(population, n_parents, parent_indices):
         parents[i] = population[parent_index, :].copy()
 
     return parents
+
 
 def invert_and_normalize_scale(ndarr, ndarr_min, ndarr_max):
     ndarr_inverted =  -ndarr + ndarr_min + ndarr_max
@@ -92,7 +87,6 @@ def tournament_selection_factory(tournament_size):
 def random_selection(
     population: numpy.ndarray,
     n_parents: int,
-    slices: ga.ChromosomeSlices,
     gabw: ga.GaHMM
     ) -> numpy.ndarray:
 
@@ -103,7 +97,6 @@ def random_selection(
 def roulette_wheel_selection(
     population: numpy.ndarray,
     n_parents: int,
-    slices: ga.ChromosomeSlices,
     gabw: ga.GaHMM
     ) -> numpy.ndarray:
 

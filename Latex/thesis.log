@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.1.29)  2 FEB 2023 18:16
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.1.29)  15 FEB 2023 10:35
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1008,43 +1008,69 @@ Overfull \hbox (0.53687pt too wide) in paragraph at lines 34--37
 
  (./content/theoretischer_teil/__import__.tex
 chapter 1.
-(./content/theoretischer_teil/genetische.tex
-<images/Population_Chromosom_Gen.png, id=62, 120.45pt x 96.36pt>
-File: images/Population_Chromosom_Gen.png Graphic file (type png)
-<use images/Population_Chromosom_Gen.png>
-Package pdftex.def Info: images/Population_Chromosom_Gen.png  used on input line 14.
+(./content/theoretischer_teil/hidden_markov_models.tex
+<images/Markov_Chain_Example.png, id=68, 120.45pt x 96.36pt>
+File: images/Markov_Chain_Example.png Graphic file (type png)
+<use images/Markov_Chain_Example.png>
+Package pdftex.def Info: images/Markov_Chain_Example.png  used on input line 27.
 (pdftex.def)             Requested size: 120.44969pt x 96.35974pt.
  [1
 
 
 
- <./images/Population_Chromosom_Gen.png>]) (./content/theoretischer_teil/metaheuristische.tex) (./content/theoretischer_teil/genetischer_algorithmus_fuer_hmms.tex [2]
-<images/Hmm_Chromosom_Representation.png, id=76, 120.45pt x 96.36pt>
+] [2 <./images/Markov_Chain_Example.png>]
+Overfull \hbox (15.45984pt too wide) in paragraph at lines 96--105
+[]\OT1/cmr/m/n/10.95 Die Wahrschein-lichkeit von $\OML/cmm/m/it/10.95 P\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 O \OMS/cmsy/m/n/10.95 j \OML/cmm/m/it/10.95 ^^U\OT1/cmr/m/n/10.95 )$ ist equiv-a-lent zu der Summe der be-d-ingten Wahrschein-
+ []
+
+
+Overfull \hbox (2.54576pt too wide) in paragraph at lines 111--113
+[]$\OML/cmm/m/it/10.95 []\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 i\OT1/cmr/m/n/10.95 )$ Beschreibt also die Wahrschein-lichkeit die par-tielle Ob-ser-va-tion-sse-quenz $\OML/cmm/m/it/10.95 O[]O[] [] O[]$
+ []
+
+[3]
+Overfull \hbox (29.42958pt too wide) in paragraph at lines 130--134
+[]\OT1/cmr/m/n/10.95 Wahrscheinlichkeit die Par-tielle Ob-ser-va-tion-sse-quenz zu beobachten h^^?angt von der Wahrschein-
+ []
+
+
+Overfull \hbox (16.57175pt too wide) in paragraph at lines 147--154
+\OT1/cmr/m/n/10.95 Zu-s-tand $\OML/cmm/m/it/10.95 S[]$ \OT1/cmr/m/n/10.95 zu sein und au^^Yge-hend von $\OML/cmm/m/it/10.95 S[]$ \OT1/cmr/m/n/10.95 die par-tielle Ob-ser-va-tion-sse-quenz $\OML/cmm/m/it/10.95 O[]; O[] [] O[]$
+ []
+
+) (./content/theoretischer_teil/genetische.tex [4]
+<images/Population_Chromosom_Gen.png, id=99, 120.45pt x 96.36pt>
+File: images/Population_Chromosom_Gen.png Graphic file (type png)
+<use images/Population_Chromosom_Gen.png>
+Package pdftex.def Info: images/Population_Chromosom_Gen.png  used on input line 14.
+(pdftex.def)             Requested size: 120.44969pt x 96.35974pt.
+) (./content/theoretischer_teil/metaheuristische.tex [5 <./images/Population_Chromosom_Gen.png>]) (./content/theoretischer_teil/genetischer_algorithmus_fuer_hmms.tex
+<images/Hmm_Chromosom_Representation.png, id=106, 120.45pt x 96.36pt>
 File: images/Hmm_Chromosom_Representation.png Graphic file (type png)
 <use images/Hmm_Chromosom_Representation.png>
 Package pdftex.def Info: images/Hmm_Chromosom_Representation.png  used on input line 18.
 (pdftex.def)             Requested size: 120.44969pt x 96.35974pt.
- [3 <./images/Hmm_Chromosom_Representation.png>])) [4]
+ [6])) [7 <./images/Hmm_Chromosom_Representation.png>]
 
 LaTeX Warning: Empty bibliography on input line 217.
 
-[5
+[8
 
 
 ]
 \openout2 = `clause.aux'.
 
- (./clause.tex [6
+ (./clause.tex [9
+
+] [10
+
 
 ]
 Underfull \hbox (badness 10000) in paragraph at lines 14--15
 
  []
 
-) [7
-
-
-]
+) [11]
 
 Package caption Warning: Unused \captionsetup[ContinuedFloat] on input line 67.
 See the caption package documentation for explanation.
@@ -1057,18 +1083,18 @@ Package logreq Info: Writing requests to 'thesis.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 26981 strings out of 476065
- 506433 string characters out of 5795020
- 1857299 words of memory out of 5000000
- 46935 multiletter control sequences out of 15000+600000
+ 27006 strings out of 476065
+ 507020 string characters out of 5795020
+ 1861299 words of memory out of 5000000
+ 46946 multiletter control sequences out of 15000+600000
  521227 words of font info for 63 fonts, out of 8000000 for 9000
  1143 hyphenation exceptions out of 8191
- 108i,8n,106p,10639b,2341s stack positions out of 10000i,1000n,20000p,200000b,200000s
-{c:/texlive/2022/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}<c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsl10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmss12.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmss17.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb>
-Output written on thesis.pdf (13 pages, 216181 bytes).
+ 108i,9n,106p,10639b,2341s stack positions out of 10000i,1000n,20000p,200000b,200000s
+{c:/texlive/2022/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}<c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsl10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmss12.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmss17.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb>
+Output written on thesis.pdf (17 pages, 299897 bytes).
 PDF statistics:
- 177 PDF objects out of 1000 (max. 8388607)
- 126 compressed objects within 2 object streams
- 25 named destinations out of 1000 (max. 500000)
- 60 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 249 PDF objects out of 1000 (max. 8388607)
+ 178 compressed objects within 2 object streams
+ 35 named destinations out of 1000 (max. 500000)
+ 89 words of extra memory for PDF output out of 10000 (max. 10000000)
 

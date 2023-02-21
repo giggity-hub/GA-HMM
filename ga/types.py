@@ -1,7 +1,6 @@
 import numpy.typing as npt
 import numpy
 from typing import NamedTuple, Callable, Annotated, TYPE_CHECKING
-
 from hmm.types import HmmParams
 
 
@@ -9,7 +8,18 @@ if TYPE_CHECKING:
     from ga.numba_ga import GaHMM
 
 
+class ChromosomeFields(NamedTuple):
+    N_STATES: int
+    N_SYMBOLS: int
+    FITNESS: int
+    RANK: int
+
 ChromosomeMask = npt.NDArray[numpy.bool_]
+
+class ChromosomeSlices(NamedTuple):
+    PI: slice
+    B: slice
+    A: slice
 
 Chromosome = npt.NDArray[numpy.float64]
 
@@ -20,6 +30,13 @@ class RangeTuple(NamedTuple):
     stop: int
     step: int
 
+class ChromosomeRanges(NamedTuple):
+    PI: RangeTuple
+    B: RangeTuple
+    A: RangeTuple
+
+
+
 # class ChromosomeSlices(NamedTuple):
 #     start_probs: SliceTuple
 #     emission_probs: SliceTuple
@@ -27,19 +44,9 @@ class RangeTuple(NamedTuple):
 #     fitness: SliceTuple
 #     rank: SliceTuple
 
-class ChromosomeSlices(NamedTuple):
-    PI: slice
-    B: slice
-    A: slice
-    fitness: slice
-    rank: slice
 
-class ChromosomeRanges(NamedTuple):
-    PI: RangeTuple
-    B: RangeTuple
-    A: RangeTuple
-    fitness: RangeTuple
-    rank: RangeTuple
+
+
 
 FitnessFunction = Callable[[HmmParams], float]
 

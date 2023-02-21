@@ -85,12 +85,12 @@ def select_parent_indices(n_parents: int, n_children: int, n_crossover_points: i
 #     return parent_indices
 
 
-def arithmetic_mean_crossover(parents: numpy.ndarray, unused_n_children: int, slices: ChromosomeSlices, gabw: ga.GaHMM, selection_probs=1) -> numpy.ndarray:
+def arithmetic_mean_crossover(parents: numpy.ndarray, unused_n_children: int, gabw: ga.GaHMM, selection_probs=1) -> numpy.ndarray:
     # n_children has no effect since a group of parents only has one mean value
     child = parents[0].copy()
     n_parents = parents.shape[0]
 
-    start, stop, _ = slices.emission_probs
+    start, stop, _ = gabw.ranges.B
 
     parents_weighted = parents[:, start:stop] * numpy.atleast_2d(selection_probs).T
     parents_sum = numpy.sum(parents_weighted, axis=0)

@@ -1,96 +1,146 @@
+import numpy
 from hmm.types import MultipleHmmParams, HmmParams
-from ga.types import Chromosome, Population
+from typing import List, NamedTuple, Tuple
+import numpy.typing as npt
+from ga.types import (
+    Population, 
+    Chromosome,
+    ChromosomeFields,
+    RangeTuple,
+    ChromosomeRanges,
+    ChromosomeSlices,
+    ChromosomeMask
+)
 
-class Representation:
 
+FIELDS = ChromosomeFields(
+    N_STATES=  -1,
+    N_SYMBOLS= -2,
+    FITNESS=   -3,
+    RANK=      -4
+)
+
+
+def calc_chromosome_length(n_states: int, n_symbols: int) -> int:
+    n_genes = n_states * (1 + n_symbols + n_states)
+    n_fields = len(FIELDS)
+    chromosome_length = n_genes + n_fields
+    return chromosome_length
+
+def initialize_chromosome_fields(n_states, n_symbols, n_chromosomes):
+    chromosome_fields = numpy.zeros((n_chromosomes, len(FIELDS)))
+    chromosome_fields[:, FIELDS.N_STATES] = n_states
+    chromosome_fields[:, FIELDS.N_SYMBOLS] = n_symbols
+    chromosome_fields[:, FIELDS.FITNESS] = float('-inf')
+    chromosome_fields[:, FIELDS.RANK] = numpy.arange(n_chromosomes)
+    return chromosome_fields
+
+
+def multiple_hmm_params_as_population(hmm_params: MultipleHmmParams) -> Population:
+    PIs, Bs, As = hmm_params
+    n_hmms, n_states, n_symbols = Bs.shape
+
+    PI_genes = PIs
+    B_genes = Bs.reshape((n_hmms, n_states * n_symbols))
+    A_genes = As.reshape((n_hmms, n_states * n_states))
+
+    chromosome_fields = initialize_chromosome_fields(n_states, n_symbols, n_hmms)
+
+    chromosomes = numpy.hstack((
+        PI_genes,
+        B_genes,
+        A_genes,
+        chromosome_fields
+    ))
+    return chromosomes
+
+def hmm_params_list_as_multiple_hmm_params(hmm_params_list: List[HmmParams]) -> MultipleHmmParams:
+    PIs, Bs, As = map(numpy.array, zip(*hmm_params_list))
+    return MultipleHmmParams(PIs, Bs, As)
     
 
-    def __init__(self) -> None:
-        pass
 
-    def calculate_slices(self, n_states: int, n_symbols: int) -> ChromosomeSlices:
-        len_start_probs = n_states
-        len_transition_probs = n_states*n_states
-        len_emission_probs = n_states * n_symbols
+def hmm_params_as_multiple_hmm_params(hmm_params: HmmParams) -> MultipleHmmParams:
+    PIs, Bs, As = (numpy.expand_dims(param, axis=0) for param in hmm_params)
+    return MultipleHmmParams(PIs, Bs, As)
 
-        slice_start_probs = SliceTuple(0, len_start_probs, n_states)
-        slice_emission_probs = SliceTuple(slice_start_probs.stop, slice_start_probs.stop +  len_emission_probs, n_symbols)
-        slice_transition_probs = SliceTuple(slice_emission_probs.stop, slice_emission_probs.stop + len_transition_probs, n_states)
+def hmm_params_as_chromosome(hmm_params: HmmParams) -> Chromosome:
+    multiple_hmm_params = hmm_params_as_multiple_hmm_params(hmm_params)
+    population = multiple_hmm_params_as_population(multiple_hmm_params)
+    chromosome = population[0]
+    return chromosome
 
-        slice_fitness = SliceTuple(slice_transition_probs.stop, slice_transition_probs.stop + 1, 1)
-        slice_rank = SliceTuple(slice_fitness.stop, slice_fitness.stop + 1, 1)
+def calc_starts_and_stops(n_states: int, n_symbols: int) -> Tuple[numpy.array, numpy.array]:
+    lengths = (n_states, (n_states*n_symbols), (n_states**2))
+    stops = numpy.cumsum(lengths)
+    starts = stops - lengths 
+    return starts, stops
 
 
-        chromosome_slices = ChromosomeSlices(
-            slice_start_probs,
-            slice_emission_probs,
-            slice_transition_probs,
-            slice_fitness,
-            slice_rank
-        )
 
-        return chromosome_slices
-        
+def calc_chromosome_slices(n_states: int, n_symbols: int) -> ChromosomeSlices:
 
-    def chromosome2hmm_params(self, chromosome: Chromosome):
-        n_states = self.slices.transition_probs.step
-        n_symbols = self.slices.emission_probs.step
+    starts, stops = calc_starts_and_stops(n_states, n_symbols)
 
-        start, stop, _ = self.slices.start_probs
-        start_vector = chromosome[start:stop]
+    PI_slice = slice(starts[0], stops[0])
+    B_slice = slice(starts[1], stops[1])
+    A_slice = slice(starts[2], stops[2])
 
-        start, stop, _ = self.slices.emission_probs
-        emission_matrix = chromosome[start:stop].reshape((n_states, n_symbols))
+    return ChromosomeSlices(PI_slice, B_slice, A_slice)
 
-        start, stop, _ = self.slices.transition_probs
-        transition_matrix = chromosome[start:stop].reshape((n_states, n_states))
 
-        hmm_params = HmmParams(start_vector.copy(), emission_matrix.copy(), transition_matrix.copy())
-        return hmm_params
 
+def calc_chromosome_ranges(n_states: int, n_symbols: int) -> ChromosomeRanges:
+    n_states = int(n_states)
+    n_symbols = int(n_symbols)
     
-
-    def hmm_params2chromosome(self, hmm_params: HmmParams):
-        n_genes = self.slices.rank.stop
-        chromosome=numpy.zeros(n_genes)
-
-        start, stop, _ = self.slices.start_probs
-        chromosome[start: stop] = hmm_params.start_vector
-        start, stop, _ = self.slices.emission_probs
-        chromosome[start: stop] = hmm_params.emission_matrix.flatten()
-        start, stop, _ = self.slices.transition_probs
-        chromosome[start: stop] = hmm_params.transition_matrix.flatten()
-
-        return chromosome
-
-    def hmms_as_population(self, all_hmm_params: MultipleHmmParams) -> Population:
-
-        start_vectors, emission_matrices, transition_matrices = all_hmm_params
-
-        start, stop, step = self.slices.start_probs
-        self.population[:, start:stop] = start_vectors
-
-        start, stop, step = self.slices.emission_probs
-        self.population[:, start:stop] = emission_matrices.reshape((self.population_size, self.n_states * step))
-
-        start, stop, step = self.slices.transition_probs
-        self.population[:, start:stop] = transition_matrices.reshape((self.population_size, self.n_states * step))
+    starts, stops = calc_starts_and_stops(n_states, n_symbols)
+    steps = [n_states, n_symbols, n_states]
 
 
-    def population_as_hmms(self, population: Population) -> MultipleHmmParams: 
-        start, stop, step = self.slices.start_probs
-        start_vectors = self.population[:, start: stop]
+    PI_range, B_range, A_range =  zip(starts, stops, steps)
+    return ChromosomeRanges(
+        RangeTuple(*PI_range), 
+        RangeTuple(*B_range), 
+        RangeTuple(*A_range))
 
-        start, stop, step = self.slices.emission_probs
-        emission_matrices = self.population[:, start: stop].reshape((self.population_size, self.n_states,step))
 
-        start, stop, step = self.slices.transition_probs
-        transition_matrices = self.population[:, start: stop].reshape((self.population_size, self.n_states, step))
+def population_as_multiple_hmm_params(population: Population) -> MultipleHmmParams:
+    n_hmms = len(population)
+    n_states = int(population[0, FIELDS.N_STATES])
+    n_symbols = int(population[0, FIELDS.N_SYMBOLS])
 
-        all_hmm_params = MultipleHmmParams(start_vectors, emission_matrices, transition_matrices)
+    PI_slice, B_slice, A_slice = calc_chromosome_slices(n_states, n_symbols)
 
-        return all_hmm_params
+    PIs = population[:, PI_slice]
+    Bs = population[:, B_slice].reshape((n_hmms, n_states, n_symbols))
+    As = population[:, A_slice].reshape((n_hmms, n_states, n_states))
+
+    hmm_params = MultipleHmmParams(PIs, Bs, As)
+    return hmm_params
+
+def chromosome_as_population(chromosome):
+    population = numpy.expand_dims(chromosome, axis=0)
+    return population
+
+def chromosome_as_hmm_params(chromosome):
+    population = chromosome_as_population(chromosome)
+    multiple_hmm_params = population_as_multiple_hmm_params(population)
+    PI = multiple_hmm_params.PIs[0]
+    B = multiple_hmm_params.Bs[0]
+    A = multiple_hmm_params.As[0]
+
+    hmm_params = HmmParams(PI, B, A)
+    return hmm_params
 
 
 
-        
+def calculate_chromosome_mask(chromosome: Chromosome) -> ChromosomeMask:
+    
+    masked_genes = numpy.ma.masked_where((chromosome == 0) | (chromosome == 1), chromosome)
+    mask = masked_genes.mask
+
+    field_indices = numpy.array(FIELDS)
+    mask[field_indices] = True
+
+    return mask

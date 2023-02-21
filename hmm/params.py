@@ -6,6 +6,7 @@ import numpy
 from numba import njit
 from hmm.types import HmmParams, MultipleObservationSequences, MultipleHmmParams
 rng = numpy.random.default_rng()
+import numpy.typing as npt
 
 
 ParamGeneratorFunction = Callable[
@@ -64,20 +65,21 @@ def uniform_rand_stochastic_array(*size) -> numpy.array:
     normalized_arr = arr / sums_of_highest_dim
     return normalized_arr
 
-def _uniform_start_vector(length: int, start_states) -> numpy.array:
-    start_probs = numpy.zeros(length)
-    start_probs[start_states] = 1 / length
+def _uniform_start_vector(n_states: int, start_states: npt.ArrayLike) -> numpy.array:
+    n_start_states = len(start_states)
+    start_probs = numpy.zeros(n_states)
+    start_probs[start_states] = 1 / n_start_states
     return start_probs
 
-def multiple_uniform_random_left_right_hmm_params(n_states, n_symbols, n_hmms):
+def create_multiple_uniform_random_left_right_hmm_params(n_hmms, n_states, n_symbols):
 
-    start_vector = _uniform_start_vector(length=n_states, start_states=[0])
-    start_vectors = numpy.tile((n_hmms, 1), start_vector)
+    start_vector = _uniform_start_vector(n_states, start_states=[0])
+    start_vectors = numpy.broadcast_to(start_vector, (n_hmms, n_states))
 
     emission_matrices = uniform_rand_stochastic_array(n_hmms, n_states, n_symbols)
 
     transition_matrix = uniform_left_right_transmat(n_states)
-    transition_matrices = numpy.tile((n_hmms, 1, 1), transition_matrix)
+    transition_matrices = numpy.broadcast_to(transition_matrix, (n_hmms, n_states, n_states))
 
     return MultipleHmmParams(start_vectors, emission_matrices, transition_matrices)
 

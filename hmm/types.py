@@ -9,9 +9,9 @@ class MultipleObservationSequences(NamedTuple):
     length: int
 
 class HmmParams(NamedTuple):
-    start_vector: numpy.ndarray
-    emission_matrix: numpy.ndarray
-    transition_matrix: numpy.ndarray
+    PI: numpy.ndarray
+    B: numpy.ndarray
+    A: numpy.ndarray
 
 
 class MultipleHmmParams(NamedTuple):

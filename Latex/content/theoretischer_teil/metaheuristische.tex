@@ -1,6 +1,28 @@
 \section{Metaheuristische Algorithmen}
+Metaheuristische Algorithmen werden angewendet auf "Harte" Optimierungsprobleme.
+In diese Kategorie fallen unter anderem Probleme für die kein Algorithmus 
+bekannt ist, der ein globales Optimum in endlicher Zeit findet.~\cite*{metaheuristics}
+Das bestimmen optimaler Parameter eines Hidden Markov Models ist demnach ein hartes Problem.
 
-Diggahhhhh was zum fiiiiickkkkkk?????
+Heuristischer Algorithmus ist salopp gesagt schlaues Raten.
+
+Vorteile Gegenüber klassischen iterativen Algorithmen
+- 
+- Metaheuristische Optimierungsverfahren können vielverpsrechend sein, wenn wir 
+keine hochoptimierte Lösung suchen, sondern eine Lösung welche "gut genug"
+ist, aber einfach zu berechnen ist. \cite{metaheuristics&evolcomp}
+
+- Eine Metaheuristik ist nicht ein bestimmter Algorithmus sondern vielmehr 
+eine Ansammlung von Ideen, Konzepten und Operatoren, welche verwendet werden können 
+um einen heuristischen Algorithmus zu erstellen.~\cite*{MetaheuristicsExposed}
+
+Eine Metaheuristik bietet ein Problemunabhängiges Framework, aus welchem man 
+sich einen Heuristischen Algorithmus für ein spezifisches Problem bastelt. So muss 
+man nicht ständig das Rad neu erfinden.
+
+\section{Funktionsweise}
+- heuristische Algorithmen lassen eine verschlechterung einer Lösung zu
+in der Hoffnung dadurch lokalen Minima zu entkommen. \cite*{metaheuristics}
 
 % Motivation
 Metaheuristische Algorithmen in letzter zeit am stabbo
@@ -30,4 +52,19 @@ Nur Exploitation ohne Exploration ist equivalent zu Lokaler Suche
 
 Nur Exploration ohne Exploitation ist equivalent zu random Search
 
-% Hyperparameter
+\subsection{Kritik an Metaheuristischen Algorithmen}
+In den letzten Jahren wurde das Feld der Optimierung regelrecht überschwemmt mit 
+"neuen" Metapher basierten Algorithmen. Ob Mikrofledermaus, Jazz-Musiker, Schwarze Löcher
+oder auch intelligente Wassertropfen. Jedes erdenkliche Konzept kann in einen 
+Optimierungsalgorithmus verwandelt werden.
+Oft stellt sich jedoch heraus, dass das einzige was diese "neuen" Algorithmen zum Feld beitragen
+eine Umbenennung eines bereits etablierten Algorithmus ist.~\cite*{NoNovelty}
+So ist zum Beispiel Harmony search, ein Suchalgorithmus der auf dem Prinzip von 
+Jazz-Musikern funktioniert nichts weiteres als eine Umbenennung eines 
+speziellen Falles des Genetischen Algorithmus.~\cite*{HarmonySearch}
+Trotz mangelnder Innovation verzeichnet eine Suche nach "harmony search"
+auf Google Scholar laut Weyland im Jahre 2010 586 Einträge. Im Jahre 2023 ist diese Zahl 
+auf stolze 57.500 Einträge gestiegen, wovon 7.840 Einträge nach 2022 erschienen.
+Die Flut solcher vermeintlich "neuen" Algorithmen ist sehr nachteilig für das 
+Feld der Optimierung, denn die elaborierten Metaphern für bereits existierende Konzepte 
+führen zu Verwirrung und tatsächlich innovative Ansätze werden übersehen.~\cite*{MetaheuristicsExposed}

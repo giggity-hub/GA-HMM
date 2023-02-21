@@ -8,7 +8,7 @@ import math
 
 
 
-@njit
+@njit(cache=True)
 def train_single_hmm(hmm_params: HmmParams, all_observations: MultipleObservationSequences, n_iterations: int=1):
     pi, b, a = hmm_params
 
@@ -36,7 +36,7 @@ def train_single_hmm(hmm_params: HmmParams, all_observations: MultipleObservatio
 #     reestimated_hmm_params = HmmParams(pi, b, a)
 #     return reestimated_hmm_params, total_log_prob_after_iteration
 
-@njit
+@njit(cache=True)
 def train_single_hmm_with_stop_conditions(
     hmm_params: HmmParams, 
     all_observations: MultipleObservationSequences,
@@ -72,7 +72,7 @@ def train_single_hmm_with_stop_conditions(
 
 
 
-@njit
+@njit(cache=True)
 def calc_total_log_prob(hmm_params: HmmParams, all_observation_seqs: MultipleObservationSequences):
     pi, b, a = hmm_params
     total_log_prob = 0
@@ -84,19 +84,22 @@ def calc_total_log_prob(hmm_params: HmmParams, all_observation_seqs: MultipleObs
         stop = slices[i+1]
 
         single_observation_seq = array[start:stop]
-        log_prob = calc_log_prob(pi, b, a, single_observation_seq)
-
-        total_log_prob += log_prob
+        try:
+            log_prob = calc_log_prob(pi, b, a, single_observation_seq)
+            total_log_prob += log_prob
+        except:
+            return - numpy.inf
+        
 
     return total_log_prob
 
-@njit
+@njit(cache=True)
 def calc_mean_log_prob(hmm_params: HmmParams, all_observation_seqs: MultipleObservationSequences):
     total_log_prob = calc_total_log_prob(hmm_params, all_observation_seqs)
     mean_log_prob = total_log_prob / all_observation_seqs.length
     return mean_log_prob
 
-@njit
+@njit(cache=True)
 def calc_total_log_prob_for_multiple_hmms(
     all_hmm_params: MultipleHmmParams,
     all_observation_seqs: MultipleObservationSequences
@@ -118,7 +121,8 @@ def calc_total_log_prob_for_multiple_hmms(
 
     return total_log_prob_for_hmm
 
-@njit
+
+@njit(cache=True)
 def train_multiple_hmms(
     all_hmm_params: MultipleHmmParams, 
     all_observation_seqs: MultipleObservationSequences, 

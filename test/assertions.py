@@ -31,12 +31,7 @@ def assert_all_values_are_log_probabilities(ndarr):
     assert_no_nan_values(ndarr)
     assert_all_values_lt_zero(ndarr)
 
-def assert_is_row_stochastic(matrix: numpy.ndarray):
-    max_deviation = 1e-8
-    matrix = numpy.atleast_2d(matrix) #For the case that a vector with only 1-Dimension is supplied
-    assert numpy.sum(matrix, axis=1) == pytest.approx(numpy.ones(len(matrix)))
-    assert numpy.min(matrix) >= 0
-    assert numpy.max(matrix) < (1 + max_deviation)
+
 
 def assert_is_stochastic_across_axis(ndarr: numpy.ndarray, axis):
     max_deviation = 1e-8
@@ -45,12 +40,17 @@ def assert_is_stochastic_across_axis(ndarr: numpy.ndarray, axis):
     assert numpy.min(ndarr) >= 0
     assert numpy.max(ndarr) < (1 + max_deviation)
 
-def assert_chromosomes_are_row_stochastic(chromosomes: numpy.ndarray, gabw: GaHMM):
-    for i in range(len(chromosomes)):
-        hmm_params = gabw.chromosome2hmm_params(chromosomes[i])
-        assert_is_row_stochastic(hmm_params.start_vector)
-        assert_is_row_stochastic(hmm_params.emission_matrix)
-        assert_is_row_stochastic(hmm_params.transition_matrix)
+def assert_is_row_stochastic(ndarr: numpy.ndarray):
+    max_deviation = 1e-8
+    last_axis = ndarr.ndim -1
+    assert_is_stochastic_across_axis(ndarr, axis=last_axis)
+
+# def assert_chromosomes_are_row_stochastic(chromosomes: numpy.ndarray, gabw: GaHMM):
+#     for i in range(len(chromosomes)):
+#         hmm_params = gabw.chromosome2hmm_params(chromosomes[i])
+#         assert_is_row_stochastic(hmm_params.start_vector)
+#         assert_is_row_stochastic(hmm_params.emission_matrix)
+#         assert_is_row_stochastic(hmm_params.transition_matrix)
 
 
 def assert_valid_hmm_params(hmm_params: HmmParams ):
@@ -64,12 +64,16 @@ def assert_valid_hmm_params(hmm_params: HmmParams ):
     assert_is_row_stochastic(transition_matrix)
     assert_is_row_stochastic(emission_matrix)
 
+
+
+
 def assert_valid_multiple_hmm_params(hmm_params: MultipleHmmParams):
     PIs, Bs, As = hmm_params
 
     n_hmms, n_states, n_symbols = Bs.shape
 
     assert PIs.shape == (n_hmms, n_states)
+    assert Bs.shape == (n_hmms, n_states, n_symbols)
     assert As.shape == (n_hmms, n_states, n_states)
 
     assert_is_stochastic_across_axis(PIs, axis=1)
@@ -77,16 +81,27 @@ def assert_valid_multiple_hmm_params(hmm_params: MultipleHmmParams):
     assert_is_stochastic_across_axis(As, axis=2)
     
 
+
+
 def assert_no_shared_memory(ndarray: numpy.ndarray):
     # If an Arrays shares memory with another array the base points to the array it shares memory with
     # If an Array does not share memory the base is None
     assert not type(ndarray.base) == numpy.ndarray
     assert ndarray.base == None
 
-def assert_hmm_params_are_equal(hmm_params_1: HmmParams, hmm_params_2: HmmParams, atol):
-    assert numpy.allclose(hmm_params_1.start_vector, hmm_params_2.start_vector, atol=atol)
-    assert numpy.allclose(hmm_params_1.emission_matrix, hmm_params_2.emission_matrix, atol=atol)
-    assert numpy.allclose(hmm_params_1.transition_matrix, hmm_params_2.transition_matrix, atol=atol)
+def assert_hmm_params_are_within_tolerance(hmm_params_1: HmmParams, hmm_params_2: HmmParams, atol):
+    assert numpy.allclose(hmm_params_1.PI, hmm_params_2.PI, atol=atol)
+    assert numpy.allclose(hmm_params_1.B, hmm_params_2.B, atol=atol)
+    assert numpy.allclose(hmm_params_1.A, hmm_params_2.A, atol=atol)
+
+
+def assert_multiple_hmm_params_are_equal(hmm_params_1: MultipleHmmParams, hmm_params_2: MultipleHmmParams):
+    
+    assert numpy.array_equal(hmm_params_1.PIs, hmm_params_2.PIs)
+    assert numpy.array_equal(hmm_params_1.Bs, hmm_params_2.Bs)
+    assert numpy.array_equal(hmm_params_1.As, hmm_params_2.As)
+
 
 def assert_no_zeros_in_emissions_of_multiple_hmm_params(hmm_params: MultipleHmmParams):
     assert numpy.count_nonzero(hmm_params.Bs) == hmm_params.Bs.size
+

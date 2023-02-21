@@ -4,7 +4,7 @@ import numpy
 import pandas as pd
 from hmm.types import HmmParams
 import hmm.bw as bw
-from test.assertions import assert_hmm_params_are_equal
+from test.assertions import assert_hmm_params_are_within_tolerance
 import seaborn as sns
 import matplotlib.pyplot as plt
 from pytest import approx
@@ -85,7 +85,7 @@ def test_train_single_observation(
     my_final_log_probability = log_prob_trace[-1]
 
     assert my_final_log_probability == approx(stamp_final_log_probability)
-    assert_hmm_params_are_equal(my_final_hmm_params, stamp_final_hmm_params, atol=1e-04)
+    assert_hmm_params_are_within_tolerance(my_final_hmm_params, stamp_final_hmm_params, atol=1e-04)
 
 # @pytest.mark.skip("Takes Too Long")
 def test_train_multiple_observations(
@@ -99,7 +99,7 @@ def test_train_multiple_observations(
     my_final_log_probability = log_prob_trace[-1]
 
     assert my_final_log_probability == approx(stamp_final_log_probability)
-    assert_hmm_params_are_equal(my_final_hmm_params, stamp_final_hmm_params, atol=1e-04)
+    assert_hmm_params_are_within_tolerance(my_final_hmm_params, stamp_final_hmm_params, atol=1e-04)
 
 
 
@@ -128,20 +128,20 @@ def create_heatmap_of_hmm_param_difference(
     heat_map_output_folder = 'test/baum_welch/heatmaps'
 
     calculate_difference_and_save_as_heat_map(
-        my_final_hmm_params.start_vector,
-        stamp_final_hmm_params.start_vector,
+        my_final_hmm_params.PI,
+        stamp_final_hmm_params.PI,
         output_path = os.path.join(heat_map_output_folder, 'start_vector.png')
     )
 
     calculate_difference_and_save_as_heat_map(
-        my_final_hmm_params.emission_matrix,
-        stamp_final_hmm_params.emission_matrix,
+        my_final_hmm_params.B,
+        stamp_final_hmm_params.B,
         output_path = os.path.join(heat_map_output_folder, 'emission_matrix.png'),
         figsize=(7,20)
     )
     
     calculate_difference_and_save_as_heat_map(
-        my_final_hmm_params.transition_matrix,
-        stamp_final_hmm_params.transition_matrix,
+        my_final_hmm_params.A,
+        stamp_final_hmm_params.A,
         output_path = os.path.join(heat_map_output_folder, 'transition_matrix.png')
     )

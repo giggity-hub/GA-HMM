@@ -16,5 +16,158 @@
   {}
 \endgroup
 
+
+\refsection{0}
+  \datalist[entry]{anyt/global//global/global}
+    \entry{NoNovelty}{misc}{}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{labeltitlesource}{title}
+      \field{title}{Grey Wolf Firefly and Bat Algorithms Three Widespread Algorithms that Do Not Contain Any Novelty}
+      \field{year}{2020}
+    \endentry
+    \entry{GeneticAlgorithms}{misc}{}
+      \name{author}{1}{}{%
+        {{hash=96db629cef742204c384a5243e9a1466}{%
+           family={Sivanandam},
+           familyi={S\bibinitperiod}}}%
+      }
+      \strng{namehash}{96db629cef742204c384a5243e9a1466}
+      \strng{fullhash}{96db629cef742204c384a5243e9a1466}
+      \strng{bibnamehash}{96db629cef742204c384a5243e9a1466}
+      \strng{authorbibnamehash}{96db629cef742204c384a5243e9a1466}
+      \strng{authornamehash}{96db629cef742204c384a5243e9a1466}
+      \strng{authorfullhash}{96db629cef742204c384a5243e9a1466}
+      \field{extraname}{1}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Genetic Algorithms. In: Introduction to Genetic Algorithms. Springer}
+      \field{year}{2008}
+    \endentry
+    \entry{TerminologiesAndOperators}{misc}{}
+      \name{author}{1}{}{%
+        {{hash=96db629cef742204c384a5243e9a1466}{%
+           family={Sivanandam},
+           familyi={S\bibinitperiod}}}%
+      }
+      \strng{namehash}{96db629cef742204c384a5243e9a1466}
+      \strng{fullhash}{96db629cef742204c384a5243e9a1466}
+      \strng{bibnamehash}{96db629cef742204c384a5243e9a1466}
+      \strng{authorbibnamehash}{96db629cef742204c384a5243e9a1466}
+      \strng{authornamehash}{96db629cef742204c384a5243e9a1466}
+      \strng{authorfullhash}{96db629cef742204c384a5243e9a1466}
+      \field{extraname}{2}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Terminologies and Operators of GA. In: Introduction to Genetic Algorithms. Springer}
+      \field{year}{2008}
+    \endentry
+    \entry{MetaheuristicsExposed}{misc}{}
+      \name{author}{1}{}{%
+        {{hash=424f73bafb228544818408e19beaf3a5}{%
+           family={Sorensen},
+           familyi={S\bibinitperiod},
+           given={Kenneth},
+           giveni={K\bibinitperiod}}}%
+      }
+      \strng{namehash}{424f73bafb228544818408e19beaf3a5}
+      \strng{fullhash}{424f73bafb228544818408e19beaf3a5}
+      \strng{bibnamehash}{424f73bafb228544818408e19beaf3a5}
+      \strng{authorbibnamehash}{424f73bafb228544818408e19beaf3a5}
+      \strng{authornamehash}{424f73bafb228544818408e19beaf3a5}
+      \strng{authorfullhash}{424f73bafb228544818408e19beaf3a5}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Metaheuristics—the metaphor exposed}
+      \field{year}{2012}
+    \endentry
+    \entry{gas}{misc}{}
+      \name{author}{1}{}{%
+        {{hash=c79e6794d92b660604601937a9b1c766}{%
+           family={Springer},
+           familyi={S\bibinitperiod}}}%
+      }
+      \strng{namehash}{c79e6794d92b660604601937a9b1c766}
+      \strng{fullhash}{c79e6794d92b660604601937a9b1c766}
+      \strng{bibnamehash}{c79e6794d92b660604601937a9b1c766}
+      \strng{authorbibnamehash}{c79e6794d92b660604601937a9b1c766}
+      \strng{authornamehash}{c79e6794d92b660604601937a9b1c766}
+      \strng{authorfullhash}{c79e6794d92b660604601937a9b1c766}
+      \field{extraname}{1}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Genetic Algorithms}
+      \field{year}{2005}
+    \endentry
+    \entry{metaheuristics}{misc}{}
+      \name{author}{1}{}{%
+        {{hash=c79e6794d92b660604601937a9b1c766}{%
+           family={Springer},
+           familyi={S\bibinitperiod}}}%
+      }
+      \strng{namehash}{c79e6794d92b660604601937a9b1c766}
+      \strng{fullhash}{c79e6794d92b660604601937a9b1c766}
+      \strng{bibnamehash}{c79e6794d92b660604601937a9b1c766}
+      \strng{authorbibnamehash}{c79e6794d92b660604601937a9b1c766}
+      \strng{authornamehash}{c79e6794d92b660604601937a9b1c766}
+      \strng{authorfullhash}{c79e6794d92b660604601937a9b1c766}
+      \field{extraname}{2}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Metaheuristics}
+      \field{year}{2008}
+    \endentry
+    \entry{metaheuristics&evolcomp}{misc}{}
+      \name{author}{1}{}{%
+        {{hash=c79e6794d92b660604601937a9b1c766}{%
+           family={Springer},
+           familyi={S\bibinitperiod}}}%
+      }
+      \strng{namehash}{c79e6794d92b660604601937a9b1c766}
+      \strng{fullhash}{c79e6794d92b660604601937a9b1c766}
+      \strng{bibnamehash}{c79e6794d92b660604601937a9b1c766}
+      \strng{authorbibnamehash}{c79e6794d92b660604601937a9b1c766}
+      \strng{authornamehash}{c79e6794d92b660604601937a9b1c766}
+      \strng{authorfullhash}{c79e6794d92b660604601937a9b1c766}
+      \field{extraname}{3}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Metaheuristics and Evolutionary Computation: Algorithms and Applications}
+    \endentry
+    \entry{HarmonySearch}{misc}{}
+      \name{author}{1}{}{%
+        {{hash=befbd5dc3fe528762741435d4f136a02}{%
+           family={Weyland},
+           familyi={W\bibinitperiod},
+           given={Dennis},
+           giveni={D\bibinitperiod}}}%
+      }
+      \strng{namehash}{befbd5dc3fe528762741435d4f136a02}
+      \strng{fullhash}{befbd5dc3fe528762741435d4f136a02}
+      \strng{bibnamehash}{befbd5dc3fe528762741435d4f136a02}
+      \strng{authorbibnamehash}{befbd5dc3fe528762741435d4f136a02}
+      \strng{authornamehash}{befbd5dc3fe528762741435d4f136a02}
+      \strng{authorfullhash}{befbd5dc3fe528762741435d4f136a02}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{A rigoruous analysis vong dem harmony moped}
+      \field{year}{2010}
+    \endentry
+  \enddatalist
+\endrefsection
 \endinput
 

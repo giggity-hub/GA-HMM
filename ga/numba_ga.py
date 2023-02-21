@@ -1,8 +1,4 @@
-from lib.utils import uniform_rand_stochastic_vector, uniform_rand_stochastic_matrix, normalize_matrix, normalize_vector
 import numpy
-from pomegranate import HiddenMarkovModel, DiscreteDistribution
-import matplotlib as mpl
-import matplotlib.pyplot as plt
 from typing import Callable, List, Dict, Tuple, NamedTuple
 from hmm.params import uniform_random_left_right_hmm_params, ParamGeneratorFunction2, MultipleObservationSequences
 import lib.utils as utils
@@ -11,12 +7,7 @@ from numba.experimental import jitclass
 import hmm.bw as bw
 from ga.gabw_logger import GABWLogger
 
-# from hmm.bw_numba import train
-
-
-
-
-import seaborn as sns
+import ga.representation as representation
 
 
 from hmm.types import HmmParams, MultipleHmmParams
@@ -39,6 +30,109 @@ class Logs(NamedTuple):
     min: numpy.ndarray
     mean: numpy.ndarray
     total: numpy.ndarray
+
+
+def normalize_population(population: Population):
+
+    n_states = population[0, representation.FIELDS.N_STATES]
+    n_symbols = population[0, representation.FIELDS.N_SYMBOLS]
+
+
+    ranges = representation.calc_chromosome_ranges(n_states, n_symbols)
+
+    for start, stop, step in ranges:
+        for i in range(start, stop, step):
+            population[:, i:(i+step)] = utils.normalize_array(population[:, i:(i+step)])
+
+    return population
+
+
+def calculate_fitness_of_population(population: Population, observations: MultipleObservationSequences):
+
+    hmm_params = representation.population_as_multiple_hmm_params(population)
+    fitness_values = bw.calc_total_log_prob_for_multiple_hmms(hmm_params, observations)
+    return fitness_values
+
+
+
+def train_population_with_bw(
+    population: Population, 
+    observations: MultipleObservationSequences, 
+    n_iterations: int=1
+    ) -> Population:
+        
+    hmm_params = representation.population_as_multiple_hmm_params(population)
+    
+    reestimated_hmm_params, log_prob_traces = bw.train_multiple_hmms(hmm_params, observations, n_iterations)
+
+    new_population = representation.multiple_hmm_params_as_population(reestimated_hmm_params)
+
+    fitness_values = log_prob_traces[:, -1]
+    new_population[:, representation.FIELDS.FITNESS] = fitness_values
+    return new_population
+
+
+
+def sort_population_by_fitness_values(population: Population):
+
+    fitness_values = population[:, representation.FIELDS.FITNESS]
+    sorted_indices = numpy.flip(fitness_values.argsort())
+
+    sorted_population = population[sorted_indices]
+    sorted_population[:, representation.FIELDS.RANK] = numpy.arange(len(population))
+
+    return sorted_population
+
+
+def create_population(
+        population_size: int, 
+        n_states: int, 
+        n_symbols: int, 
+        param_generator_func: ParamGeneratorFunction2 = uniform_random_left_right_hmm_params):
+    
+    hmm_params_list = [param_generator_func(n_states, n_symbols) for i in range(population_size)]
+    multiple_hmm_params = representation.hmm_params_list_as_multiple_hmm_params(hmm_params_list)
+    population = representation.multiple_hmm_params_as_population(multiple_hmm_params)
+    return population
+
+
+# def apply_crossover_operator(parents: Population, crossover_func, n_parents_per_mating=2, n_children_per_mating=1):
+
+#     n_parents, chromosome_length = parents.shape
+#     n_children = (n_parents // n_parents_per_mating) * n_children_per_mating
+
+#     children = numpy.zeros((n_children ,chromosome_length))
+
+#     children_index = 0
+#     parents_index = 0
+#     for i in range(n_children):
+#         parents_for_child = parents[parent_index:(parent_index + n_parents_per_mating)]
+#         children_of_parents = crossover_func(parents, n_children_per_mating)
+
+#         children_index += n_children_per_mating
+#         parents_index += n_parents_per_mating
+
+
+
+#     for parent_index in range(0, , self.n_parents_per_mating):
+        
+#         par = parents[parent_index : (parent_index+ self.n_parents_per_mating), :].copy()
+#         childs = self.crossover_func(par, self.n_children_per_mating, self)
+
+#         children[child_index:(child_index + self.n_children_per_mating), : ] = childs
+
+#         child_index += self.n_children_per_mating
+
+    
+#     if not child_index == len(children): raise Exception( "The Crossover Function does not support the provided n_children_per_mating" )
+
+#     return children
+
+
+
+
+
+
 
 
 class GaHMM:
@@ -84,98 +178,38 @@ class GaHMM:
         # Defaults for not Parametrized Attributes
         self.parent_pool_size = population_size
 
-        self._initialize_ranges_and_slices()
-        self._initialize_n_genes()
-        self._initialize_population()
-        self._initialize_population_fitness_and_rank()
-        self._initialize_hmms()
-        self._initialize_masks()
-    
-    def _initialize_ranges_and_slices(self):
-        start, stop, step = 0, self.n_states, self.n_states
-        PI_range = RangeTuple(start, stop, step)
-        PI_slice = slice(start, stop)
-
-        start, stop, step = PI_range.stop, (PI_range.stop + self.n_states * self.n_symbols), self.n_symbols
-        B_range = RangeTuple(start, stop, step)
-        B_slice = slice(start, stop)
-
-        start, stop, step = B_range.stop, (B_range.stop + self.n_states**2), self.n_states
-        A_range = RangeTuple(start, stop, step)
-        A_slice = slice(start, stop)
-
-        fitness_range = RangeTuple(start=A_range.stop, stop=A_range.stop + 1, step=1)
-        fitness_slice = slice(fitness_range.start, fitness_range.stop)
-
-        rank_range = RangeTuple(start=fitness_range.stop, stop=fitness_range.stop + 1, step=1)
-        rank_slice = slice(rank_range.start, rank_range.stop)
-
-        self.ranges = ChromosomeRanges(PI_range, B_range, A_range, fitness_range, rank_range)
-        self.slices = ChromosomeSlices(PI_slice, B_slice, A_slice, fitness_slice, rank_slice)
-
+        self.ranges = representation.calc_chromosome_ranges(n_states, n_symbols)
+        self.slices = representation.calc_chromosome_slices(n_states, n_symbols)
+        self.n_genes = representation.calc_chromosome_length(n_states, n_symbols)
 
         self.row_stochastic_cutpoints = numpy.concatenate((
             numpy.arange(*self.ranges.B),
             numpy.arange(*self.ranges.A)
         ))
-    
-    def _initialize_n_genes(self):
-        self.n_genes = self.ranges[-1].stop
 
-
-    def _initialize_population(self):
-        population = numpy.zeros((self.population_size, self.n_genes))
-
-        for i in range(self.population_size):
-            hmm_params = self.param_generator_func(self.n_states, self.n_symbols)
-            population[i] = self.hmm_params_to_chromosome(hmm_params)
-
-        self.population = population
-
-    def _initialize_population_fitness_and_rank(self):
-        self.population[:, self.slices.fitness] = float('-inf')
-
-        ranks_shape = (self.population_size, 1)
-        default_rank_values = numpy.arange(self.population_size)
-        self.population[:, self.slices.rank] = default_rank_values.reshape(ranks_shape)
-
-    def _initialize_hmms(self):
-        # Wichtig die hmms sind eine view der Population
-        # Wenn man also hmms verändert oder chromosome verändert wirkt sich das auf der anderen seite aus
-
-        PIs = self.population[:, self.slices.PI]
+        self.population = create_population(population_size, n_states, n_symbols, param_generator_func)
         
-        Bs_shape = (self.population_size, self.n_states, self.n_symbols)
-        Bs = self.population[:, self.slices.B].reshape(Bs_shape)
-
-        As_shape = (self.population_size, self.n_states, self.n_states)
-        As = self.population[:, self.slices.A].reshape(As_shape)
-
-        self.hmms = MultipleHmmParams(PIs, Bs, As)
-
-    def _initialize_masks(self):
-        genes = self.population[0, :]
-        masked_genes = numpy.ma.masked_where((genes == 0) | (genes == 1), genes)
-        mask = masked_genes.mask
-        mask[self.slices.rank] = True
-        mask[self.slices.fitness] = True
-        self.mask = mask
+        first_chromosome = self.population[0]
+        self.mask = representation.calculate_chromosome_mask(first_chromosome)
 
 
-    def _train_with_bw_for_n_iterations(self, n_iterations=1):
+    # def _initialize_population(self):
+    #     hmm_params_list = [self.param_generator_func(self.n_states, self.n_symbols) for i in range(self.population_size)]
+    #     multiple_hmm_params = representation.hmm_params_list_as_multiple_hmm_params(hmm_params_list)
+    #     self.population = representation.multiple_hmm_params_as_population(multiple_hmm_params)
+
+
+    # def _train_population_with_bw(self, n_iterations=1):
+    #     trained_population, fitness_values = train_population_with_bw()
         
+    #     hmm_params = representation.population_as_multiple_hmm_params(self.population, self.n_states, self.n_symbols)
         
-        reestimated_hmm_params, log_prob_traces = bw.train_multiple_hmms(self.hmms, self.observations, n_iterations)
-        PIs, Bs, As = reestimated_hmm_params
+    #     reestimated_hmm_params, log_prob_traces = bw.train_multiple_hmms(hmm_params, self.observations, n_iterations)
 
-        # the values can only be assigned via slicing because we don't want to loose the reference to the population array
-        self.hmms.PIs[:, :] = PIs
-        self.hmms.Bs[:, :, :] = Bs
-        self.hmms.As[:, :, :] = As
+    #     self.population = representation.multiple_hmm_params_as_population(reestimated_hmm_params)
 
-        self.population[:, self.slices.fitness.start] = log_prob_traces[:, -1]
-
-        self.logs.insert_bw_iterations(log_prob_traces)
+    #     self.population[:, self.slices.fitness.start] = log_prob_traces[:, -1]
+    #     self.logs.insert_bw_iterations(log_prob_traces)
 
     def _initialize_logs(self):
         n_log_entries = 0
@@ -192,46 +226,58 @@ class GaHMM:
         self.n_matings_per_generation = self.n_children_per_generation // self.n_children_per_mating
         self.n_parents_per_generation = self.n_matings_per_generation * self.n_parents_per_mating
 
-    def calculate_fitness_values(self, chromosomes):
-        hmm_params = self.chromosomes_to_multiple_hmm_params(chromosomes)
-        n_chromosomes = len(chromosomes)
-
-        fitness_values = bw.calc_total_log_prob_for_multiple_hmms(hmm_params, self.observations)
-        fitness_shape = (n_chromosomes, 1)
-        fitness_column = fitness_values.reshape(fitness_shape)
-        return fitness_column
+    
         # chromosomes[:, self.slices.fitness] = fitness_column
 
     
-    def sort_population_by_fitness(self):
-        sorted_indices = self.population[:, self.slices.fitness.start].argsort()
-        reverse_sorted_indices = numpy.flip(sorted_indices)
-        self.population[:, :] = self.population[reverse_sorted_indices]
+    # def sort_population_by_fitness(self):
+    #     sorted_indices = self.population[:, self.slices.fitness.start].argsort()
+    #     reverse_sorted_indices = numpy.flip(sorted_indices)
+    #     self.population[:, :] = self.population[reverse_sorted_indices]
         
-        ranks = numpy.arange(self.population_size).reshape((self.population_size, 1))
-        self.population[:, self.slices.rank] = ranks
+    #     ranks = numpy.arange(self.population_size).reshape((self.population_size, 1))
+    #     self.population[:, self.slices.rank] = ranks
     
     def do_selection_step(self):
         parent_pool = self.population[:self.parent_pool_size]
         parents = self.parent_select_func(parent_pool, self.n_parents_per_generation, self)
         return parents
 
-    def do_crossover_step(self, parents):
+    # def do_crossover_step(self, parents):
 
-        children = numpy.zeros((self.n_children_per_generation ,self.n_genes))
-        child_index = 0
+    #     children = numpy.zeros((self.n_children_per_generation ,self.n_genes))
+    #     child_index = 0
 
-        for parent_index in range(0, self.n_parents_per_generation, self.n_parents_per_mating):
+    #     for parent_index in range(0, self.n_parents_per_generation, self.n_parents_per_mating):
             
-            par = parents[parent_index : (parent_index+ self.n_parents_per_mating), :].copy()
-            childs = self.crossover_func(par, self.n_children_per_mating, self)
+    #         par = parents[parent_index : (parent_index+ self.n_parents_per_mating), :].copy()
+    #         childs = self.crossover_func(par, self.n_children_per_mating, self)
 
-            children[child_index:(child_index + self.n_children_per_mating), : ] = childs
+    #         children[child_index:(child_index + self.n_children_per_mating), : ] = childs
 
-            child_index += self.n_children_per_mating
+    #         child_index += self.n_children_per_mating
 
         
-        if not child_index == len(children): raise Exception( "The Crossover Function does not support the provided n_children_per_mating" )
+    #     if not child_index == len(children): raise Exception( "The Crossover Function does not support the provided n_children_per_mating" )
+
+    #     return children
+
+    def do_crossover_step(self, parents: Population):
+
+        n_parents, chromosome_length = parents.shape
+        n_children = (n_parents // self.n_parents_per_mating) * self.n_children_per_mating
+
+        children = numpy.zeros((n_children ,chromosome_length))
+
+        childrens_index = 0
+        parents_index = 0
+        for i in range(n_children):
+            parents_for_children = parents[parents_index:(parents_index + self.n_parents_per_mating)]
+            children_of_parents = self.crossover_func(parents_for_children, self.n_children_per_mating, self)
+            children[childrens_index:(childrens_index + self.n_children_per_mating)] = children_of_parents
+
+            childrens_index += self.n_children_per_mating
+            parents_index += self.n_parents_per_mating
 
         return children
 
@@ -260,54 +306,52 @@ class GaHMM:
     #     As_normalization = numpy.atleast_3d(self.hmms.As.sum(axis=2))
     #     self.hmms.As[:,:] = self.hmms.As / As_normalization
 
-    def normalize_chromosomes(self, chromosomes: Population) -> Population:
-        PIs, Bs, As = self.chromosomes_to_multiple_hmm_params(chromosomes)
+    # def normalize_chromosomes(self, chromosomes: Population) -> Population:
+    #     PIs, Bs, As = self.chromosomes_to_multiple_hmm_params(chromosomes)
 
 
-        PIs = PIs / numpy.atleast_2d(PIs.sum(axis=1)).T
-        Bs = Bs / numpy.atleast_3d(Bs.sum(axis=2))
-        As = As / numpy.atleast_3d(As.sum(axis=2))
+    #     PIs = PIs / numpy.atleast_2d(PIs.sum(axis=1)).T
+    #     Bs = Bs / numpy.atleast_3d(Bs.sum(axis=2))
+    #     As = As / numpy.atleast_3d(As.sum(axis=2))
 
-        hmm_params = MultipleHmmParams(PIs, Bs, As)
-        normalized_chromosomes =  self.multiple_hmm_params_to_chromosome(hmm_params)
-        return normalized_chromosomes
+    #     hmm_params = MultipleHmmParams(PIs, Bs, As)
+    #     normalized_chromosomes =  self.multiple_hmm_params_to_chromosome(hmm_params)
+    #     return normalized_chromosomes
     
-    def chromosomes_to_multiple_hmm_params(self, chromosomes: Population):
-        n_chromosomes = len(chromosomes)
-        PIs = chromosomes[:, self.slices.PI]
+    # def chromosomes_to_multiple_hmm_params(self, chromosomes: Population):
+    #     n_chromosomes = len(chromosomes)
+    #     PIs = chromosomes[:, self.slices.PI]
         
 
-        Bs_shape = (n_chromosomes, self.n_states, self.n_symbols)
-        Bs = chromosomes[:, self.slices.B].reshape(Bs_shape)
+    #     Bs_shape = (n_chromosomes, self.n_states, self.n_symbols)
+    #     Bs = chromosomes[:, self.slices.B].reshape(Bs_shape)
 
-        As_shape = (n_chromosomes, self.n_states, self.n_states)
-        As = chromosomes[:, self.slices.A].reshape(As_shape)
+    #     As_shape = (n_chromosomes, self.n_states, self.n_states)
+    #     As = chromosomes[:, self.slices.A].reshape(As_shape)
 
-        return MultipleHmmParams(PIs, Bs, As)
+    #     return MultipleHmmParams(PIs, Bs, As)
 
-    def multiple_hmm_params_to_chromosome(self, hmm_params: MultipleHmmParams):
-        PIs, Bs, As = hmm_params
-        n_hmms = len(PIs)
-        chromosomes = numpy.empty((n_hmms, self.n_genes))
+    # def multiple_hmm_params_to_chromosome(self, hmm_params: MultipleHmmParams):
+    #     PIs, Bs, As = hmm_params
+    #     n_hmms = len(PIs)
+    #     chromosomes = numpy.empty((n_hmms, self.n_genes))
 
-        chromosomes[:, self.slices.PI] = PIs
-        chromosomes[:, self.slices.B] = Bs.reshape((n_hmms, self.n_states * self.n_symbols))
-        chromosomes[:, self.slices.A] = As.reshape((n_hmms, self.n_states**2))
+    #     chromosomes[:, self.slices.PI] = PIs
+    #     chromosomes[:, self.slices.B] = Bs.reshape((n_hmms, self.n_states * self.n_symbols))
+    #     chromosomes[:, self.slices.A] = As.reshape((n_hmms, self.n_states**2))
 
-        return chromosomes
+    #     return chromosomes
 
-    def hmm_params_to_chromosome(self, hmm_params: HmmParams):
-        PI, B, A = hmm_params
-        chromosome = numpy.zeros(self.n_genes)
+    # def hmm_params_to_chromosome(self, hmm_params: HmmParams):
+    #     PI, B, A = hmm_params
+    #     chromosome = numpy.zeros(self.n_genes)
         
-        chromosome[self.slices.PI] = PI
-        chromosome[self.slices.B] = B.flatten()
-        chromosome[self.slices.A] = A.flatten()
+    #     chromosome[self.slices.PI] = PI
+    #     chromosome[self.slices.B] = B.flatten()
+    #     chromosome[self.slices.A] = A.flatten()
 
-        return chromosome
+    #     return chromosome
 
-
-    
 
     def do_replacement_step(self, children):
         self.population[self.keep_elitism:, :] = children
@@ -323,8 +367,9 @@ class GaHMM:
             
             # smoothed_children = self.smooth_emission_probabilities(mutated_children)
             # normalized_children = self.normalize_children(children)
-            normalized_children = self.normalize_chromosomes(mutated_children)
-            normalized_children[:, self.slices.fitness] = self.calculate_fitness_values(normalized_children)
+            normalized_children = normalize_population(mutated_children)
+            # normalized_children[:, self.slices.fitness] = self.calculate_fitness_values(normalized_children)
+            normalized_children[:, self.slices.fitness] = calculate_fitness_of_population(normalized_children, self.n_states, self.n_symbols, self.observations)
 
             self.do_replacement_step(normalized_children)
             population_fitness_values = self.population[:, self.slices.fitness]
@@ -332,7 +377,7 @@ class GaHMM:
             
 
             if (self.n_bw_iterations_per_gen > 0) and  (i % self.apply_bw_every_nth_generaton == 0):
-                self._train_with_bw_for_n_iterations(self.n_bw_iterations_per_gen)
+                self._train_population_with_bw(self.n_bw_iterations_per_gen)
 
             self.sort_population_by_fitness()
             
@@ -357,13 +402,13 @@ class GaHMM:
         self.sort_population_by_fitness()
         
         if self.n_bw_iterations_before_ga > 0:
-            self._train_with_bw_for_n_iterations(self.n_bw_iterations_before_ga)
+            self._train_population_with_bw(self.n_bw_iterations_before_ga)
             self.sort_population_by_fitness()
         
         self._start()
 
         if self.n_bw_iterations_after_ga > 0:
-            self._train_with_bw_for_n_iterations(self.n_bw_iterations_after_ga)
+            self._train_population_with_bw(self.n_bw_iterations_after_ga)
 
     
     

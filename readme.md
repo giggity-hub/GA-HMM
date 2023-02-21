@@ -2,7 +2,7 @@
 + `python -m venv venv`
 + `venv/Scripts/activate`
 + You are now in the activated venv
-+ To deactivate your venv type `(venv) deactivate()`
++ To deactivate your venv type `(venv) deactivate`
 
 ### Jupyter create Kernel
 + `(venv) pip install ipykernel`

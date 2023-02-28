@@ -19,12 +19,74 @@
 
 \refsection{0}
   \datalist[entry]{anyt/global//global/global}
+    \entry{ElementareStochastic}{misc}{}
+      \name{author}{1}{}{%
+        {{hash=e658894ceec15883348c29cdf5959a29}{%
+           family={Behrends},
+           familyi={B\bibinitperiod},
+           given={Ehrhard},
+           giveni={E\bibinitperiod}}}%
+      }
+      \strng{namehash}{e658894ceec15883348c29cdf5959a29}
+      \strng{fullhash}{e658894ceec15883348c29cdf5959a29}
+      \strng{bibnamehash}{e658894ceec15883348c29cdf5959a29}
+      \strng{authorbibnamehash}{e658894ceec15883348c29cdf5959a29}
+      \strng{authornamehash}{e658894ceec15883348c29cdf5959a29}
+      \strng{authorfullhash}{e658894ceec15883348c29cdf5959a29}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Elementare Stochastik}
+      \field{year}{2012}
+    \endentry
     \entry{NoNovelty}{misc}{}
       \field{sortinit}{G}
       \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
       \field{labeltitlesource}{title}
       \field{title}{Grey Wolf Firefly and Bat Algorithms Three Widespread Algorithms that Do Not Contain Any Novelty}
       \field{year}{2020}
+    \endentry
+    \entry{StochastischeProzesse}{misc}{}
+      \name{author}{1}{}{%
+        {{hash=4970ce597aa4386c36b91e763b7e187f}{%
+           family={Karsten\bibnamedelima Webel},
+           familyi={K\bibinitperiod\bibinitdelim W\bibinitperiod},
+           given={Dominik\bibnamedelima Wied},
+           giveni={D\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
+      }
+      \strng{namehash}{4970ce597aa4386c36b91e763b7e187f}
+      \strng{fullhash}{4970ce597aa4386c36b91e763b7e187f}
+      \strng{bibnamehash}{4970ce597aa4386c36b91e763b7e187f}
+      \strng{authorbibnamehash}{4970ce597aa4386c36b91e763b7e187f}
+      \strng{authornamehash}{4970ce597aa4386c36b91e763b7e187f}
+      \strng{authorfullhash}{4970ce597aa4386c36b91e763b7e187f}
+      \field{sortinit}{K}
+      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Stochastische Prozesse}
+      \field{year}{2016}
+    \endentry
+    \entry{HmmIntroduction}{misc}{}
+      \name{author}{1}{}{%
+        {{hash=3bdb9a7ea05f146783116e4429ed6bc2}{%
+           family={Kohlschein},
+           familyi={K\bibinitperiod},
+           given={Christian},
+           giveni={C\bibinitperiod}}}%
+      }
+      \strng{namehash}{3bdb9a7ea05f146783116e4429ed6bc2}
+      \strng{fullhash}{3bdb9a7ea05f146783116e4429ed6bc2}
+      \strng{bibnamehash}{3bdb9a7ea05f146783116e4429ed6bc2}
+      \strng{authorbibnamehash}{3bdb9a7ea05f146783116e4429ed6bc2}
+      \strng{authornamehash}{3bdb9a7ea05f146783116e4429ed6bc2}
+      \strng{authorfullhash}{3bdb9a7ea05f146783116e4429ed6bc2}
+      \field{sortinit}{K}
+      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{An introduction to Hidden Markov Models}
     \endentry
     \entry{GeneticAlgorithms}{misc}{}
       \name{author}{1}{}{%
@@ -87,26 +149,6 @@
       \field{title}{Metaheuristics—the metaphor exposed}
       \field{year}{2012}
     \endentry
-    \entry{gas}{misc}{}
-      \name{author}{1}{}{%
-        {{hash=c79e6794d92b660604601937a9b1c766}{%
-           family={Springer},
-           familyi={S\bibinitperiod}}}%
-      }
-      \strng{namehash}{c79e6794d92b660604601937a9b1c766}
-      \strng{fullhash}{c79e6794d92b660604601937a9b1c766}
-      \strng{bibnamehash}{c79e6794d92b660604601937a9b1c766}
-      \strng{authorbibnamehash}{c79e6794d92b660604601937a9b1c766}
-      \strng{authornamehash}{c79e6794d92b660604601937a9b1c766}
-      \strng{authorfullhash}{c79e6794d92b660604601937a9b1c766}
-      \field{extraname}{1}
-      \field{sortinit}{S}
-      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{title}{Genetic Algorithms}
-      \field{year}{2005}
-    \endentry
     \entry{metaheuristics}{misc}{}
       \name{author}{1}{}{%
         {{hash=c79e6794d92b660604601937a9b1c766}{%
@@ -119,7 +161,7 @@
       \strng{authorbibnamehash}{c79e6794d92b660604601937a9b1c766}
       \strng{authornamehash}{c79e6794d92b660604601937a9b1c766}
       \strng{authorfullhash}{c79e6794d92b660604601937a9b1c766}
-      \field{extraname}{2}
+      \field{extraname}{1}
       \field{sortinit}{S}
       \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
       \field{labelnamesource}{author}
@@ -139,7 +181,7 @@
       \strng{authorbibnamehash}{c79e6794d92b660604601937a9b1c766}
       \strng{authornamehash}{c79e6794d92b660604601937a9b1c766}
       \strng{authorfullhash}{c79e6794d92b660604601937a9b1c766}
-      \field{extraname}{3}
+      \field{extraname}{2}
       \field{sortinit}{S}
       \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
       \field{labelnamesource}{author}
@@ -165,6 +207,27 @@
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{title}{A rigoruous analysis vong dem harmony moped}
+      \field{year}{2010}
+    \endentry
+    \entry{StochasticProcesses}{misc}{}
+      \name{author}{1}{}{%
+        {{hash=04b57bf3c077cbd8f91538702a266941}{%
+           family={Žitković},
+           familyi={Ž\bibinitperiod},
+           given={Gordan},
+           giveni={G\bibinitperiod}}}%
+      }
+      \strng{namehash}{04b57bf3c077cbd8f91538702a266941}
+      \strng{fullhash}{04b57bf3c077cbd8f91538702a266941}
+      \strng{bibnamehash}{04b57bf3c077cbd8f91538702a266941}
+      \strng{authorbibnamehash}{04b57bf3c077cbd8f91538702a266941}
+      \strng{authornamehash}{04b57bf3c077cbd8f91538702a266941}
+      \strng{authorfullhash}{04b57bf3c077cbd8f91538702a266941}
+      \field{sortinit}{Ž}
+      \field{sortinithash}{96892c0b0a36bb8557c40c49813d48b3}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Introduction to Stochastic Processes - Lecture Notes}
       \field{year}{2010}
     \endentry
   \enddatalist

@@ -3,25 +3,33 @@
 \babel@toc {english}{}\relax 
 \babel@toc {english}{}\relax 
 \contentsline {chapter}{\numberline {1}Grundlagen}{1}{chapter.1}%
-\contentsline {section}{\numberline {1.1}Markov Prozesse}{1}{section.1.1}%
-\contentsline {section}{\numberline {1.2}Hidden Markov Modelle}{2}{section.1.2}%
-\contentsline {section}{\numberline {1.3}Baum-Welch Algorithmus}{4}{section.1.3}%
-\contentsline {section}{\numberline {1.4}Underflow und Overfitting}{5}{section.1.4}%
-\contentsline {section}{\numberline {1.5}Metaheuristische Algorithmen}{5}{section.1.5}%
-\contentsline {section}{\numberline {1.6}Funktionsweise}{6}{section.1.6}%
-\contentsline {subsection}{\numberline {1.6.1}Kritik an Metaheuristischen Algorithmen}{6}{subsection.1.6.1}%
-\contentsline {section}{\numberline {1.7}Genetische Algorithmen}{7}{section.1.7}%
-\contentsline {subsection}{\numberline {1.7.1}Selektionsoperator}{8}{subsection.1.7.1}%
-\contentsline {subsection}{\numberline {1.7.2}Crossoveroperator}{9}{subsection.1.7.2}%
-\contentsline {subsection}{\numberline {1.7.3}Mutationsoperator}{11}{subsection.1.7.3}%
-\contentsline {subsection}{\numberline {1.7.4}Ersetzen}{11}{subsection.1.7.4}%
-\contentsline {subsection}{\numberline {1.7.5}Ablauf eines genetischen Algorithmus}{11}{subsection.1.7.5}%
+\contentsline {section}{\numberline {1.1}Grundbegriffe der Stochastik}{1}{section.1.1}%
+\contentsline {subsection}{\numberline {1.1.1}Zufallsexperimente und Elementarereignisse}{1}{subsection.1.1.1}%
+\contentsline {subsection}{\numberline {1.1.2}Zufallsereignisse}{1}{subsection.1.1.2}%
+\contentsline {subsection}{\numberline {1.1.3}Wahrscheinlichkeiten}{1}{subsection.1.1.3}%
+\contentsline {subsection}{\numberline {1.1.4}Wahrscheinlichkeitsräume}{2}{subsection.1.1.4}%
+\contentsline {subsection}{\numberline {1.1.5}Zufallsvariablen}{2}{subsection.1.1.5}%
+\contentsline {subsection}{\numberline {1.1.6}Stochastische Prozesse}{2}{subsection.1.1.6}%
+\contentsline {section}{\numberline {1.2}Markovprozesse und Markov Modelle}{3}{section.1.2}%
+\contentsline {subsection}{\numberline {1.2.1}Markovketten}{3}{subsection.1.2.1}%
+\contentsline {subsection}{\numberline {1.2.2}Hidden Markov Modelle}{4}{subsection.1.2.2}%
+\contentsline {subsubsection}{\numberline {1.2.2.1}Die drei Probleme}{5}{subsubsection.1.2.2.1}%
+\contentsline {subsubsection}{\numberline {1.2.2.2}Berechnen der Wahrscheinlichkeit einer Observationssequenz}{6}{subsubsection.1.2.2.2}%
+\contentsline {section}{\numberline {1.3}Metaheuristische Algorithmen}{7}{section.1.3}%
+\contentsline {section}{\numberline {1.4}Funktionsweise}{7}{section.1.4}%
+\contentsline {subsection}{\numberline {1.4.1}Kritik an Metaheuristischen Algorithmen}{8}{subsection.1.4.1}%
+\contentsline {section}{\numberline {1.5}Genetische Algorithmen}{8}{section.1.5}%
+\contentsline {subsection}{\numberline {1.5.1}Selektionsoperator}{9}{subsection.1.5.1}%
+\contentsline {subsection}{\numberline {1.5.2}Crossoveroperator}{11}{subsection.1.5.2}%
+\contentsline {subsection}{\numberline {1.5.3}Mutationsoperator}{12}{subsection.1.5.3}%
+\contentsline {subsection}{\numberline {1.5.4}Ersetzen}{13}{subsection.1.5.4}%
+\contentsline {subsection}{\numberline {1.5.5}Ablauf eines genetischen Algorithmus}{13}{subsection.1.5.5}%
 \contentsline {chapter}{\numberline {2}Trainieren von HMMs mit einem GA}{15}{chapter.2}%
 \contentsline {section}{\numberline {2.1}Konstruktion eines GAHMM}{15}{section.2.1}%
 \contentsline {section}{\numberline {2.2}Literaturübersicht}{16}{section.2.2}%
-\contentsline {chapter}{\numberline {3}Evaluation}{17}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Vergleich genetischer Operatoren}{17}{section.3.1}%
-\contentsline {section}{\numberline {3.2}Berechnungskost eines GA}{17}{section.3.2}%
-\contentsline {chapter}{\nonumberline Bibliography}{19}{chapter*.19}%
+\contentsline {chapter}{\numberline {3}Evaluation}{19}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Vergleich genetischer Operatoren}{19}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Berechnungskost eines GA}{19}{section.3.2}%
+\contentsline {chapter}{\nonumberline Bibliography}{21}{chapter*.19}%
 \babel@toc {german}{}\relax 
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

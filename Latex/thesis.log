@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.1.29)  28 FEB 2023 22:18
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.1.29)  3 MAR 2023 20:31
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -753,7 +753,7 @@ File: csquotes.cfg
 ))
 Package scrhack Info: hyperref hack deactivated because of
 (scrhack)             detection of KOMA-Script class, that doesn't
-(scrhack)             need that hack, on input line 137.
+(scrhack)             need that hack, on input line 139.
  (c:/texlive/2022/texmf-dist/tex/latex/hyperref/hyperref.sty
 Package: hyperref 2022-11-13 v7.00u Hypertext links for LaTeX
  (c:/texlive/2022/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty
@@ -860,43 +860,43 @@ Package typearea Info: These are the values describing the layout:
 (typearea)              \topskip        = 11.0pt
 (typearea)              \footskip       = 47.60002pt
 (typearea)              \baselineskip   = 13.6pt
-(typearea)              on input line 143.
+(typearea)              on input line 145.
 \c@definition=\count449
 Package csquotes Info: Checking for multilingual support...
 Package csquotes Info: ... found 'babel' package.
 Package csquotes Info: Adjusting default style.
 Package csquotes Info: Redefining alias 'default' -> 'english'.
- (./thesis.aux (./content/abstract.aux) (./content/theoretischer_teil/__import__.aux) (./content/gahmm/__import__.aux) (./content/evaluation/__import__.aux) (./clause.aux))
+ (./thesis.aux (./content/abstract.aux) (./content/theoretischer_teil/__import__.aux) (./content/gahmm/__import__.aux) (./content/konzept/konzept.aux) (./content/evaluation/__import__.aux) (./clause.aux))
 \openout1 = `thesis.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 171.
-LaTeX Font Info:    ... okay on input line 171.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 171.
-LaTeX Font Info:    ... okay on input line 171.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 171.
-LaTeX Font Info:    ... okay on input line 171.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 171.
-LaTeX Font Info:    ... okay on input line 171.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 171.
-LaTeX Font Info:    ... okay on input line 171.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 171.
-LaTeX Font Info:    ... okay on input line 171.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 171.
-LaTeX Font Info:    ... okay on input line 171.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 171.
-LaTeX Font Info:    ... okay on input line 171.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 171.
-LaTeX Font Info:    ... okay on input line 171.
-Package scrbase Info: activating english \partname on input line 171.
-Package scrbase Info: activating english \chaptername on input line 171.
-Package scrbase Info: activating english \appendixname on input line 171.
-Package scrbase Info: activating english \figurename on input line 171.
-Package scrbase Info: activating english \tablename on input line 171.
-Package scrbase Info: activating english \contentsname on input line 171.
-Package scrbase Info: activating english \listfigurename on input line 171.
-Package scrbase Info: activating english \listtablename on input line 171.
-Package scrbase Info: activating english \bibname on input line 171.
-Package scrbase Info: activating english \indexname on input line 171.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 173.
+LaTeX Font Info:    ... okay on input line 173.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 173.
+LaTeX Font Info:    ... okay on input line 173.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 173.
+LaTeX Font Info:    ... okay on input line 173.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 173.
+LaTeX Font Info:    ... okay on input line 173.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 173.
+LaTeX Font Info:    ... okay on input line 173.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 173.
+LaTeX Font Info:    ... okay on input line 173.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 173.
+LaTeX Font Info:    ... okay on input line 173.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 173.
+LaTeX Font Info:    ... okay on input line 173.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 173.
+LaTeX Font Info:    ... okay on input line 173.
+Package scrbase Info: activating english \partname on input line 173.
+Package scrbase Info: activating english \chaptername on input line 173.
+Package scrbase Info: activating english \appendixname on input line 173.
+Package scrbase Info: activating english \figurename on input line 173.
+Package scrbase Info: activating english \tablename on input line 173.
+Package scrbase Info: activating english \contentsname on input line 173.
+Package scrbase Info: activating english \listfigurename on input line 173.
+Package scrbase Info: activating english \listtablename on input line 173.
+Package scrbase Info: activating english \bibname on input line 173.
+Package scrbase Info: activating english \indexname on input line 173.
  (c:/texlive/2022/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count450
@@ -921,7 +921,7 @@ Package caption Info: hyperref package is loaded.
 Package caption Info: listings package is loaded.
 Package caption Info: End \AtBeginDocument code.
 \c@lstlisting=\count456
-Package scrhack Info: undefining \float@addtolists on input line 171.
+Package scrhack Info: undefining \float@addtolists on input line 173.
 Package biblatex Info: Trying to load language 'english'...
 Package biblatex Info: ... file 'english.lbx' found.
  (c:/texlive/2022/texmf-dist/tex/latex/biblatex/lbx/english.lbx
@@ -940,9 +940,9 @@ Package biblatex Info: Automatic encoding selection.
 Package biblatex Info: Trying to load bibliographic data...
 Package biblatex Info: ... file 'thesis.bbl' found.
  (./thesis.bbl)
-Package biblatex Info: Reference section=0 on input line 171.
-Package biblatex Info: Reference segment=0 on input line 171.
-Package hyperref Info: Link coloring OFF on input line 171.
+Package biblatex Info: Reference section=0 on input line 173.
+Package biblatex Info: Reference segment=0 on input line 173.
+Package hyperref Info: Link coloring OFF on input line 173.
  (./thesis.out) (./thesis.out)
 \@outlinefile=\write5
 \openout5 = `thesis.out'.
@@ -954,7 +954,7 @@ Class scrbook Info: loading recommended package `bookmark'.
 (scrbook)           `bookmarkpackage=false' before \begin{document} and
 (scrbook)           you can avoid this message adding:
 (scrbook)             \usepackage{bookmark}
-(scrbook)           before \begin{document} on input line 171.
+(scrbook)           before \begin{document} on input line 173.
  (c:/texlive/2022/texmf-dist/tex/latex/bookmark/bookmark.sty
 Package: bookmark 2020-11-06 v1.29 PDF bookmarks (HO)
  (c:/texlive/2022/texmf-dist/tex/latex/bookmark/bkm-pdftex.def
@@ -997,19 +997,18 @@ Overfull \hbox (0.53687pt too wide) in paragraph at lines 34--37
 
 
 
-] (./thesis.toc)
+] (./thesis.toc [5])
 \tf@toc=\write6
 \openout6 = `thesis.toc'.
 
- [5] [6
-
-
-]
+ [6]
 \openout2 = `content/theoretischer_teil/__import__.aux'.
 
  (./content/theoretischer_teil/__import__.tex
 chapter 1.
 (./content/theoretischer_teil/random_variables.tex [1
+
+
 
 
 
@@ -1040,7 +1039,7 @@ Overfull \hbox (11.18918pt too wide) in paragraph at lines 25--26
  []
 
 [3]
-<images/Markov_Chain_Example.png, id=148, 120.45pt x 96.36pt>
+<images/Markov_Chain_Example.png, id=166, 120.45pt x 96.36pt>
 File: images/Markov_Chain_Example.png Graphic file (type png)
 <use images/Markov_Chain_Example.png>
 Package pdftex.def Info: images/Markov_Chain_Example.png  used on input line 54.
@@ -1055,7 +1054,7 @@ Overfull \hbox (30.05042pt too wide) in paragraph at lines 71--72
 []\OT1/cmr/m/it/10.95 Die Emis-sion-s-ma-trix $\OML/cmm/m/it/10.95 B$ \OT1/cmr/m/it/10.95 gibt die Wahrschein-
  []
 
-<images/Ball_Urn_Model.png, id=159, 120.45pt x 96.36pt>
+<images/Ball_Urn_Model.png, id=178, 120.45pt x 96.36pt>
 File: images/Ball_Urn_Model.png Graphic file (type png)
 <use images/Ball_Urn_Model.png>
 Package pdftex.def Info: images/Ball_Urn_Model.png  used on input line 89.
@@ -1063,88 +1062,116 @@ Package pdftex.def Info: images/Ball_Urn_Model.png  used on input line 89.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[5]) (./content/theoretischer_teil/metaheuristische.tex [6 <./images/Ball_Urn_Model.png>]
-Overfull \hbox (18.82948pt too wide) in paragraph at lines 12--17
-[]\OT1/cmr/m/n/10.95 Vorteile Gegen^^?uber klas-sis-chen it-er-a-tiven Al-go-rith-men - - Meta-heuris-tis-che Op-ti-mierungsver-
+) (./content/theoretischer_teil/drei_probleme.tex [5]
+Overfull \hbox (41.23854pt too wide) in paragraph at lines 6--7
+[]\OT1/cmr/bx/n/10.95 Problem 3 \OT1/cmr/m/n/10.95 Wie k^^?onnen wir die Pa-ram-e-ter des Mod-ells $\OML/cmm/m/it/10.95 ^^U$ \OT1/cmr/m/n/10.95 an-passen um die Wahrscheilichkeit
  []
 
-
-Overfull \hbox (6.06969pt too wide) in paragraph at lines 18--21
-[]\OT1/cmr/m/n/10.95 - Eine Meta-heuris-tik ist nicht ein bes-timmter Al-go-rith-mus son-dern vielmehr eine Ansamm-
+[6 <./images/Ball_Urn_Model.png>]
+Overfull \hbox (5.83076pt too wide) in paragraph at lines 25--27
+$\OML/cmm/m/it/10.95 []\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 i\OT1/cmr/m/n/10.95 )$ Beschreibt also die Wahrschein-lichkeit, die par-tielle Ob-ser-va-tion-sse-quenz $\OML/cmm/m/it/10.95 O[]O[] [] O[]$
  []
 
-[7]) (./content/theoretischer_teil/genetische.tex
-Overfull \hbox (6.1153pt too wide) in paragraph at lines 10--12
-[]\OT1/cmr/m/n/10.95 Wie die mei^^Yten stochastis-chen Al-go-rith-men haben genetis-che Al-go-rith-men keine Garantie
+[7]
+Overfull \hbox (11.47585pt too wide) in paragraph at lines 75--76
+\OT1/cmr/m/n/10.95 gen Pfad-wahrschein-lichkeiten be-tra-chtet, wohinge-gen der Forw^^?art-sal-go-rith-mus die \OT1/cmr/bx/n/10.95 Summe
  []
 
-[8]
-<images/Population_Chromosom_Gen.png, id=203, 120.45pt x 96.36pt>
+[8] [9]) (./content/theoretischer_teil/metaheuristische.tex [10]
+<images/Unterteilung_Optimierungsverfahren.png, id=220, 192.72pt x 144.54pt>
+File: images/Unterteilung_Optimierungsverfahren.png Graphic file (type png)
+<use images/Unterteilung_Optimierungsverfahren.png>
+Package pdftex.def Info: images/Unterteilung_Optimierungsverfahren.png  used on input line 20.
+(pdftex.def)             Requested size: 192.71951pt x 144.53963pt.
+
+Overfull \hbox (3.0888pt too wide) in paragraph at lines 18--24
+\OT1/cmr/m/n/10.95 ange-merkt, dass die un-ter-nommene Un-terteilung keineswegs Anspruch auf Vollst^^?andigkeit
+ []
+
+[11 <./images/Unterteilung_Optimierungsverfahren.png>]
+Overfull \hbox (6.24199pt too wide) in paragraph at lines 33--34
+\OT1/cmr/m/n/10.95 disierung. Das kom-binieren von meta-heuris-tis-chen Al-go-rith-men ist ein ak-tives Forschungs-
+ []
+
+[12]) (./content/theoretischer_teil/genetische.tex [13]
+<images/Population_Chromosom_Gen.png, id=254, 120.45pt x 96.36pt>
 File: images/Population_Chromosom_Gen.png Graphic file (type png)
 <use images/Population_Chromosom_Gen.png>
-Package pdftex.def Info: images/Population_Chromosom_Gen.png  used on input line 23.
+Package pdftex.def Info: images/Population_Chromosom_Gen.png  used on input line 17.
 (pdftex.def)             Requested size: 120.44969pt x 96.35974pt.
 
-Overfull \hbox (5.948pt too wide) in paragraph at lines 32--35
-\OT1/cmr/m/n/10.95 dem Wert der ob-jek-tiven Funk-tion an der Stelle welche das Chro-mo-som rep-re-sen-tiert. [[]6[]] 
+Overfull \hbox (4.73137pt too wide) in paragraph at lines 31--32
+[]\OT1/cmr/m/n/10.95 Evaluation: Je-dem Kind wird ein fitness-Wert durch die fitness-Funktion zugewiesen 
  []
 
-[9 <./images/Population_Chromosom_Gen.png>] [10]
-Overfull \hbox (5.6945pt too wide) in paragraph at lines 91--98
+<images/Genetic_Algorithm_Flowchart.png, id=257, 240.9pt x 240.9pt>
+File: images/Genetic_Algorithm_Flowchart.png Graphic file (type png)
+<use images/Genetic_Algorithm_Flowchart.png>
+Package pdftex.def Info: images/Genetic_Algorithm_Flowchart.png  used on input line 36.
+(pdftex.def)             Requested size: 240.8994pt x 240.8994pt.
+[14 <./images/Population_Chromosom_Gen.png>] [15 <./images/Genetic_Algorithm_Flowchart.png>]
+Overfull \hbox (5.6945pt too wide) in paragraph at lines 67--68
 \OT1/cmr/m/n/10.95 zu einem Kind-Chromosom. Der vollst^^?andigkeit hal-ber sei angef^^?uhrt, dass auch Crossover-
  []
 
-<images/Single_Point_Crossover.png, id=223, 120.45pt x 96.36pt>
+[16]
+<images/Single_Point_Crossover.png, id=284, 120.45pt x 96.36pt>
 File: images/Single_Point_Crossover.png Graphic file (type png)
 <use images/Single_Point_Crossover.png>
-Package pdftex.def Info: images/Single_Point_Crossover.png  used on input line 104.
+Package pdftex.def Info: images/Single_Point_Crossover.png  used on input line 72.
 (pdftex.def)             Requested size: 120.44969pt x 96.35974pt.
-<images/N_Point_Crossover.png, id=225, 120.45pt x 96.36pt>
+<images/N_Point_Crossover.png, id=286, 120.45pt x 96.36pt>
 File: images/N_Point_Crossover.png Graphic file (type png)
 <use images/N_Point_Crossover.png>
-Package pdftex.def Info: images/N_Point_Crossover.png  used on input line 115.
+Package pdftex.def Info: images/N_Point_Crossover.png  used on input line 77.
 (pdftex.def)             Requested size: 120.44969pt x 96.35974pt.
-[11 <./images/Single_Point_Crossover.png>]
-<images/Uniform_Crossover.png, id=233, 120.45pt x 96.36pt>
+ [17 <./images/Single_Point_Crossover.png> <./images/N_Point_Crossover.png>]
+<images/Uniform_Crossover.png, id=295, 120.45pt x 96.36pt>
 File: images/Uniform_Crossover.png Graphic file (type png)
 <use images/Uniform_Crossover.png>
-Package pdftex.def Info: images/Uniform_Crossover.png  used on input line 127.
+Package pdftex.def Info: images/Uniform_Crossover.png  used on input line 82.
 (pdftex.def)             Requested size: 120.44969pt x 96.35974pt.
- [12 <./images/N_Point_Crossover.png> <./images/Uniform_Crossover.png>]
-<images/Genetic_Algorithm_Flowchart.png, id=243, 240.9pt x 240.9pt>
-File: images/Genetic_Algorithm_Flowchart.png Graphic file (type png)
-<use images/Genetic_Algorithm_Flowchart.png>
-Package pdftex.def Info: images/Genetic_Algorithm_Flowchart.png  used on input line 153.
-(pdftex.def)             Requested size: 240.8994pt x 240.8994pt.
- [13 <./images/Genetic_Algorithm_Flowchart.png>])) [14]
+ [18 <./images/Uniform_Crossover.png>]
+Overfull \hbox (1.28403pt too wide) in paragraph at lines 110--111
+\OT1/cmr/m/n/10.95 dass sie neue Pa-ram-e-ter einf^^?uhren. Ein genetis-cher Al-go-rith-mus, wie er zu-vor beschrieben
+ []
+
+)) [19]
 \openout2 = `content/gahmm/__import__.aux'.
 
- (./content/gahmm/__import__.tex
-chapter 2.
-(./content/gahmm/genetischer_algorithmus_fuer_hmms.tex
-<images/Hmm_Chromosom_Representation.png, id=256, 120.45pt x 96.36pt>
-File: images/Hmm_Chromosom_Representation.png Graphic file (type png)
-<use images/Hmm_Chromosom_Representation.png>
-Package pdftex.def Info: images/Hmm_Chromosom_Representation.png  used on input line 20.
-(pdftex.def)             Requested size: 120.44969pt x 96.35974pt.
- [15
-
-
-
-
-
- <./images/Hmm_Chromosom_Representation.png>]) (./content/gahmm/related_work.tex [16])) [17]
-\openout2 = `content/evaluation/__import__.aux'.
-
- (./content/evaluation/__import__.tex [18
+ (./content/gahmm/__import__.tex [20
 
 
 
 
 
 ]
+chapter 2.
+(./content/gahmm/genetischer_algorithmus_fuer_hmms.tex
+<images/Hmm_Chromosom_Representation.png, id=324, 120.45pt x 96.36pt>
+File: images/Hmm_Chromosom_Representation.png Graphic file (type png)
+<use images/Hmm_Chromosom_Representation.png>
+Package pdftex.def Info: images/Hmm_Chromosom_Representation.png  used on input line 20.
+(pdftex.def)             Requested size: 120.44969pt x 96.35974pt.
+ [21 <./images/Hmm_Chromosom_Representation.png>]) (./content/gahmm/related_work.tex [22])) [23]
+\openout2 = `content/konzept/konzept.aux'.
+
+ (./content/konzept/konzept.tex) [24
+
+
+
+]
+\openout2 = `content/evaluation/__import__.aux'.
+
+ (./content/evaluation/__import__.tex
 chapter 3.
-(./content/evaluation/ga_operator_comparison.tex) (./content/evaluation/ga_performance.tex)) [19] [20
+(./content/evaluation/ga_operator_comparison.tex) (./content/evaluation/ga_performance.tex)) [25
+
+
+
+
+
+] [26
 
 
 
@@ -1152,21 +1179,21 @@ chapter 3.
 ]
 chapter without number
 
-Overfull \hbox (2.17548pt too wide) in paragraph at lines 220--220
+Overfull \hbox (2.17548pt too wide) in paragraph at lines 223--223
 []\OT1/cmr/m/n/10.95 Sivanandam. \OT1/cmr/m/it/10.95 Ge-netic Al-go-rithms. In: In-tro-duc-tion to Ge-netic Al-go-rithms. Springer\OT1/cmr/m/n/10.95 .
  []
 
-[21]
+[27]
 \openout2 = `clause.aux'.
 
- (./clause.tex [22
+ (./clause.tex [28
 
 ]
 Underfull \hbox (badness 10000) in paragraph at lines 14--15
 
  []
 
-) [23
+) [29
 
 
 ]
@@ -1174,7 +1201,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 14--15
 Package caption Warning: Unused \captionsetup[ContinuedFloat] on input line 67.
 See the caption package documentation for explanation.
 
-(./thesis.aux (./content/abstract.aux) (./content/theoretischer_teil/__import__.aux) (./content/gahmm/__import__.aux) (./content/evaluation/__import__.aux) (./clause.aux))
+(./thesis.aux (./content/abstract.aux) (./content/theoretischer_teil/__import__.aux) (./content/gahmm/__import__.aux) (./content/konzept/konzept.aux) (./content/evaluation/__import__.aux) (./clause.aux))
 Package rerunfilecheck Info: File `thesis.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
 Package logreq Info: Writing requests to 'thesis.run.xml'.
@@ -1182,18 +1209,18 @@ Package logreq Info: Writing requests to 'thesis.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 27485 strings out of 476065
- 519301 string characters out of 5795020
- 1862299 words of memory out of 5000000
- 47323 multiletter control sequences out of 15000+600000
- 521573 words of font info for 64 fonts, out of 8000000 for 9000
+ 27568 strings out of 476065
+ 521490 string characters out of 5795020
+ 1864299 words of memory out of 5000000
+ 47365 multiletter control sequences out of 15000+600000
+ 521932 words of font info for 65 fonts, out of 8000000 for 9000
  1143 hyphenation exceptions out of 8191
  108i,14n,106p,10639b,2341s stack positions out of 10000i,1000n,20000p,200000b,200000s
-{c:/texlive/2022/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}<c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsl10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmss12.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmss17.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb>
-Output written on thesis.pdf (29 pages, 392441 bytes).
+{c:/texlive/2022/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}<c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsl10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmss12.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmss17.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb>
+Output written on thesis.pdf (35 pages, 462047 bytes).
 PDF statistics:
- 486 PDF objects out of 1000 (max. 8388607)
- 392 compressed objects within 4 object streams
- 105 named destinations out of 1000 (max. 500000)
- 274 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 598 PDF objects out of 1000 (max. 8388607)
+ 491 compressed objects within 5 object streams
+ 133 named destinations out of 1000 (max. 500000)
+ 351 words of extra memory for PDF output out of 10000 (max. 10000000)
 

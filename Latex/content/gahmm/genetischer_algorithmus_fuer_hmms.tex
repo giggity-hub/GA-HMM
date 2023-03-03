@@ -51,3 +51,5 @@ Die Anzahl der Observationssequenzen ist 10
 \subsection*{Erweiterung des GA}
 - Der genetische Algorithmus muss um einen Normalisierungsschritt erweitert werden, 
 falls die Crossover oder Mutationsoperatoren keine Reihenstochastizität garantieren.
+
+Da die Mutations und Crossoverfunktionen Lösungen erzeugen, welche außerhalb der zulässigen Region liegen müssen wir die Werte normalisieren. Das transformieren einer unzulässigen Lösung in eine zulässige ist bekannt als Reparatur Strategie \cite*{MetaheuristicsEGT}

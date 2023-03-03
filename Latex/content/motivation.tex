@@ -7,3 +7,8 @@
 
 
 ## Quantifizeren von Signal-Quellen
+
+Es ist sehr gut bekannt, dass der am weitesten verbreitete Trainingsalgorithmus Baum-Welch Algorithmus in Lokalen Optima stecken bleibt und keine globale suche darstellt. Der Baum Welch Algorithmus ist seit den frühen 1970er Jahren bekannt. Mittlerweile gibt es viele Implementationen etc. Es wurde viel Forschung unternommen um die globale Suchkapazität des Baum-Welch Algorithmus zu optimieren. Doch warum ist die gängige Methode weiterhin den Baum-Welch Algorithmus mehrmals mit verschiedenen Parametern auszuführen und dann das am besten performende Modell zu wählen? So lautet zumindest der Hinweis zum Trainieren von HMMs in der Dokumentation zu hmmlearn, einer der bekanntesten HMM libraries für python (2.7k Sterne auf Github stand heute).
+
+Wir werden untersuchen warum 
+% https://hmmlearn.readthedocs.io/en/latest/tutorial.html#training-hmm-parameters-and-inferring-the-hidden-states

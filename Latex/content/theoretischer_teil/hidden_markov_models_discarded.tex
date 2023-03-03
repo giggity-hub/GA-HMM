@@ -140,55 +140,7 @@ zu sein. $\gamma_t(i)$ wird berechnet durch
 = \frac{\alpha_t(i) \cdot \beta_t(i)}{\sum_{i=1}^{N} \alpha_t(i) \cdot \beta_t(i)}
 \end{equation}
 
-Die letzte Variable, welche wir für den Baum-Welch Algorithmus benötigen ist
-$\xi_t(i, j)$, die vorwärts-rückwarts-Variable.
-Diese gibt die Wahrscheinlichkeit an in Zeitpunkt $t$ in Zustand $S_i$ zu sein
-und im nächsten Zeitpunk $t+1$ in Zustand $S_j$ zu sein.
-\begin{equation}
-\xi_t(i, j)
-= \frac{\alpha_t(i) \cdot a_{i,j} \cdot b_j(O_{t+1}) \cdot \beta_{t+1}(j)}{P(O \mid \lambda)}
-= \frac{\alpha_t(i) \cdot a_{i,j} \cdot b_j(O_{t+1}) \cdot \beta_{t+1}(j)}
-        {\sum_{i=1}^{N} \sum_{j=1}^{N} \alpha_t(i) \cdot a_{i,j} \cdot b_j(O_{t+1}) \cdot \beta_{t+1}(j)}
-\end{equation}
 
-
-\section{Baum-Welch Algorithmus}
-Der Baum Welch ist ein erwartungsmaximierender Algorithmus.
-Er basiert auf dem Prinzip, dass wir aus den Variablen $\xi$ und $\gamma$
-Erwartungswerte für die Anzahl an Transitionsübergängen und Symbolemissionen berechnen können.
-Mit dem Wissen wie oft diese Ereignesse erwartungsgemäß eintreffen können wir
-die Parameter des Models $\lambda = \pi, B, A$ neu berechnen.
-Wir erinnern uns
-
-$\gamma_t(i)$ = Wahrscheinlichkeit in Zeitpunkt $t$ in Zustand $S_i$ zu sein
-
-$\xi_t(i, j)$ = Wahrscheinlichkeit in Zeitpunkt $t$ in Zustand $S_i$ und in $t+1$ in $S_j$ zu sein
-
-Wenn wir $gamma_t(i)$ über alle $t$ exklusive $t=T$ summieren erhalten wir die 
-zu erwartende Anzahl an Ausgehenden Transitionen von $S_i$
-
-$\sum_{t=1}^{T-1} \gamma_t(i)$ = Zu erwartende Anzahl der von $S_i$ ausgehenden Transitionen
-
-Summieren wir $gamma_t(i)$ über alle $t$ inklusive $t=T$ erhalten wir die zu erwartende Anzahl an Aufenthalten in
-Zustand $S_i$
-
-$\sum_{t=1}^{T} \gamma_t(i)$ = Zu erwartende Anzahl an Aufenthalten in $S_i$
-
-Die zu erwartende Anzahl der Transitionen von $S_i$ zu einem bestimmten Zustand $S_j$ erhalten 
-wir ähnlich, durch summieren von $\xi_t(i, j)$ über alle $0 < t < T$.
-
-$\sum_{t=1}^{T-1} \xi_t(i, j)$ = Zu erwartende Anzahl an Transitionen von $S_i$ nach $S_j$
-
-Mit den Erwartungswerten für Anzahlen an Zustandsübergängen, Zustandsaufenthalten und Zustandsemissionen
-können wir neue Werte für die Parameter des HMM berechnen.
-\begin{align*}
-\pi_i = \gamma_1(i)
-b_{i,j} = \frac{\sum_{t=1 s.d. O_t= V_k}^{T} \gamma_t(i)}{\sum_{t=1}^{T} \gamma_t(i)}
-a_{i,j} = \frac{\sum_{t=1}^{T-1} \xi_t(i, j)}{\sum_{t=1}^{T-1} \gamma_t(i)}
-\end{align*}
-
-Eine Neuberechnung der Parameter kann beliebig oft durchgeführt werden.
-In der Praxis wird als Abbruchbedingung ein Mindestwert für die Verbesserung des Models festgelegt.
 
 \section{Underflow und Overfitting}
 

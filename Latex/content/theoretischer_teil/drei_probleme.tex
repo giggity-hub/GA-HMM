@@ -1,0 +1,150 @@
+\section{Die drei klassichen Probleme}
+Für ein gegebenes Hidden Markov Model $\lambda = (A, B, \pi)$ und eine Observationssequenz $O$ gibt es drei Probleme, welche von besonderem Interesse sind.
+\begin{itemize}
+    \item \textbf{Problem 1} Was ist die Wahrscheinlichkeit, dass die Observationssequenz $O$ von Modell $\lambda$ erzeugt wurde $P(O \mid \lambda)$, und wie können wir diese effizient berechnen?
+    \item \textbf{Problem 2} Welche Zustandssequenz $Q=q_1, q_2, \dots, q_T$ hat die größte Wahrscheinlichkeit die Observationssequenz $O=O_1, O_2, \dots, O_T$ zu erzeugen $\text{argmax}_Q \ P(Q \mid O, \lambda)$?
+    \item \textbf{Problem 3} Wie können wir die Parameter des Modells $\lambda$ anpassen um die Wahrscheilichkeit der Observationssequenz $O$ zu maximieren? Anders formuliert suchen wir ein $\lambda'$, so dass $P(O \mid \lambda') > P(O \mid \lambda)$
+\end{itemize}
+Auf diese Probleme wird jeweils in den folgenden drei Abschnitten eingegangen.
+
+\subsection{Berechnen der Wahrscheinlichkeit einer Observationssequenz}
+Bevor wir das Problem angehen wie man $P(O \mid \lambda)$ berechnet befassen wir uns zunächst damit wie man $P(O \mid Q, \lambda)$, also die Wahrscheinlichkeit von $O$ wenn die Zustandssequenz $Q = q_1, q_2, \dots, q_T$ gegeben ist, berechnen kann. Da wir in diesem Fall für jeden Zeitpunkt $t$ das beobachtete Symbol $O_t$ und den emittierenden Zustand $q_t$ kennen ergibt sich die Berechnung von $P(O \mid Q, \lambda)$ aus der Definition von $B$.
+\begin{equation*}
+    P(O \mid Q, \lambda) =  \prod_{t=1}^{T} b_{q_t}(O_t)
+\end{equation*}
+Ein intuitiver Ansatz $P(O \mid \lambda)$ zu Berechnen wäre nun alle Möglichen Zustandssequenzen $Q$ aufzuzählen und die Wahrscheinlichkeiten $P(O \mid Q, \lambda)$ zu summieren.
+\begin{equation*}
+    P(O \mid \lambda) = \sum_{\text{alle Q}} P(O \mid Q, \lambda ) 
+\end{equation*}
+Es ist zwar möglich $P(O \mid \lambda)$ so zu berechnen, jedoch wächst die Anzahl der Möglichen Zustandsabfolgen $Q$ exponentiell in Abhängigkeit zur Länge $T$ von $O$. Insgesamt wären $2T \cdot N^T$ Berechnungen notwendig, was selbst bei kleinen Werten für $N$ und $T$ einen untragbaren Rechenaufwand darstellt. Für N=5 und T=100 wären es $2 \cdot 100 \cdot 5^{100} \approx 10^{72}$ Berechnungen. Um diese Zahl in Relation zu stellen, $10^{72}$ ist mindestens 3 mal mehr als 1000 und 1000 ist schon ziemlich groß. Zum Glück gibt es aber eine effiziente Methode um $P(O \mid \lambda)$ zu berechnen. Die Forwärtsvariable.
+
+\subsubsection*{Der Forwärtsalgorithmus}
+Sei $\alpha$, die Forwärtsvariable folgendermaßen definiert
+\begin{equation*}
+    \alpha_t(i) = P(O_1 O_2 \dots O_t \wedge q_t = S_i \mid \lambda)
+\end{equation*}
+$\alpha_t(i)$ Beschreibt also die Wahrscheinlichkeit, die partielle Observationssequenz $O_1 O_2 \dots O_t$ zu beobachten und in Zeitpunkt $t$ in in Zustand $i$ zu sein. $\alpha_t(i)$ kann folgendermaßen induktiv berechnet werden
+
+\textbf{Für $t=0$} lässt sich $alpha_t(i)$ aus $\pi$ und $B$ berechnen, da noch keine Transition stattgefunden hat. 
+\begin{equation*}
+    \alpha_0(i) = \pi_i \cdot b_i(O_0)
+\end{equation*}
+
+\textbf{Für $t>0$} gilt
+\begin{equation*}
+    \alpha_{t+1}(j) = \left[ \sum_{i=1}^{N} \alpha_t(i) \cdot a_{i,j} \right] \cdot b_j(O_{t+1})
+\end{equation*}
+Der Casus Knacksus, welcher eine effiziente Berechung von $\alpha$ ermöglicht ist die Markov-Eigenschaft.
+Diese besagt, dass der Zustand in Zeitpunkt $t+1$ nur vom Zustand in Zeitpunkt $t$ abhängt.
+Für jeden Zeitpunkt und jeden Zustand gibt es also genau $N$ Zustände in denen sich
+der Prozess zuvor befunden haben kann. Da der Rechenaufwand für jeden Zeitpunkt gleich ist hängt die Komplexität von
+$alpha$ mit $N^2 \cdot T$ nur noch linear von $T$ ab und nicht exponentiell wie in dem vorherigen Ansatz.
+
+\subsection{Der Viterbi Algorithmus}
+Um die wahrscheinlichste Zustandssequenz zu berechnen müssen wir zunächst eine weitere Variable einführen, die Rückwärtsvariable $\beta$.
+\begin{definition}[Rückwärtsvariable $\beta$]
+    Die Rückwärtsvariable $beta$ funktioniert analog zu $\alpha$ und ist wie folgt definiert.
+    \begin{equation*}
+        \beta_t(i) = P(O_{t+1}, O_{t+2} \dots O_T \mid q_t = S_i, \lambda)
+    \end{equation*}
+    Somit ist $\beta_t(i)$ die Wahrscheinlichkeit in Zeitpunkt $t$ in Zustand $S_i$ zu sein und außgehend von $S_i$ die partielle Observationssequenz $O_{t+1}, O_{t+2} \dots O_T$ zu beobachten.
+
+    \textbf{Für $t = T$} gilt
+    \begin{equation*}
+        \forall_i \  1 \leq i \leq N \mid \beta_T(i) = 1  
+    \end{equation*}
+
+    \textbf{Für $t < T$} gilt
+    \begin{equation*}
+        \beta_t(i) = \sum_{j=1}^{N} a_{i,j} \cdot b_j(O_{t+1}) \cdot \beta_{t+1}(j)
+    \end{equation*}
+\end{definition}
+
+Mit den Variablen $\alpha$ und $\beta$ gewappnet können wir nun eine weitere Variable definieren.
+\begin{equation*}
+    \gamma_t(i) = P(q_t = S_i \mid O, \lambda)
+\end{equation*}
+Die Variable $\gamma$ beschreibt die Wahrscheinlichkeit beim Beobachten von O in Zeitpunkt $t$ in Zustand $i$ zu sein. $\gamma_t(i)$ wird berechnet durch
+\begin{equation*}
+\gamma_t(i)
+= \frac{\alpha_t(i) \cdot \beta_t(i)}{P(O \mid \lambda)}
+= \frac{\alpha_t(i) \cdot \beta_t(i)}{\sum_{i=1}^{N} \alpha_t(i) \cdot \beta_t(i)}
+\end{equation*}
+
+
+Der Viterbi Algorithmus ähnelt dem Forwärtsalgorithmus sehr stark. Der maßgebliche Unterschied liegt jedoch darin, dass der Viterbi Algorithmus das \textbf{Maximum} der vorherigen Pfadwahrscheinlichkeiten betrachtet, wohingegen der Forwärtsalgorithmus die \textbf{Summe} betrachtet. Um die Wahrscheinlichkeit einer Observationssequenz zu berechnen ist es egal welcher Pfad 
+
+- Wir müssen uns nur den Pfad angucken, welcher am Wahrscheinlichsten in einen Zustand führt
+
+Sei $\delta_t(i)$ die maximale Wahrscheinlichkeit, aller zusammenhängenden Pfade welche die ersten $t$ Observationen erklären und in Zustand $s_i$ enden.
+\begin{align*}
+    \delta_t(i) & = \underset{q_1, q_2, \dots, q_{t-1}}{\text{max }} P(q_1 q_2 \dots q_{t-1} \wedge q_t = i \wedge O_1 O_2 \dots O_t \mid \lambda) \\
+    \delta_{t+1}(i) & = (\underset{i}{\text{max }} \delta_t(i) \cdot a_{ij}) \cdot b_j(O_{t+1})
+\end{align*}
+
+Damit wir die wahrscheinlichste Zustandssequenz ausgeben können müssen wir uns für jeden Zeitpunkt $t$ und jeden Zustand $s_i$ das Argument, $j$ welches $\delta_{t -1}(j)a{ij}$ maximiert merken. Dies geschieht mittels des Arrays $\psi_t(i)$. Der ganze Lachs kann nun wie folgt gebutter werden.
+
+\begin{itemize}
+    \item 1) Initialisierung
+    \begin{align*}
+        \delta_1(i)  & = \pi_i b_i(O_1) && 1 \leq i \leq N \\
+        \psi_1(i) & = 0
+    \end{align*}
+    \item 2) Rekursion
+    \begin{align*}
+        \delta_t(j) & = \underset{1 \leq i \leq N}{\text{max }} (\sigma_{t-1}(i)a_{ij}) \cdot b_j(O_t) && 2 \leq t \leq T, 1 \leq j \leq N \\
+        \psi_t(j) & = \underset{1 \leq i \leq N}{\text{argmax }} (\delta_{t-1}(i)a_{ij}) && 2 \leq t \leq T, 1 \leq j \leq N
+    \end{align*}
+    \item 3) Terminierung
+    \begin{align*}
+        P^* & = \underset{1 \leq i \leq N}{\text{max }} [\delta_T(i)] \\
+        q_T^* & = \underset{1 \leq i \leq N}{\text{argmax}} [\delta_T(i)]
+    \end{align*}
+    \item 4) Zustandssequenzrückverfolgung
+    \begin{align*}
+        q^*_t = \psi_{t+1}(q^*_{t+1}) && t = T - 1, T - 2, \dots, 1
+    \end{align*}
+\end{itemize}
+
+
+\subsection*{Baum-Welch Verfahren}
+Die letzte Variable, welche wir für den Baum-Welch Algorithmus benötigen ist $\xi_t(i, j)$, die vorwärts-rückwarts-Variable. Diese gibt die Wahrscheinlichkeit an in Zeitpunkt $t$ in Zustand $S_i$ zu sein und im nächsten Zeitpunk $t+1$ in Zustand $S_j$ zu sein.
+\begin{equation}
+\xi_t(i, j)
+= \frac{\alpha_t(i) \cdot a_{i,j} \cdot b_j(O_{t+1}) \cdot \beta_{t+1}(j)}{P(O \mid \lambda)}
+= \frac{\alpha_t(i) \cdot a_{i,j} \cdot b_j(O_{t+1}) \cdot \beta_{t+1}(j)}
+        {\sum_{i=1}^{N} \sum_{j=1}^{N} \alpha_t(i) \cdot a_{i,j} \cdot b_j(O_{t+1}) \cdot \beta_{t+1}(j)}
+\end{equation}
+
+
+\section{Baum-Welch Algorithmus}
+Der Baum Welch Algorithmus ist ein erwartungsmaximierender Ansatz. Er basiert auf dem Prinzip, dass wir aus den Variablen $\xi$ und $\gamma$
+Erwartungswerte für die Anzahl an Transitionsübergängen und Symbolemissionen berechnen können. Mit dem Wissen wie oft diese Ereignesse erwartungsgemäß eintreffen können wir die Parameter des Models $\lambda = \pi, B, A$ neu berechnen. Wir erinnern uns
+
+$\gamma_t(i)$ = Wahrscheinlichkeit in Zeitpunkt $t$ in Zustand $S_i$ zu sein
+
+$\xi_t(i, j)$ = Wahrscheinlichkeit in Zeitpunkt $t$ in Zustand $S_i$ und in $t+1$ in $S_j$ zu sein
+
+Wenn wir $gamma_t(i)$ über alle $t$ exklusive $t=T$ summieren erhalten wir die zu erwartende Anzahl an ausgehenden Transitionen von $S_i$
+
+$\sum_{t=1}^{T-1} \gamma_t(i)$ = Zu erwartende Anzahl der von $S_i$ ausgehenden Transitionen
+
+Summieren wir $gamma_t(i)$ über alle $t$ inklusive $t=T$ erhalten wir die zu erwartende Anzahl an Aufenthalten in
+Zustand $S_i$
+
+$\sum_{t=1}^{T} \gamma_t(i)$ = Zu erwartende Anzahl an Aufenthalten in $S_i$
+
+Die zu erwartende Anzahl der Transitionen von $S_i$ zu einem bestimmten Zustand $S_j$ erhalten 
+wir ähnlich, durch summieren von $\xi_t(i, j)$ über alle $0 < t < T$.
+
+$\sum_{t=1}^{T-1} \xi_t(i, j)$ = Zu erwartende Anzahl an Transitionen von $S_i$ nach $S_j$
+
+Mit den Erwartungswerten für Anzahlen an Zustandsübergängen, Zustandsaufenthalten und Zustandsemissionen können wir neue Werte für die Parameter des HMM berechnen.
+\begin{align*}
+\pi_i = \gamma_1(i)
+b_{i,j} = \frac{\sum_{t=1 s.d. O_t= V_k}^{T} \gamma_t(i)}{\sum_{t=1}^{T} \gamma_t(i)}
+a_{i,j} = \frac{\sum_{t=1}^{T-1} \xi_t(i, j)}{\sum_{t=1}^{T-1} \gamma_t(i)}
+\end{align*}
+
+Eine Neuberechnung der Parameter kann beliebig oft durchgeführt werden.
+In der Praxis wird als Abbruchbedingung ein Mindestwert für die Verbesserung des Models festgelegt.

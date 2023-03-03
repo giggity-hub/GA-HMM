@@ -40,6 +40,29 @@
       \field{title}{Elementare Stochastik}
       \field{year}{2012}
     \endentry
+    \entry{MetaheuristicsSurvey}{misc}{}
+      \name{author}{1}{}{%
+        {{hash=d7f84ceac40f18d3ff3fdc1647e98186}{%
+           family={dullis},
+           familyi={d\bibinitperiod},
+           given={Nen},
+           giveni={N\bibinitperiod},
+           prefix={paar},
+           prefixi={p\bibinitperiod}}}%
+      }
+      \strng{namehash}{d7f84ceac40f18d3ff3fdc1647e98186}
+      \strng{fullhash}{d7f84ceac40f18d3ff3fdc1647e98186}
+      \strng{bibnamehash}{d7f84ceac40f18d3ff3fdc1647e98186}
+      \strng{authorbibnamehash}{d7f84ceac40f18d3ff3fdc1647e98186}
+      \strng{authornamehash}{d7f84ceac40f18d3ff3fdc1647e98186}
+      \strng{authorfullhash}{d7f84ceac40f18d3ff3fdc1647e98186}
+      \field{sortinit}{d}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Paper mit nem tittel}
+      \field{year}{2011}
+    \endentry
     \entry{NoNovelty}{misc}{}
       \field{sortinit}{G}
       \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
@@ -161,7 +184,6 @@
       \strng{authorbibnamehash}{c79e6794d92b660604601937a9b1c766}
       \strng{authornamehash}{c79e6794d92b660604601937a9b1c766}
       \strng{authorfullhash}{c79e6794d92b660604601937a9b1c766}
-      \field{extraname}{1}
       \field{sortinit}{S}
       \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
       \field{labelnamesource}{author}
@@ -169,24 +191,26 @@
       \field{title}{Metaheuristics}
       \field{year}{2008}
     \endentry
-    \entry{metaheuristics&evolcomp}{misc}{}
+    \entry{MetaheuristicsEGT}{misc}{}
       \name{author}{1}{}{%
-        {{hash=c79e6794d92b660604601937a9b1c766}{%
-           family={Springer},
-           familyi={S\bibinitperiod}}}%
+        {{hash=d6716852db8d41b230dbec1231e7bb12}{%
+           family={Talbi},
+           familyi={T\bibinitperiod},
+           given={El-Ghazali},
+           giveni={E\bibinithyphendelim G\bibinitperiod}}}%
       }
-      \strng{namehash}{c79e6794d92b660604601937a9b1c766}
-      \strng{fullhash}{c79e6794d92b660604601937a9b1c766}
-      \strng{bibnamehash}{c79e6794d92b660604601937a9b1c766}
-      \strng{authorbibnamehash}{c79e6794d92b660604601937a9b1c766}
-      \strng{authornamehash}{c79e6794d92b660604601937a9b1c766}
-      \strng{authorfullhash}{c79e6794d92b660604601937a9b1c766}
-      \field{extraname}{2}
-      \field{sortinit}{S}
-      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \strng{namehash}{d6716852db8d41b230dbec1231e7bb12}
+      \strng{fullhash}{d6716852db8d41b230dbec1231e7bb12}
+      \strng{bibnamehash}{d6716852db8d41b230dbec1231e7bb12}
+      \strng{authorbibnamehash}{d6716852db8d41b230dbec1231e7bb12}
+      \strng{authornamehash}{d6716852db8d41b230dbec1231e7bb12}
+      \strng{authorfullhash}{d6716852db8d41b230dbec1231e7bb12}
+      \field{sortinit}{T}
+      \field{sortinithash}{9af77f0292593c26bde9a56e688eaee9}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{title}{Metaheuristics and Evolutionary Computation: Algorithms and Applications}
+      \field{title}{Metaheuristics - From design to implementation}
+      \field{year}{1965}
     \endentry
     \entry{HarmonySearch}{misc}{}
       \name{author}{1}{}{%

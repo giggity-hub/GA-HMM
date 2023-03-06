@@ -148,3 +148,12 @@ a_{i,j} = \frac{\sum_{t=1}^{T-1} \xi_t(i, j)}{\sum_{t=1}^{T-1} \gamma_t(i)}
 
 Eine Neuberechnung der Parameter kann beliebig oft durchgeführt werden.
 In der Praxis wird als Abbruchbedingung ein Mindestwert für die Verbesserung des Models festgelegt.
+
+\section*{Underflow und Overfitting}
+Wir erinnern uns, dass die Wahrscheinlichkeit einer Observationssequenz berechnet wird durch die rekursive variable $\alpha_t(i)$.
+\begin{equation*}
+    \alpha_{t+1}(j) = \left[ \sum_{i=1}^{N} \alpha_t(i) \cdot a_{i,j} \right] \cdot b_j(O_{t+1})
+\end{equation*}
+Man kann erkennen, das $\alpha_t(i)$ expenontiell kleiner wird in Abhängigkeit von $T$. Das stellt ein Problem für die Implementation dar, denn eine binäre Representation einer Fließkommazahl erlaubt keine arbiträre Präzision. Eine Fließkommazahl die kleiner ist als wir mit unserem System darstellen können führt zu einem sogenannten \textbf{Underflow}. Um dieses ungewünschte Verhalten zu verhindern werden die Forwärts- und Rückwärtsvariablen \textbf{skaliert}. Beim skalieren werden die einzelnen $\alpha_t(i)$ und $\beta_t(i)$ mit \textbf{Skalierungskoeffizienten} multipliziert so dass sie sich stets im darstellbaren Bereich des Systems befinden. Der Nachteil davon ist, dass wir nur noch den Logarithmus der Wahrscheinlichkeit einer Observationssequenz berechnen können aber das nimmt man gerne in Kauf.
+
+Ein weiteres Problem ist, dass Emissionen und Transitionen welche nicht in den Trainingsobservationen vorkommen mit 0 belegt werden. Dadurch kann es vorkommen, dass das trainierte Modell Observationen welche nicht im Trainingsset enthalten sind nicht akzeptiert. Wir sprechen bei solch einer fehlenden Generalisierung von \textbf{Overfitting}. Um dem entgegenzuwirken kann man ein \textbf{Smoothing}. Die einfachste Form eines Smoothing-Verfahrens besteht darin einen konstanten Wert auf alle Parameter zu addieren und diese anschließend wieder zu normalisieren. Solch ein Verfahren nennt man Laplace Smoothing. 

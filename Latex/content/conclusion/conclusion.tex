@@ -1,0 +1,32 @@
+\chapter{Conclusion}
+\section*{Diskussion}
+Im Gebiet der metaheuristischen Optimierung gibt es meinen Beobachtungen nach zwei Herangehensweisen. Einige verfolgen das Ziel zu verstehen warum Metaheuristiken funktionieren und wie diese bei Hybridisierungen miteinander interagieren. Andere wiederum haben augenscheinlich nur das Ziel für einen bestimmten Benchmark die höchste Punktzahl zu erhalten. Algorithmen mit Namen wie Hybrid simplified grey wolf and modified simple organism search (HSGWO-MSOS) oder auch hybrid least squares-support vector machine and artificial bee colony algorithm (ABC-LS-SVM) resultieren wohl aus letzterem Ansatz. Ich möchte keinen dieser Algorithmen verteufeln, es ist jedoch schwierig den Beitrag zum Stand der Wissenschaft, einer Aussage wie "\textit{Algorithmus A hybridisiert mit Algorithmus B ist der beste für Problem X unter Parametern P}" zu bemessen. Abbildung \ref*{fig:kack_algorithmus} zeigt eine leicht überspitzte Darstellung dieses Sachverhaltes.
+
+\begin{figure}[h!]
+    \includegraphics[scale=1.0]{images/KACK_Algorithmus.png}
+    \caption{Ein innovativer Algorithmus}
+    \label{fig:kack_algorithmus}
+\end{figure}
+
+
+
+\section*{Fazit}
+Ich denke die Ursprüngliche Frage, warum keine der innovativen Metaheuristiken zum trainieren von HMMs es geschafft auch nur annähernd die Prominenz des Baum-Welch Algorithmus zu erreichen sollte nun offensichtlich sein. Denn Metaheuristiken bringen eine Menge an Nachteilen mit sich.
+\begin{itemize}
+    \item aufwendig zu implementieren und zu erweitern
+    \item Rechenintensiv
+    \item Sie führen Parameter ein, welche problemabhängig optimiert werden müssen.
+    \item Parameter sind je nach Metapher schwierig zu interpretieren
+\end{itemize}
+
+Die Vorteile sind
+\begin{itemize}
+    \item Besseres Ergebnis für ein spezifisches Problem
+\end{itemize}
+
+Man sollte also nur zu einer Metaheuristik greifen wenn man eine extrem Optimierte Lösung benötigt.
+"Only when very good solutions are needed which cannot be obtained by any complete method in a feasible time frame, the development of a hybrid metaheuristic is advised." \cite*{MetaheuristicsSurvey}.
+Metaheuristiken sind kein Allheilmittel und sie sollten sparsam eingesetzt werden. Wie schon das alte Sprichwort lautet "Wer als Werkzeug nur einen Hammer hat, sieht in jedem Problem einen Nagel" 
+
+\section*{Ausblick}
+Eventuell ist es Sinnvoller metaheuristische Forschung auf Probleme zu konzentrieren für welche keine effizienten lokalen Optimierungsverfahren existieren. Das finden einer geeigneten Struktur für hidden Markov-Modelle zum Beispiel ist solch ein Problem.

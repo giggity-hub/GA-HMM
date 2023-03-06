@@ -1,93 +1,15 @@
-\section*{Evaluation}
-Zum Vergleich von Optimierungsalgorithmen ist es wichtig im Hinterkopf zu behalten, dass kein universal guter Optimierungsalgorithmus existieren kann. Das No Free Lunch Theorem postuliert, das für jedes Paar von Algorithmen, unter Betrachtung aller möglichen Optimierungsprobleme, beide Algorithmen im Durchschnitt gleich gut sind \cite*{NFL}. Daraus folgt: wenn Algorithmus $A$ für eine Menge von Problemen besser ist als Algorithmus $B$ muss Algorithmus $B$ für alle restlichen Probleme besser sein als Algorithmus $A$.
+\section*{Vergleich genetischer Operatoren}
+Zunächst werden wir wir die verschiedenen Vorgeschlagenen genetischen Operatoren miteinander vergleichen bezüglich der Kapazität eine gegebene Lösung zu verbessern. Dazu werden Crossover und Mutationsoperatoren auf Chromosome mit verschiedenen Optimierungsgrad angewendet. Wir können beobachten, dass sowohl Mutation als auch Crossover nur in den seltensten Fällen tatsächlich zu einer Verbesserung führen. Das zeigt, dass wir bei einem genetischen Algorithmus den größten Teil der Rechenleistung darauf verwenden Lösungen zu verschlechtern.
 
+\section*{Performance Vergleich}
+In diesem Abschnitt vergleichen wir die Performance eines genetischen Algorithmus mit dem Baum-Welch Algorithmus und betrachten welche Schritte des GA-HMM am meißten Rechenzeit beanspruchen. Typischerweise ist bei einem genetischen Algorithmus die Fitnessfunktion am Rechenintensivsten \cite*{MetaheuristicsEGT}. Im Fall des GA-HMM ist die Fitness-Funktion jedoch sehr günstig. Es muss hier angemerkt werden, dass es sich nicht um fairen Vergleich handelt, da die Fitness-Funktion in optimierten C Code implementiert ist und der genetische Teil des GA-HMM nur Teilweise optimiert ist. Ich bezweifle jedoch, dass man die Performance des genetischen Algorithmus stark verbessern kann ohne die Lesbarkeit oder Flexibilität des Codes zu komprimieren. Ein genetischer Algorithmus muss enorm viele Parameter festhalten und wurde daher als Objekt implementiert, welche zumindestens in Python sehr ineffizient sind. Der Baum-Welch Algorithmus hingegen kann als eine einizige Funktion implementiert werden, welche leicht optimiert werden kann. 
 
-% 
-Man sollte sich die Frage stellen Warum man überhaupt zu einem Hybriden Algorithmus greift. 
-"Only when very good solutions are needed which cannot be obtained by any complete method in a feasible time frame, the development of a hybrid metaheuristic is advised." \cite*{MetaheuristicsSurvey}
+\section*{Implementation verschiedener Ansätze}
+Ja sind alle kacke wer hätte gedacht?
 
-
-"Unfortunately, the used research methodology is often
-characterized by a rather ad hoc approach that consists in mixing different algorithmic components without any really serious
-attempts to identify the contribution of different components to the
-algorithms' performance" \cite*{MetaheuristicsSurvey}
-
-=> Zum Beispiel gibt es einige Hybride Metaheuristiken, welche zwei Populationsbasierte Metaheuristiken kombinieren 
-
-
+Richard S. Barr schreibt, dass die Aussagekräftigste Visualiserung eine Darstellung der Qualität gegen Zeit ist.
 Perhaps the most popular and illuminating exhibits of heuristic performance is a graph 
 of solution quality as a function of time.~\cite*{ComparisonGuidelines}
-- Wird Fragen auf warum gerade diese Darstellung in vielen "neuen" Algorithmen 
-abstinent ist
-
-When testing an algorithm that finds an optimal solution to 
-a given problem, the important issues are speed and rate of convergence to the optimal 
-solution.~\cite*{ComparisonGuidelines}
-- Ein Genetischer Algorithmus ist weder schnell, noch schlägt er den Baum Welch Algorithmus in Konvergenz
-
-Ich schließe mich diesem Einen Lellek an und sage 
-Ein Ergebnis, Metaheuristik A hybridisiert mit Metaheuristik B unter Parametern P performed so und so für diese Instanz dieses Problems. Fördert nicht wirklich unser Verständniss der Wissenschaft.
-
-\subsubsection*{Diskussion}
-- Die Forschung an Metaheuristiken kann man in zwei Lager teilen. Auf der Einen Seite Arbeiten welche versuchen zu Verstehen warum Metaheuristiken Funktionieren und bei einer hybridisierung mehrerer Heuristiken herausfinden wollen Welche Heuristik nun wie zur Lösung beiträgt. Auf der Anderen Seite gibt es eine Vielzahl an Studien Einen höheren Score zu erreichen. Das führt dann zu erkenntnissen wie "Metaheuristik A hybridisiert mit Metaheuristik B ist für Problem X am besten unter diesen Parametern P". Da solche ergebnisse nur sehr bedingt generalisierbar sind ist Fragwürdig wie viel uns solche Forschungen bringen.
-
-Welche Kriterien kann man evaluieren:
-- Geschwindigkeit
-- Konvergenz rate
+Daher macht es mich stutzig warum gerade solch eine Visualisierung aus nicht in den Evaluationen der genetischen Algorithmen zu finden ist.
 
 
-Probleme der Evaluation von "neuen" HMM trainings Algorithmen:
-- Für viele Probleme ist eine Optimale Lösung nicht bekannt
-
-
-Laut Barr sollten folgende Werte für Performance erhoben werden:
-- Zeit bis zur besten Lösung,
-- Totale Rechenzeit,
-- Zeit pro Phase (in diesem Fall, crossover, selection, mutation, bw)
-
-
-\subsection*{Robustheit}
-Ein Algorithmus, welcher ein gutes Ergebnis nur für ein spezifisches Problem demonstrieren kann
-ist nicht von großem Interesse.
-Leider beschränken sich die meißten Algorithmen auf ein spezifisches realweltiches Problem oder 
-sogar nur ein Toy-Example
-- Bei Qualität over Time standard deviation mit plotten
-
-Die Performance sollte evaluiert werden bevor die Parameter getuned werden.
-- Auch hier testen viele Larrys ihre Algorithmen nur mit einer Konfiguration von hyper parametern
-
-\subsection*{Ein fairer Vergleich}
-
-\subsection*{Ausblick}
-Vielleicht sollte man mehr energie auf das Optimieren der Anzahl von Zuständen und Symbolen lenken, denn dafür existiert kein bekannter Algorithmus.
-
-\subsection*{Hybridisierung}
-Die Darstellung ist auch nur eine leichte Überspitzung, denn Algorithmen wie die Folgenden Paper darlegen.
-Der hybrid simplified grey wolf and modified simple organism search (HSGWO-MSOS) Algorithmus ist der beste für die Pfadplanung unbemannter Luftfahrzeuge. 
-
-hybrid least squares-support vector machine and artificial bee colony algorithm (ABC-LS-SVM)
-... gut zu wissen. 
-
-
-\subsection*{Fazit}
-Um die einleitende Fragestellung aufzugreifen: Warum ist die mehrmalige Anwendung von Baum-Welch weiterhin die dominante Trainingsmethode für Hidden Markov Modelle?
-- Ist Sehr Effizient
-- Ist vergleichsmäßig leicht zu implementieren, ich spreche hier aus Erfahrung
-- Da es bereits sehr viele Andere implementationen gibt ist es auch leicht die Implementation zu testen. Unter der Annahme, dass eine Implementation korrekt ist kann man die outputs für identische inputs vergleichen und wenn diese übereinstimmen kann man folgern das die eigene Implementation ebenfalls korrekt ist. Bei einer Metaheuristik ist das deutlich schwieriger sich von der korrektheit seiner Implementation zu überzeugen.
-
-Hier ist die Evolutionary Computation Bestiary, welche eine Vielzahl an Naturinspirierten Optimierungsalgorithmen aufzählt.
-% https://github.com/fcampelo/EC-Bestiary
-
-% 4 States
-% - Only even symbols
-% - Only odd symbols
-% - Only Powers of two
-% - 
-
-
-" It is important always to keep an objective point of view;
-do not consider that GAs are a panacea for resolving all optimization problems.
-This warning is for those who might have the temptation to resolve anything with
-GA. The proverb says “If we have a hammer, all the problems looks like a nails”.
-GAs do work and give excellent results if they are applied properly on appropriate
-problems." \cite*{GeneticAlgorithms}

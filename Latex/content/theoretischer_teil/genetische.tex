@@ -20,7 +20,6 @@ Ein genetischer Algorithmus arbeitet mit einer genetischen Representation der zu
 \end{figure}
 
 Die \textbf{fitness} eines Chromosoms ist der Wert der Zielfunktion für den Phenotyp des Chromosoms. Also der Wert der Zielfunktion für die Parameter welche die Gene des Chromosoms representieren.
-Der Ablauf eines typischen genetischen Algorithmus besteht aus 4 Schritten.
 
 \subsection{Ablauf eines genetischen Algorithmus}
 Der Ausgangspunkt eines genetischen Algorithmus ist eine Population an Chromosomen. Das erstellen dieser Population nennt man \textbf{Initialisierung}. Gewöhnlicherweise wird die initiale Population zufällig gewählt. Ein Iterationsschritt des klassischen genetischen Algorithmus besteht aus Vier Schritten \cite*{GeneticAlgorithms}.
@@ -39,72 +38,56 @@ Der Algorithmus terminiert wenn die vorher spezifizierte Anzahl an Generationen 
 \end{figure}
 
 
-\subsection{Selektionsoperator}
-Der Selektionsoperator wählt eine Menge von Eltern aus der Population, aus welchen Kinder für die nächste Generation erzeugt werden. Typischerweise hat jedes Kind-Chromosom zwei Eltern-Chromosome. Es gibt jedoch auch Crossover-Operatoren welche mit mehr als zwei Eltern arbeiten. Ganz nach der Evolutionstheorie sollen hier Chromosome mit einer höheren Fitness auch eine höhere Chance haben als Elternteil gewählt zu werden. Wie stark Chromosome mit einer höheren Fitness bevorzugt werden wird als Selektionsdruck bezeichnet. Selektionsschemata können in zwei Klassen unterteilt werden, proportionale Selektion und ordinale Selektion.~\cite*{TerminologiesAndOperators} Eine proportionale Selektion gewichtet Chromosome anhand ihrer Fitness. Ordinale Selektion gewichtet Chromosome anhand ihres Ranges. Der Selektionsdruck Bei einer proportionalen Selektion ist der Selektionsdruck hoch und es besteht das Risiko einer verfrühten Konvergenz. Denn wenn es ein Chromosom gibt, welches weitaus fitter als der Rest der Population ist wird dieses einen proportionalen Selektionsprozess dominieren und somit die genetische 
-Diversität der Population senken. Andererseits führt ein geringer Selektionsdruck zu langsamer konvergenz.~\cite{TerminologiesAndOperators}
-Die Auswahl des Selektionsoperators sollte also wohlüberdacht sein.
+\subsection*{Selektionsoperator}
+Der Selektionsoperator wählt eine Menge von Eltern aus welchen Kinder für die nächste Generation erzeugt werden. Ganz nach der Evolutionstheorie sollen hier Chromosome mit einer höheren Fitness auch eine höhere Chance haben als Elternteil gewählt zu werden. Wie stark Chromosome mit einer höheren Fitness bevorzugt werden wird als \textbf{Selektionsdruck} bezeichnet. Selektionsstrategien können in zwei Klassen unterteilt werden, \textbf{proportionale Selektion} und \textbf{ordinale Selektion}.~\cite*{TerminologiesAndOperators} Eine proportionale Selektion gewichtet Chromosome anhand ihrer Fitness. Ordinale Selektion gewichtet Chromosome anhand ihres Ranges. Bei einer proportionalen Selektion ist der Selektionsdruck hoch und es besteht das Risiko einer verfrühten Konvergenz. Denn wenn ein einzelnes Chromosom weitaus fitter, als der Rest der Population ist, wird dieses Chromosom einen proportionalen Selektionsprozess dominieren und somit die genetische Diversität der Population senken. Andererseits führt ein geringer Selektionsdruck zu langsamer konvergenz.~\cite{TerminologiesAndOperators} Die Auswahl des Selektionsoperators sollte also wohlüberdacht sein.
 
-\subsubsection*{Roulette Rad Selektion}
-Roulette Rad Selektion ist einer der traditionellen proportionalen Selektionsoperatoren. Stellen wir uns ein Roulette Rad vor, welches in $N$ Segmente unterteilt ist, wobei $N$ die Anzahl der Chromosome in einer Population ist. Die Länge eines Segmentes $s_i$ ist proportional zu der normalisierten Fitness des korrespondierenden Chromosoms.
+\paragraph*{Zufällige Selektion} funktioniert genau so wie der Name vermuten lässt. Die Eltern-Chromosome werden zufällig aus der Population gewählt so dass jedes Chromosom die gleiche Wahrscheinlichkeit hat als Elternteil gewählt zu werden.
+
+\paragraph*{Roulette Rad Selektion} ist einer der traditionellen proportionalen Selektionsoperatoren. Stellen wir uns ein Roulette Rad vor, welches in $N$ Segmente unterteilt ist, wobei $N$ die Anzahl der Chromosome in einer Population ist. Die Länge eines Segmentes $s_i$ ist proportional zu der normalisierten Fitness des korrespondierenden Chromosoms.
 \begin{equation}
     s_i = 2 \pi \cdot \frac{fitness(i)}{\sum_{j=1}^{N} fitness(j)}
 \end{equation}
 Nun wird das Roulette Rad gedreht und das Chromosom auf wessen Feld man landet wird in die Menge der Eltern aufgenommen. Diese Prozedur wird so oft wiederholt bis man die gewünschte Anzahl an Eltern gesammelt hat.
 
-\subsubsection*{Zufällige Selektion}
-Der zufällige Selektionsoperator ist der simpelste. Jedes Chromosom hat die gleiche Wahrscheinlichkeit in die Elternmenge aufgenommen zu werden.
-
-\subsubsection*{Rang Selektion}
-Die Rang Selektion ist eine Abwandlung der Roulette Rad Selektion. Die länge eines Segmentes ist jedoch nicht proportional zu der fitness sondern proportional zu dem Rang des Chromosoms.
+\paragraph*{Rang Selektion} ist eine Abwandlung der Roulette Rad Selektion. Die länge eines Segmentes ist jedoch nicht proportional zu der fitness sondern proportional zu dem Rang des Chromosoms.
 \begin{equation}
     s_i = 2 \pi \cdot \frac{N - rank(i)}{\sum_{j=1}^{N} rank(j)}
 \end{equation}
+Dadurch ist das Risiko einer verfrühten Konvergenz geringer als bei einer Roulette Rad Selektion.
+\begin{figure}[h!]
+    \includegraphics[scale=1.0]{images/Selection_Methods.png}
+    \caption{Verschiedene Selektionsoperatoren}
+    \label{fig:selection_operators}
+\end{figure}
 
-\subsubsection*{Elitismus}
-Die Selektionsoperatoren garantieren nicht, dass die besten Chromosome ausgewählt werden. Darüber hinaus kann es vorkommen, dass die besten Chromosome durch Crossover und Mutation verschlechtert werden, sodass die Fitness der folgenden Generation geringer als die vorherige ist. Um eine Abnahme der Fitness zu verhindern kann wird Elitismus angewendet. Die n besten Chromosome einer Population, die sogenannten Eliten werden  auf jeden Fall in die nächste Generation aufgenommen ohne durch Crossover und Mutation verändert zu werden.
+Bei keinem der Selektionsoperator ist garantiert, dass die Chromosome mit der höchsten Fitness als Eltern ausgewählt werden. Darüber hinaus kann es vorkommen, dass Chromosome mit hoher Fitness durch Crossover und Mutation verschlechtert werden, so dass die maximale Fitness der folgenden Generation geringer als die vorherigen ist. Um eine Abnahme der maximalen Fitness zu verhindern wird \textbf{Elitismus} angewendet. Elitismus bedeutet dass einigie der besten Chromosome einer Population, die sogenannten Eliten in jedem Fall in die nächste Generation aufgenommen werden, ohne durch Crossover und Mutation verändert zu werden. Die Anzahl der Eliten ist variabel, um eine Abnahme der maximalen Fitness zu verhindern genügt es aber das Chromosom mit der höchsten Fitness zu übernehmen (Also ein Elitismus von 1).
 
 \subsection{Crossoveroperator}
-Crossover bezeichnet das Rekombinieren von typischerweise zwei Eltern-Chromosomen zu einem Kind-Chromosom. Der vollständigkeit halber sei angeführt, dass auch Crossoveroperatoren existieren, welche  mit mehr als zwei Eltern akzeptieren oder mehr als ein Kind produzieren. In dieser Arbeit beschränken  wir uns jedoch auf Crossoveroperatoren von zwei Eltern zu einem Kind. Beim Crossover werden keine neuen Informationen in den Genpool eingeführt sondern  es werden nur die vorhandenen Gene der Eltern rekombiniert. Es folg eine Aufzählung gängiger Crossoveroperatoren.
+Als Crossover bezeichnet man das Rekombinieren von typischerweise zwei Eltern-Chromosomen zu einem Kind-Chromosom. Es existieren auch Crossover-Operatoren, welche mehr als zwei Eltern akzeptieren oder mehr als ein Kind produzieren, diese werden wir jedoch nicht betrachten.
 
-\subsubsection*{Single Point Crossover}
-Beim Single Point Crossover wird ein Cutpoint entlang der länge der Eltern gewählt. Beide Eltern werden dann an diesem Cutpoint geschnitten und das Kind-Chromosom setzt sich zusammen aus der ersten Hälfte des ersten Elternteils und der zweiten Hälfte des zweiten Elternteils.
+Beim \textbf{Single Point Crossover} wird ein Cutpoint entlang der länge der Eltern gewählt. Beide Eltern werden dann an diesem Cutpoint geschnitten und das Kind-Chromosom setzt sich zusammen aus der ersten Hälfte des ersten Elternteils und der zweiten Hälfte des zweiten Elternteils.
 
-\includegraphics[scale=1.0]{images/Single_Point_Crossover.png}
+\textbf{N-Point Crossover} ist eine Generallisierung des Single Point Crossovers. Es werden $n$ Crossover Points entlang der Länge der Eltern gewählt. Anhand dieser Crossover Points werden die Eltern in $n+1$ Segmente unterteilt. Das Kind erhält alle Segmente mit geradem Index vom ersten Elternteil und alle Segmente mit ungeradem Index vom zweiten Elternteil. Im Allgemeinen führen mehr cutpoints jedoch zu einer geringeren Effizienz  des genetischen Algorithmus.~\cite*{TerminologiesAndOperators}
 
-\subsubsection*{N-Point Crossover}
-Der N-Point Crossover ist eine Generallisierung des Single Point Crossovers. Es werden $n$ Crossover Points entlang der Länge der Eltern gewählt. Anhand dieser Crossover Points werden die Eltern in $n+1$ Segmente unterteilt. Das Kind erhält alle Segmente mit geradem Index vom ersten Elternteil und alle Segmente mit ungeradem Index vom zweiten Elternteil. Im Allgemeinen führen mehr cutpoints jedoch zu einer geringeren Effizienz  des genetischen Algorithmus.~\cite*{TerminologiesAndOperators}
+Bei einem \textbf{uniformen Crossover} wird eine Crossovermaske $m$ mit gleicher Länge zu den Eltern erstellt. Das Kind erhält Gene der Eltern nach dieser Crossover Maske, wobei $m_i$ angibt, von welchem Elternteil das $i$-te Gen bezogen wird. Für jedes Elternpaar wird eine neue Crossovermaske erstellt. Typischerweise gilt $P(m_i = 1) = P(m_1 = 0) = 0.5$. Die Wahrscheinlichkeit, dass ein Gen von einem Elternteil bezogen wird kann jedoch auch gewichtet werden anhand der Fitness oder Ränge, so dass $P(m_i = 0) = w$ und $P(m_i = 1) = 1 - w$
 
-\includegraphics[scale=1.0]{images/N_Point_Crossover.png}
+\includegraphics[scale=1.0]{images/Crossover_Methods.png}
 
-\subsubsection*{Uniform Crossover}
-Bei einem uniformen Crossover wird eine Crossovermaske $m$ mit gleicher Länge zu den Eltern erstellt. Das Kind erhält Gene der Eltern nach dieser Crossover Maske, wobei $m_i$ angibt, von welchem Elternteil das $i$-te Gen bezogen wird. Für jedes Elternpaar wird eine neue Crossovermaske erstellt. Typischerweise gilt $P(m_i = 1) = P(m_1 = 0) = 0.5$. Die Wahrscheinlichkeit, dass ein Gen von einem Elternteil bezogen wird kann jedoch auch gewichtet werden anhand der Fitness oder Ränge, so dass $P(m_i = 0) = w$ und $P(m_i = 1) = 1 - w$
-
-\includegraphics[scale=1.0]{images/Uniform_Crossover.png}
+Mit der \textbf{Crossover-Wahrscheinlichkeit} kann man festlegen mit welcher Wahrscheinlichkeit ein Crossover zwischen zwei Eltern stattfindet. Für jedes Elternpaar wird eine zufällige Wahrscheinlichkeit generiert. Falls diese Wahrscheinlichkeit größer als die Crossover-Wahrscheinlichkeit ist findet kein Crossover statt und das Kind ist eine exakte Kopie eines Elternteils. So kann man festlegen wie viel genetische Information in der nächsten Generation erhalten bleibt.
 
 \subsection{Mutationsoperator}
-Der Crossoverschritt verringert unweigerlich die genetische Diversität der Population. Um dem entgegenzuwirken muss es einen Mechanismus geben, welcher neues genetisches Material hinzufügt. Dieser Mechanismus ist die Mutation, welche ein Chromosom zufällig verändert.
+Das mehrfache Anwenden von Crossover und Selektion verringert unweigerlich die genetische Diversität der Population. Um dem entgegenzuwirken muss es einen Mechanismus geben, welcher neues genetisches Material hinzufügt. Dieser Mechanismus ist die Mutation, welche ein Chromosom zufällig verändert. Mutation garantiert, dass der Suchraum des genetischen Algorithmus \textbf{ergodisch} ist, was bedeutet das jeder Punkt im Suchraum von jedem anderen erreichbar ist \cite*{TerminologiesAndOperators}. Welche Mutationsoperatoren man verwendet hängt stark vom Problem und der Kodierung eines Chromosoms ab, da viele Mutationsoperatoren nur für bestimmte Arten von Genen anwendbar sind. Ein Bitflip Mutationsoperator zum Beispiel funktioniert logischerweise nur für eine binäre Kodierung. Für diese Arbeit interessieren uns nur Mutationsoperatoren die mit Fließkommazahlen arbeiten.
 
-TODO: Include Examples for Real valued GA crossover 
+Die \textbf{Mutationsrate} bestimmt wie viele Gene eines Chromosoms durch die Mutation verändert werden und wie viele Unverändert bleiben. Bei einer Mutationsrate von 100\% werden alle Gene eines Chromosoms verändert  und der genetische Algorithmus ist equivalent zu einer zufälligen Suche.~\cite*{TerminologiesAndOperators}. Für die Mutationsrate sollten im Allgemeinen kleine Werte gewählt werden (wie 0.01 oder 0,001). Eine gute Faustregel ist eine Mutationsrate von $\frac{1}{k}$, wobei $k$ die Anzahl der Gene ist \cite*{MetaheuristicsEGT}.
 
-\subsubsection*{Mutationschance}
-Die Mutationschance bestimmt wie viele Gene eines Chromosoms durch die Mutation verändert werden und wie viele Unverändert bleiben. Bei einer Mutationschance von 100\% werden alle Gene eines Chromosoms verändert  und der genetische Algorithmus ist equivalent zu einer zufälligen Suche.~\cite*{TerminologiesAndOperators}
+Ein \textbf{N-Point Random Mutation} Operator wählt zufällig $N$ Gene aus die Mutiert werden sollen und ersetzt diese dann durch zufällige Werte.
 
-\subsection{Ersetzen}
-TODO: Ersetzen moped schmoped
+Bei einer \textbf{Uniform Random Mutation} wird jedes Gen abhängig von der Mutationsrate mutiert.
 
+TODO: Mutation aus ner alternativen Verteilung als Standardverteilung wählen.
 
-Population Size
-Wählt man diese Zu gering kann es zu einer verfrühten Konvergenz und somit auch einer schlechten Lösung kommen
-Gleichzeitig ist die Population size ein Maßgebender Faktor in der Rechenzeit und eine zu große Population könnte 
-Rechenzeit verschwenden [GAs]
-
-
-Im folgenden werde ich bekannte implementationen der genetischen Operatoren eingehen und beschreiben worauf man bei der implementation achten muss
-
-\subsection*{Mutationsoperatoren}
-Random Uniform Mutation:
-Random Unifor mutation 
-
+\subsection*{Ersetzung}
+TODO: Ersetzungsstrategien
 
 \subsection*{Parameter eines genetischen Algorithmus}
 Wie im Abschnitt [Abschnitt Label hier] erwähnt haben Metaheuristiken den Nachteil, dass sie neue Parameter einführen. Ein genetischer Algorithmus, wie er zuvor beschrieben wurde hat folgende Parameter.

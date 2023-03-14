@@ -1,5 +1,6 @@
 import ga.crossover as crossover
 import ga.mutation as mutation
+import ga.selection as selection
 
 crossover_functions = {
     '1X': crossover.n_point_crossover_factory(n_crossover_points=1),
@@ -14,6 +15,10 @@ mutation_functions = {
     'UNIFORM_0.001': mutation.constant_uniform_mutation_factory(0.001),
 }
 
+selection_functions = {
+    'RANK_SELECTION': selection.rank_selection
+}
+
 tied = [
     {
         'dataset_name': 'fsdd',
@@ -21,7 +26,7 @@ tied = [
         'n_seqs': 10,
         'observation_category': 0,
         'n_states': 5,
-        'population_size': 100000,
+        'population_size': 1,
     }
     # {
     #     'dataset_name': 'orl',
@@ -29,7 +34,7 @@ tied = [
     #     'n_seqs': 10,
     #     'observation_category': 0,
     #     'n_states': 20,
-    #     'population_size': 10,
+    #     'population_size': 1000,
     # }
 ]
 

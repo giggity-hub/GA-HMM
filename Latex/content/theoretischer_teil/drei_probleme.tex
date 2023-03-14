@@ -107,7 +107,7 @@ Damit wir die wahrscheinlichste Zustandssequenz ausgeben können müssen wir uns
 \end{itemize}
 
 
-\subsection*{Baum-Welch Verfahren}
+\subsection{Baum-Welch Algorithmus}
 Die letzte Variable, welche wir für den Baum-Welch Algorithmus benötigen ist $\xi_t(i, j)$, die vorwärts-rückwarts-Variable. Diese gibt die Wahrscheinlichkeit an in Zeitpunkt $t$ in Zustand $S_i$ zu sein und im nächsten Zeitpunk $t+1$ in Zustand $S_j$ zu sein.
 \begin{equation}
 \xi_t(i, j)
@@ -116,8 +116,6 @@ Die letzte Variable, welche wir für den Baum-Welch Algorithmus benötigen ist $
         {\sum_{i=1}^{N} \sum_{j=1}^{N} \alpha_t(i) \cdot a_{i,j} \cdot b_j(O_{t+1}) \cdot \beta_{t+1}(j)}
 \end{equation}
 
-
-\section{Baum-Welch Algorithmus}
 Der Baum Welch Algorithmus ist ein erwartungsmaximierender Ansatz. Er basiert auf dem Prinzip, dass wir aus den Variablen $\xi$ und $\gamma$
 Erwartungswerte für die Anzahl an Transitionsübergängen und Symbolemissionen berechnen können. Mit dem Wissen wie oft diese Ereignesse erwartungsgemäß eintreffen können wir die Parameter des Models $\lambda = \pi, B, A$ neu berechnen. Wir erinnern uns
 

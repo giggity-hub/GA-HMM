@@ -1,0 +1,38 @@
+\section{Grundbegriffe der Stochastik}
+
+\subsection*{Zufallsexperimente und Elementarereignisse}
+Der Grundbaustein der Stochastik sind sogenannte \textbf{Zufallsexperimente}. Klassische Beispiele für Zufallsexperimente sind das Werfen eines fairen 6-seitigen Wüfels oder das Ziehen von Kugeln aus einer Urne. Das Ergebnis eines Zufallsexperimentes nennt man \textbf{Elementarereignis} $w$. Die Menge aller Möglichen Elementarereignisse ist $\Omega$. Wenn unser Zufallsexperiment das einmalige Werfen eines fairen Würfels ist, dann gilt $\Omega = \{1, 2, 3, 4, 5, 6\}$ und für das einmalige Werfen zweier fairer Würfel gilt $\Omega = \{1,2,3,4,5,6\} \times \{1,2,3,4,5,6\} $. 
+
+\subsubsection*{Zufallsereignisse}
+Ein \textbf{Ereignis} $E$ ist eine Teilmenge von $\Omega$. Zum Beispiel ist $E =\{6\}$ das Ereignis, dass die Zahl 6 gewürfelt wird und $E=\{2,4,6\}$ das Ereignis, dass eine gerade Zahl fällt. Die Menge aller möglichen Ereignisse auf einer Menge von Elementarereignissen ist die \textbf{Ereignisalgebra} $\mathcal{E}$.
+
+\subsubsection*{Wahrscheinlichkeiten}
+Die Wahrscheinlichkeit eines Ereignisses $E \in \mathcal{E}$ ist gegeben durch ein \textbf{Wahrscheinlichkeitsmaß} $P: \mathcal{E}\rightarrow [0,1]$. Zufallsereignisse können durch \textbf{Mengenoperationen} kombiniert werden. So ist die Wahrscheilichkeit für das gemeinsame Eintreten von $A$ und $B$ gegeben durch die Vereinigung der Mengen $P(A \cap B)$ und die Wahrscheinlichkeit für das Eintreten von $A$ oder $B$ gegeben durch die Vereinigung $P(A \cup B)$. Das Ereigniss, dass eine durch 2 teilbare Zahl mit einem Würfel geworfen wird ist gegeben durch $A=\{2,4,6\}$ und das Ereigniss dass eine Zahl die durch 3 Teilbar geworfen durch $B=\{3,6\}$. Dann ist das Ereigniss eine Zahl zu würfeln die durch 2 \textit{oder} 3 teilbar ist die Vereinigung von $A$ und $B$ $A \cup B = \{2,3,4,6\}$ und das Ereigniss eine Zahl zu würfeln die durch 2 \textit{und} 3 teilbar ist der Schnitt von $A$ und $B$ $A \cap B = \{6\}$
+
+Zwei Zufallsereignisse $A$ und $B$ sind voneinander \textbf{unabhängig} wenn gilt
+\begin{equation}
+    P(A \cap B) = P(A) \cdot P(B)
+\end{equation}
+Für Zufallsereignisse die nicht unabhängig sind können wir die \textbf{bedingte Wahrscheinlichket} berechnen. Die Wahrscheinlichkeit von $A$ abhängig von $B$ wird notiert mit $P(A \mid B)$ und ist definiert als:
+\begin{equation}
+    P(A \mid B) = \frac{P(A \cap B)}{P(B)}
+\end{equation}
+Die Wahrscheinlichkeit von $A$ lässt sich nur berechnen falls die Wahrscheinlichkeit von $B$ \textbf{wohldefiniert} ist, also $P(B) > 0$.
+
+\subsubsection*{Wahrscheinlichkeitsräume}
+Eine Menge an Elementarereignissen $\Omega$, eine $\sigma$-Algebra auf der Menge $\Omega$ die auf $\Omega$ und ein Wahrscheinlichkeitsmaß $P: \mathcal{E}\rightarrow [0,1]$ bilden zusammen einen \textbf{Wahrscheinlichkeitsraum} $(\Omega, \mathcal{E}, P)$. Im folgenden beschränken wir uns auf diskrete Wahrscheinlichkeitsräume, welche dadurch gekennzeichnet sind, dass $\Omega$ abzählbar endlich ist \cite{ElementareStochastic}.
+
+\subsubsection*{Zufallsvariablen}
+Eine \textbf{Zufallsvariable} $X$ ist eine Abbildung von $\Omega$ in eine beliebige Menge $C$ \cite{ElementareStochastic}. Sei zum Beispiel $\Omega$ die Menge aller möglichen Ergebnisse des Werfens zweier fairer Würfel. Dann ist die Augensumme der Würfel gegeben durch die Abbildung $X: \Omega \rightarrow [0,1]$ mit $X(i, j) := i + j$ für alle $(i,j ) = w \in \Omega$. Die Wahrscheinlichkeit, dass die Augensumme 3 ergibt lässt sich dann berechnen mit
+\begin{align*}
+    P(X=3) = P(\{(1,2), (2,1)\}) = P((1,2)) + P((2,1)) = \frac{1}{36} + \frac{1}{36} = \frac{1}{18}
+\end{align*}
+Analog zu Zufallsereignissen sind Zufallsvariablen unabhängig wenn gilt
+\begin{equation}
+    P(X_1 = x_1 \mid X_2=x_2, \dots X_n=x_n) = P(X_1=x_1) \cdot P(X_2=x_2)  \dots \cdot P(X_n=x_n)
+\end{equation}
+
+\subsubsection*{Stochastische Prozesse}
+Ein Stochastischer Prozess beschreibt ein System welches sich zu einem gegebenen Zeitpunk $t$ in einem von endlich vielen Zuständen $S=\{s_1, s_2, \dots, s_n\}$ befinden kann, wobei das Verhalten des Systems durch Zufallsereignisse bestimmt wird. Formaler ausgedrückt ist ein stochastischer Prozess eine Menge an Zufallsvariablen $\{X_t\}_{t \in T}$, indiziert durch $T$ \cite*{StochasticProcesses}. Die Zufallsvariablen sind eine Abbildung in den Zustandsraum $S$ \cite{StochastischeProzesse}.$X_t \rightarrow S = \{s_1, s_2, \dots, s_n\}$.
+
+\todo{Würfel Beispiel für Stochastischen Prozess einfügen}

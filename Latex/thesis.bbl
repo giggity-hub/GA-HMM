@@ -19,81 +19,6 @@
 
 \refsection{0}
   \datalist[entry]{anyt/global//global/global}
-    \entry{LiteratureReviewACO}{misc}{}
-      \name{author}{2}{}{%
-        {{hash=9adec3538a4723500570ac6a9ef73931}{%
-           family={Akram\bibnamedelima Emdadi},
-           familyi={A\bibinitperiod\bibinitdelim E\bibinitperiod},
-           given={Fatemeh\bibnamedelimb Yassaee\bibnamedelima Meybodi},
-           giveni={F\bibinitperiod\bibinitdelim Y\bibinitperiod\bibinitdelim M\bibinitperiod},
-           suffix={Fatemeh\bibnamedelimb Ahmadi\bibnamedelima Moughari},
-           suffixi={F\bibinitperiod\bibinitdelim A\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
-        {{hash=c6bfe553cc761e0e861623e11737277b}{%
-           family={Eslahchi},
-           familyi={E\bibinitperiod},
-           given={Changiz},
-           giveni={C\bibinitperiod}}}%
-      }
-      \strng{namehash}{e20742ad24c9918103e474041adaf644}
-      \strng{fullhash}{e20742ad24c9918103e474041adaf644}
-      \strng{bibnamehash}{e20742ad24c9918103e474041adaf644}
-      \strng{authorbibnamehash}{e20742ad24c9918103e474041adaf644}
-      \strng{authornamehash}{e20742ad24c9918103e474041adaf644}
-      \strng{authorfullhash}{e20742ad24c9918103e474041adaf644}
-      \field{sortinit}{A}
-      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{title}{A novel algorithm for parameter estimation of Hidden Markov Model inspired by Ant Colony Optimization}
-      \field{year}{2019}
-    \endentry
-    \entry{LiteratureReviewMGS}{misc}{}
-      \name{author}{2}{}{%
-        {{hash=a9eccda1ea0add8b11bc2ac47b069746}{%
-           family={Ali\bibnamedelimb Asghar\bibnamedelimb Rahmani\bibnamedelima Hosseinabadi},
-           familyi={A\bibinitperiod\bibinitdelim A\bibinitperiod\bibinitdelim R\bibinitperiod\bibinitdelim H\bibinitperiod},
-           given={Mohammadreza\bibnamedelimb Ramzannezhad\bibnamedelima Ghaleh},
-           giveni={M\bibinitperiod\bibinitdelim R\bibinitperiod\bibinitdelim G\bibinitperiod}}}%
-        {{hash=f7ae699e86c07ba984785d68be2bd85f}{%
-           family={Hashemi},
-           familyi={H\bibinitperiod},
-           given={Seyed\bibnamedelima Esmaeil},
-           giveni={S\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
-      }
-      \strng{namehash}{9d587ffa2b39d190136169ea6b40ea58}
-      \strng{fullhash}{9d587ffa2b39d190136169ea6b40ea58}
-      \strng{bibnamehash}{9d587ffa2b39d190136169ea6b40ea58}
-      \strng{authorbibnamehash}{9d587ffa2b39d190136169ea6b40ea58}
-      \strng{authornamehash}{9d587ffa2b39d190136169ea6b40ea58}
-      \strng{authorfullhash}{9d587ffa2b39d190136169ea6b40ea58}
-      \field{sortinit}{A}
-      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{title}{Application of Modified Gravitional Search Algorithm to Solve the Problem of Teaching Hidden Markov Model}
-      \field{year}{2013}
-    \endentry
-    \entry{ComparisonGuidelines}{misc}{}
-      \name{author}{1}{}{%
-        {{hash=f70ce8f2086c19d36660ae2ae015cff3}{%
-           family={Barr},
-           familyi={B\bibinitperiod},
-           given={Richard\bibnamedelima S.},
-           giveni={R\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
-      }
-      \strng{namehash}{f70ce8f2086c19d36660ae2ae015cff3}
-      \strng{fullhash}{f70ce8f2086c19d36660ae2ae015cff3}
-      \strng{bibnamehash}{f70ce8f2086c19d36660ae2ae015cff3}
-      \strng{authorbibnamehash}{f70ce8f2086c19d36660ae2ae015cff3}
-      \strng{authornamehash}{f70ce8f2086c19d36660ae2ae015cff3}
-      \strng{authorfullhash}{f70ce8f2086c19d36660ae2ae015cff3}
-      \field{sortinit}{B}
-      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{title}{Designing and reporting on computational experiments with heuristic methods}
-      \field{year}{1995}
-    \endentry
     \entry{ElementareStochastic}{misc}{}
       \name{author}{1}{}{%
         {{hash=e658894ceec15883348c29cdf5959a29}{%
@@ -189,6 +114,27 @@
       \field{title}{Grey Wolf Firefly and Bat Algorithms Three Widespread Algorithms that Do Not Contain Any Novelty}
       \field{year}{2020}
     \endentry
+    \entry{MetaheuristicsExampleBlackHole}{misc}{}
+      \name{author}{1}{}{%
+        {{hash=48c5aa81da629a8fde2d7b3eb551c974}{%
+           family={Hatmalou},
+           familyi={H\bibinitperiod},
+           given={Abdolreza},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{48c5aa81da629a8fde2d7b3eb551c974}
+      \strng{fullhash}{48c5aa81da629a8fde2d7b3eb551c974}
+      \strng{bibnamehash}{48c5aa81da629a8fde2d7b3eb551c974}
+      \strng{authorbibnamehash}{48c5aa81da629a8fde2d7b3eb551c974}
+      \strng{authornamehash}{48c5aa81da629a8fde2d7b3eb551c974}
+      \strng{authorfullhash}{48c5aa81da629a8fde2d7b3eb551c974}
+      \field{sortinit}{H}
+      \field{sortinithash}{23a3aa7c24e56cfa16945d55545109b5}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Black hole: A new heuristic optimization approach for data clustering}
+      \field{year}{2013}
+    \endentry
     \entry{StochastischeProzesse}{misc}{}
       \name{author}{1}{}{%
         {{hash=4970ce597aa4386c36b91e763b7e187f}{%
@@ -230,27 +176,6 @@
       \field{labeltitlesource}{title}
       \field{title}{An introduction to Hidden Markov Models}
     \endentry
-    \entry{LiteratureReviewStructure}{misc}{}
-      \name{author}{1}{}{%
-        {{hash=97174e4d8a34cc20eceb8fe4fadb1ef0}{%
-           family={Kyoung-Jae\bibnamedelima Won},
-           familyi={K\bibinithyphendelim J\bibinitperiod\bibinitdelim W\bibinitperiod},
-           given={Adam\bibnamedelimb Prügel-Bennett\bibnamedelimb und\bibnamedelimb Anders\bibnamedelima Krogh},
-           giveni={A\bibinitperiod\bibinitdelim P\bibinithyphendelim B\bibinitperiod\bibinitdelim u\bibinitperiod\bibinitdelim A\bibinitperiod\bibinitdelim K\bibinitperiod}}}%
-      }
-      \strng{namehash}{97174e4d8a34cc20eceb8fe4fadb1ef0}
-      \strng{fullhash}{97174e4d8a34cc20eceb8fe4fadb1ef0}
-      \strng{bibnamehash}{97174e4d8a34cc20eceb8fe4fadb1ef0}
-      \strng{authorbibnamehash}{97174e4d8a34cc20eceb8fe4fadb1ef0}
-      \strng{authornamehash}{97174e4d8a34cc20eceb8fe4fadb1ef0}
-      \strng{authorfullhash}{97174e4d8a34cc20eceb8fe4fadb1ef0}
-      \field{sortinit}{K}
-      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{title}{Training HMM structure with genetic algorithm for biological sequence analysis}
-      \field{year}{2004}
-    \endentry
     \entry{ApplicationSpeechRecognition}{misc}{}
       \name{author}{1}{}{%
         {{hash=e28a377ac8190da6ca54a677d76aebf6}{%
@@ -271,27 +196,6 @@
       \field{labeltitlesource}{title}
       \field{title}{The Application of Hidden Markov Models in Speech Recognition}
       \field{year}{2008}
-    \endentry
-    \entry{LiteratureReviewSA}{misc}{}
-      \name{author}{1}{}{%
-        {{hash=1c0bd776d448329e3af77ded86d6232f}{%
-           family={Paul},
-           familyi={P\bibinitperiod},
-           given={Douglas\bibnamedelima B.},
-           giveni={D\bibinitperiod\bibinitdelim B\bibinitperiod}}}%
-      }
-      \strng{namehash}{1c0bd776d448329e3af77ded86d6232f}
-      \strng{fullhash}{1c0bd776d448329e3af77ded86d6232f}
-      \strng{bibnamehash}{1c0bd776d448329e3af77ded86d6232f}
-      \strng{authorbibnamehash}{1c0bd776d448329e3af77ded86d6232f}
-      \strng{authornamehash}{1c0bd776d448329e3af77ded86d6232f}
-      \strng{authorfullhash}{1c0bd776d448329e3af77ded86d6232f}
-      \field{sortinit}{P}
-      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{title}{Training of HMM Recognizers by Simulated Annealing}
-      \field{year}{1985}
     \endentry
     \entry{ApplicationPageRank}{misc}{}
       \name{author}{1}{}{%
@@ -335,57 +239,26 @@
       \field{title}{A Tutorial on Hidden Markov Models and Selected Applications in Speech Recognition}
       \field{year}{1989}
     \endentry
-    \entry{LiteratureReviewGATSBW}{misc}{}
-      \name{author}{2}{}{%
-        {{hash=deb34b822a3badc94591148d180c969f}{%
-           family={Rengqin\bibnamedelima Yan},
-           familyi={R\bibinitperiod\bibinitdelim Y\bibinitperiod},
-           given={Changhai\bibnamedelima Zhang},
-           giveni={C\bibinitperiod\bibinitdelim Z\bibinitperiod}}}%
-        {{hash=b81ef4e23442c4d68a820f9a8170611e}{%
-           family={Bai},
-           familyi={B\bibinitperiod},
-           given={Ge},
-           giveni={G\bibinitperiod}}}%
+    \entry{MetaheuristicsExampleIntelligentWaterDrops}{misc}{}
+      \name{author}{1}{}{%
+        {{hash=568b8d892ec990adb4442fd804f19361}{%
+           family={Shah-Hosseini},
+           familyi={S\bibinithyphendelim H\bibinitperiod},
+           given={Hamed},
+           giveni={H\bibinitperiod}}}%
       }
-      \strng{namehash}{23ad798ae08f8be47c842c549cdef1f8}
-      \strng{fullhash}{23ad798ae08f8be47c842c549cdef1f8}
-      \strng{bibnamehash}{23ad798ae08f8be47c842c549cdef1f8}
-      \strng{authorbibnamehash}{23ad798ae08f8be47c842c549cdef1f8}
-      \strng{authornamehash}{23ad798ae08f8be47c842c549cdef1f8}
-      \strng{authorfullhash}{23ad798ae08f8be47c842c549cdef1f8}
-      \field{sortinit}{R}
-      \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{title}{A Novel Genetic Algorithm Based on Tabu Search for HMM Optimization}
-      \field{year}{2008}
-    \endentry
-    \entry{LiteratureReviewABC}{misc}{}
-      \name{author}{2}{}{%
-        {{hash=eefccb18577e2f3d7c9aa98518880b69}{%
-           family={Sagayam},
-           familyi={S\bibinitperiod},
-           given={K.\bibnamedelimi Martin},
-           giveni={K\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
-        {{hash=4734562653dbdb35cb219581c689d5c6}{%
-           family={Hemanth},
-           familyi={H\bibinitperiod},
-           given={D.\bibnamedelimi Jude},
-           giveni={D\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
-      }
-      \strng{namehash}{f79a07dae063e341ea259ff4fa18761e}
-      \strng{fullhash}{f79a07dae063e341ea259ff4fa18761e}
-      \strng{bibnamehash}{f79a07dae063e341ea259ff4fa18761e}
-      \strng{authorbibnamehash}{f79a07dae063e341ea259ff4fa18761e}
-      \strng{authornamehash}{f79a07dae063e341ea259ff4fa18761e}
-      \strng{authorfullhash}{f79a07dae063e341ea259ff4fa18761e}
+      \strng{namehash}{568b8d892ec990adb4442fd804f19361}
+      \strng{fullhash}{568b8d892ec990adb4442fd804f19361}
+      \strng{bibnamehash}{568b8d892ec990adb4442fd804f19361}
+      \strng{authorbibnamehash}{568b8d892ec990adb4442fd804f19361}
+      \strng{authornamehash}{568b8d892ec990adb4442fd804f19361}
+      \strng{authorfullhash}{568b8d892ec990adb4442fd804f19361}
       \field{sortinit}{S}
       \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{title}{ABC algorithm based optimization of 1-D hidden Markov model for hand gesture recognition applications}
-      \field{year}{2018}
+      \field{title}{The intelligent water drops algorithm: a nature-inspired swarm-based optimization algorithm}
+      \field{year}{2009}
     \endentry
     \entry{GeneticAlgorithms}{misc}{}
       \name{author}{1}{}{%
@@ -426,32 +299,6 @@
       \field{labeltitlesource}{title}
       \field{title}{Terminologies and Operators of GA. In: Introduction to Genetic Algorithms. Springer}
       \field{year}{2008}
-    \endentry
-    \entry{LiteratureReviewCO}{misc}{}
-      \name{author}{2}{}{%
-        {{hash=099a1a445db77dcd7fceb09235da39be}{%
-           family={Somayeh\bibnamedelima Cheshomi},
-           familyi={S\bibinitperiod\bibinitdelim C\bibinitperiod},
-           given={Rahati-Q\bibnamedelima Saeed},
-           giveni={R\bibinithyphendelim Q\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
-        {{hash=f846cd6f155fc5fde23eaaceef468eb3}{%
-           family={Akbarzadeh-T},
-           familyi={A\bibinithyphendelim T\bibinitperiod},
-           given={Mohammah-R},
-           giveni={M\bibinithyphendelim R\bibinitperiod}}}%
-      }
-      \strng{namehash}{7040a56ff284d77ee8ff0bdb01dfa993}
-      \strng{fullhash}{7040a56ff284d77ee8ff0bdb01dfa993}
-      \strng{bibnamehash}{7040a56ff284d77ee8ff0bdb01dfa993}
-      \strng{authorbibnamehash}{7040a56ff284d77ee8ff0bdb01dfa993}
-      \strng{authornamehash}{7040a56ff284d77ee8ff0bdb01dfa993}
-      \strng{authorfullhash}{7040a56ff284d77ee8ff0bdb01dfa993}
-      \field{sortinit}{S}
-      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{title}{HMM training by a hybrid of Chaos Optimization and Baum-Welch algorithms for discrete speech recognition}
-      \field{year}{2010}
     \endentry
     \entry{MetaheuristicsExposed}{misc}{}
       \name{author}{1}{}{%
@@ -513,6 +360,34 @@
       \field{labeltitlesource}{title}
       \field{title}{Metaheuristics - From design to implementation}
       \field{year}{1965}
+    \endentry
+    \entry{MetaheuristicsExampleRoachInfestation}{misc}{}
+      \name{author}{2}{}{%
+        {{hash=45446c54ced2aa685fcf481b25d118c2}{%
+           family={Timoty\bibnamedelimb C.\bibnamedelimi Havens},
+           familyi={T\bibinitperiod\bibinitdelim C\bibinitperiod\bibinitdelim H\bibinitperiod},
+           given={Nathan\bibnamedelimb G.\bibnamedelimi Salmon},
+           giveni={N\bibinitperiod\bibinitdelim G\bibinitperiod\bibinitdelim S\bibinitperiod},
+           suffix={Christopher\bibnamedelimb J.\bibnamedelimi Spain},
+           suffixi={C\bibinitperiod\bibinitdelim J\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+        {{hash=a092b8b376ba400f46270f3720ce94aa}{%
+           family={Keller},
+           familyi={K\bibinitperiod},
+           given={James\bibnamedelima M.},
+           giveni={J\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+      }
+      \strng{namehash}{a26cacf6a5f84cf1cc08c2cc01bc8fac}
+      \strng{fullhash}{a26cacf6a5f84cf1cc08c2cc01bc8fac}
+      \strng{bibnamehash}{a26cacf6a5f84cf1cc08c2cc01bc8fac}
+      \strng{authorbibnamehash}{a26cacf6a5f84cf1cc08c2cc01bc8fac}
+      \strng{authornamehash}{a26cacf6a5f84cf1cc08c2cc01bc8fac}
+      \strng{authorfullhash}{a26cacf6a5f84cf1cc08c2cc01bc8fac}
+      \field{sortinit}{T}
+      \field{sortinithash}{9af77f0292593c26bde9a56e688eaee9}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Roach Infestation Optimization}
+      \field{year}{2008}
     \endentry
     \entry{HarmonySearch}{misc}{}
       \name{author}{1}{}{%
@@ -576,6 +451,32 @@
       \field{labeltitlesource}{title}
       \field{title}{Introduction to Stochastic Processes - Lecture Notes}
       \field{year}{2010}
+    \endentry
+    \entry{MetaheuristicsExampleHarmonySearch}{misc}{}
+      \name{author}{2}{}{%
+        {{hash=102b1820a2b6a152245d63c099acec3d}{%
+           family={Zong\bibnamedelimb Woo\bibnamedelima Geem},
+           familyi={Z\bibinitperiod\bibinitdelim W\bibinitperiod\bibinitdelim G\bibinitperiod},
+           given={Joong\bibnamedelimb Hoon\bibnamedelima Kim},
+           giveni={J\bibinitperiod\bibinitdelim H\bibinitperiod\bibinitdelim K\bibinitperiod}}}%
+        {{hash=6eed4bf5d2c2f3300ece10faaf071335}{%
+           family={Loganathan},
+           familyi={L\bibinitperiod},
+           given={G.V.},
+           giveni={G\bibinitperiod}}}%
+      }
+      \strng{namehash}{e1647a23316cdbc05c2d89202380ca8a}
+      \strng{fullhash}{e1647a23316cdbc05c2d89202380ca8a}
+      \strng{bibnamehash}{e1647a23316cdbc05c2d89202380ca8a}
+      \strng{authorbibnamehash}{e1647a23316cdbc05c2d89202380ca8a}
+      \strng{authornamehash}{e1647a23316cdbc05c2d89202380ca8a}
+      \strng{authorfullhash}{e1647a23316cdbc05c2d89202380ca8a}
+      \field{sortinit}{Z}
+      \field{sortinithash}{96892c0b0a36bb8557c40c49813d48b3}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{A New Heuristic Optimization Algorithm: Harmony Search}
+      \field{year}{2001}
     \endentry
   \enddatalist
 \endrefsection

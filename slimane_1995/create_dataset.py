@@ -131,12 +131,12 @@ for method in ["bw_only", "ga_and_bw", "random_only"]:
                 fn = log_prob_methods[method]
                 log_probs[method][obs_index, n_states_index, iteration] = fn(n_states, n_symbols, observation_seq)
 
+                
 
 DIMS = ['observation_sequence', 'n_states', 'iteration', 'time']
 def save_nparray_as_xarray_netcdf(nparray, filename: str):
     xarr = xr.DataArray(nparray, dims=DIMS)
     xarr.to_netcdf(f"slimane_1995/{filename}.nc", mode='w')
-
 
 
 log_probs["ga_only"] = log_probs["ga_and_bw"][:, :, :, :-N_BW_ITERATIONS]

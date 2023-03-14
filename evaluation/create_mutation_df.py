@@ -1,5 +1,5 @@
 from ga.numba_ga import GaHMM
-from data.data import Observations
+from data.data import Dataset
 import pandas
 import numpy
 import seaborn as sns
@@ -13,7 +13,7 @@ mutation_df_rows = []
 for tied_params in params.tied:
     (dataset_name, n_symbols, n_seqs, observation_category, n_states, population_size) = tied_params.values()
 
-    dataset = Observations(dataset_name, n_symbols)
+    dataset = Dataset(dataset_name, n_symbols)
     observation_seqs = dataset.get_first_n_observations_of_category(observation_category, n_seqs)
     
     gabw = GaHMM(
@@ -53,4 +53,4 @@ for tied_params in params.tied:
 
 
 mutation_df = pandas.DataFrame(mutation_df_rows)
-mutation_df.to_csv('evaluation/mutation_df.csv')
+mutation_df.to_csv('evaluation/mutation_df.csv', mode='a', index=False, header=False)

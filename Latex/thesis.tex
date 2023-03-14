@@ -60,14 +60,20 @@
 \usepackage[absolute]{textpos}
 
 % % allows to enumerate different figures with a) b) in the same figure-environment.
-\usepackage{subfigure}
+% \usepackage{subfigure}
+% \usepackage{subfig}
+
 
 \usepackage{caption}
 \DeclareCaptionLabelFormat{cont}{#1~#2\alph{ContinuedFloat}}
 \captionsetup[ContinuedFloat]{labelformat=cont}
 
+% subcaption for subfigures
+\usepackage{subcaption}
+
 % math
 \usepackage{amsmath}
+
 
 
 
@@ -108,8 +114,8 @@ sorting=anyt
 \addbibresource{bib/references.bib}
 
 % finetune the gaps between figure and text in the subfigure environment (basically close the gap as much as possible)
-\renewcommand{\subfigtopskip}{0pt}
-\renewcommand{\subfigbottomskip}{0pt}
+% \renewcommand{\subfigtopskip}{0pt}
+% \renewcommand{\subfigbottomskip}{0pt}
 
 % some color definitions for the pdf statements below
 \definecolor{mygrey}{rgb}{0.45,0.45,0.45}
@@ -203,12 +209,13 @@ sorting=anyt
 % \include{content/introduction}
 % \include{content/related_work}
 % \include{content/eval}
-
 \include{content/introduction/introduction.tex}
 \include{content/theoretischer_teil/__import__.tex}
-\include{content/konzept/__import__.tex}
-\include{content/evaluation/__import__.tex}
-\include{content/conclusion/conclusion.tex}
+% \include{content/related_work/related_work.tex}
+% \include{content/konzept/konzept.tex}
+% \include{content/implementation/implementation.tex}
+\include{content/evaluation/evaluation.tex}
+% \include{content/conclusion/conclusion.tex}
 
 % Appendix chapters to be put here. They will be enumerated with capital letters
 % if you  did not change the \documentclass options.

@@ -1,0 +1,11 @@
+\chapter{Verwandte Arbeiten}
+
+Es wurden bereits Zahlreiche Versuche unternommen das trainiren von HMMs durch Einbinden von Metaheuristiken zu verbessern. Darunter befinden sich Hybridisierungen mit klassischen Metaheuristiken wie Ant Colony Optimization \cite*{LiteratureReviewACO} und Simulated Annealing \cite*{LiteratureReviewSA} aber auch neuere metapher-basierte Metaheuristiken wie modified gravitational search \cite*{LiteratureReviewMGS}, Artificial Bee Colony \cite*{LiteratureReviewABC} und chaos optimization \cite*{LiteratureReviewCO} wurden auf das Problem der HMM Parameter optimierung angewendet. Es existieren sogar Ansätze, in welchen zwei Metaheuristiken mit dem Baum-Welch Algorithmus hybridisiert werden. Der GATSBW Algorithmus \cite*{LiteratureReviewGATSBW} zum Beispiel ist eine Kombination aus genetischen Algorithmus, Tabu-Suche und Baum-Welch Algorithmus. Neben dem erlernen der Parameter wurden Metaheuristiken ebenfalls verwendet um eine passende Struktur (Anzahl der Zustände) zu finden \cite*{LiteratureReviewStructure}.
+
+Die Metaheuristischen Parameterestimationsverfahren lassen sich meinen Beobachtungen nach in drei Kategorien unterteilen.
+\begin{itemize}
+    \item Rein metaheuristisch: Die Parameter werden nur durch eine Metheuristik erlernt. Es kommt keine lokale Suche zum Einsatz.
+    \item Erst Metaheuristik, dann BW: Die Metaheuristik wird verwendet um initiale Parameter für den Baum-Welch Algorithmus zu bestimmen (Relay-Hybrid).
+    \item Metaheuristik und BW gleichzeitig: Eine Populationsbasierte Metaheuristik leitet die globale Suche. Lösungen werden mittels Baum-Welch intensiviert (Teamwork-Hybrid) 
+\end{itemize}
+In der Evaluation wird eines der relay-hybriden Verfahren im GA-HMM Framework realisiert und ausgewertet.

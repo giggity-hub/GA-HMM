@@ -10,7 +10,7 @@ from ga.gabw_logger import GABWLogger
 import ga.mutation as mutation
 import ga.crossover as crossover
 import ga.selection as selection
-from data.data import Observations
+from data.data import Dataset
 import numpy
 from ga.types import ChromosomeSlices, Population
 
@@ -38,7 +38,7 @@ def n_symbols():
 
 @pytest.fixture
 def observation_sequences(n_symbols):
-    dataset = Observations('fsdd', n_symbols=128)
+    dataset = Dataset('fsdd', n_symbols=128)
     obs = dataset.get_first_n_observations_of_category(0, 10)
     return obs
 
@@ -59,6 +59,11 @@ def gabw(observation_sequences):
 
     gabw.bake()
     return gabw
+
+
+def test_gahmm_start(gabw: GaHMM):
+    hmm_params, fitness = gabw.start()
+    assert False
 
 CROSSOVER_FUNCTIONS = [
     crossover.uniform_crossover,

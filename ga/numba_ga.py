@@ -6,6 +6,7 @@ from numba import jit, njit
 from numba.experimental import jitclass
 import hmm.bw as bw
 from ga.gabw_logger import GABWLogger
+from lib.performance_timer import PerformanceTimer
 
 import ga.representation as representation
 
@@ -31,7 +32,7 @@ class Logs(NamedTuple):
     mean: numpy.ndarray
     total: numpy.ndarray
 
-
+@jit
 def normalize_population(population: Population):
 
     n_states = population[0, representation.FIELDS.N_STATES]
@@ -39,14 +40,13 @@ def normalize_population(population: Population):
 
 
     ranges = representation.calc_chromosome_ranges(n_states, n_symbols)
-
     for start, stop, step in ranges:
         for i in range(start, stop, step):
             population[:, i:(i+step)] = utils.normalize_array(population[:, i:(i+step)])
 
     return population
 
-
+@jit
 def calculate_fitness_of_population(population: Population, observations: MultipleObservationSequences):
 
     hmm_params = representation.population_as_multiple_hmm_params(population)
@@ -54,7 +54,7 @@ def calculate_fitness_of_population(population: Population, observations: Multip
     return fitness_values
 
 
-
+@jit
 def train_population_with_bw(
     population: Population, 
     observations: MultipleObservationSequences, 
@@ -72,7 +72,7 @@ def train_population_with_bw(
     return new_population
 
 
-
+@jit
 def sort_population_by_fitness_values(population: Population):
 
     fitness_values = population[:, representation.FIELDS.FITNESS]
@@ -152,7 +152,7 @@ class GaHMM:
     n_bw_iterations_per_gen: int = 0
     n_bw_iterations_after_ga: int = 0
     n_bw_iterations_before_ga: int = 0
-    apply_bw_every_nth_generaton: int = 1
+    apply_bw_every_nth_gen: int = 1
     
 
 
@@ -192,6 +192,13 @@ class GaHMM:
         first_chromosome = self.population[0]
         self.mask = representation.calculate_chromosome_mask(first_chromosome)
 
+        # self.performance_timers = {
+        #     'mutation': PerformanceTimer(),
+        #     'crossover': PerformanceTimer(),
+        #     'fitness': PerformanceTimer(),
+        #     'selection': PerformanceTimer(),
+        #     'total': PerformanceTimer()
+        # }
 
     # def _initialize_population(self):
     #     hmm_params_list = [self.param_generator_func(self.n_states, self.n_symbols) for i in range(self.population_size)]
@@ -208,7 +215,7 @@ class GaHMM:
 
     #     self.population = representation.multiple_hmm_params_as_population(reestimated_hmm_params)
 
-    #     self.population[:, self.slices.fitness.start] = log_prob_traces[:, -1]
+    #     self.population[:, representation.FIELDS.FITNESS.start] = log_prob_traces[:, -1]
     #     self.logs.insert_bw_iterations(log_prob_traces)
 
     def _initialize_logs(self):
@@ -216,7 +223,7 @@ class GaHMM:
         n_log_entries += self.n_bw_iterations_before_ga
         n_log_entries += self.n_bw_iterations_after_ga
         n_log_entries += self.n_generations
-        n_log_entries += self.n_bw_iterations_per_gen * (self.n_generations // self.apply_bw_every_nth_generaton)
+        n_log_entries += self.n_bw_iterations_per_gen * (self.n_generations // self.apply_bw_every_nth_gen)
         n_log_entries += 1 #Weil am Anfang einmal initial die Fitness berechnet wird
 
         self.logs = GABWLogger(self.population_size, n_log_entries)
@@ -227,11 +234,11 @@ class GaHMM:
         self.n_parents_per_generation = self.n_matings_per_generation * self.n_parents_per_mating
 
     
-        # chromosomes[:, self.slices.fitness] = fitness_column
+        # chromosomes[:, representation.FIELDS.FITNESS] = fitness_column
 
     
     # def sort_population_by_fitness(self):
-    #     sorted_indices = self.population[:, self.slices.fitness.start].argsort()
+    #     sorted_indices = self.population[:, representation.FIELDS.FITNESS.start].argsort()
     #     reverse_sorted_indices = numpy.flip(sorted_indices)
     #     self.population[:, :] = self.population[reverse_sorted_indices]
         
@@ -242,25 +249,6 @@ class GaHMM:
         parent_pool = self.population[:self.parent_pool_size]
         parents = self.parent_select_func(parent_pool, self.n_parents_per_generation, self)
         return parents
-
-    # def do_crossover_step(self, parents):
-
-    #     children = numpy.zeros((self.n_children_per_generation ,self.n_genes))
-    #     child_index = 0
-
-    #     for parent_index in range(0, self.n_parents_per_generation, self.n_parents_per_mating):
-            
-    #         par = parents[parent_index : (parent_index+ self.n_parents_per_mating), :].copy()
-    #         childs = self.crossover_func(par, self.n_children_per_mating, self)
-
-    #         children[child_index:(child_index + self.n_children_per_mating), : ] = childs
-
-    #         child_index += self.n_children_per_mating
-
-        
-    #     if not child_index == len(children): raise Exception( "The Crossover Function does not support the provided n_children_per_mating" )
-
-    #     return children
 
     def do_crossover_step(self, parents: Population):
 
@@ -296,96 +284,49 @@ class GaHMM:
         chromosomes[:, self.slices.B] += smoothing_value
         return chromosomes
 
-    # def normalize_population(self):
-    #     PIs_normalization = numpy.atleast_2d(self.hmms.PIs.sum(axis=1)).T
-    #     self.hmms.PIs[:,:] = self.hmms.PIs / PIs_normalization
-
-    #     Bs_normalization = numpy.atleast_3d(self.hmms.Bs.sum(axis=2))
-    #     self.hmms.Bs[:,:] = self.hmms.Bs / Bs_normalization
-
-    #     As_normalization = numpy.atleast_3d(self.hmms.As.sum(axis=2))
-    #     self.hmms.As[:,:] = self.hmms.As / As_normalization
-
-    # def normalize_chromosomes(self, chromosomes: Population) -> Population:
-    #     PIs, Bs, As = self.chromosomes_to_multiple_hmm_params(chromosomes)
-
-
-    #     PIs = PIs / numpy.atleast_2d(PIs.sum(axis=1)).T
-    #     Bs = Bs / numpy.atleast_3d(Bs.sum(axis=2))
-    #     As = As / numpy.atleast_3d(As.sum(axis=2))
-
-    #     hmm_params = MultipleHmmParams(PIs, Bs, As)
-    #     normalized_chromosomes =  self.multiple_hmm_params_to_chromosome(hmm_params)
-    #     return normalized_chromosomes
-    
-    # def chromosomes_to_multiple_hmm_params(self, chromosomes: Population):
-    #     n_chromosomes = len(chromosomes)
-    #     PIs = chromosomes[:, self.slices.PI]
-        
-
-    #     Bs_shape = (n_chromosomes, self.n_states, self.n_symbols)
-    #     Bs = chromosomes[:, self.slices.B].reshape(Bs_shape)
-
-    #     As_shape = (n_chromosomes, self.n_states, self.n_states)
-    #     As = chromosomes[:, self.slices.A].reshape(As_shape)
-
-    #     return MultipleHmmParams(PIs, Bs, As)
-
-    # def multiple_hmm_params_to_chromosome(self, hmm_params: MultipleHmmParams):
-    #     PIs, Bs, As = hmm_params
-    #     n_hmms = len(PIs)
-    #     chromosomes = numpy.empty((n_hmms, self.n_genes))
-
-    #     chromosomes[:, self.slices.PI] = PIs
-    #     chromosomes[:, self.slices.B] = Bs.reshape((n_hmms, self.n_states * self.n_symbols))
-    #     chromosomes[:, self.slices.A] = As.reshape((n_hmms, self.n_states**2))
-
-    #     return chromosomes
-
-    # def hmm_params_to_chromosome(self, hmm_params: HmmParams):
-    #     PI, B, A = hmm_params
-    #     chromosome = numpy.zeros(self.n_genes)
-        
-    #     chromosome[self.slices.PI] = PI
-    #     chromosome[self.slices.B] = B.flatten()
-    #     chromosome[self.slices.A] = A.flatten()
-
-    #     return chromosome
-
 
     def do_replacement_step(self, children):
         self.population[self.keep_elitism:, :] = children
 
 
     def _start(self):
+        # self.performance_timers['total'].start()
         for i in range(self.n_generations):
-            
-            
+            # Selection
+            # self.performance_timers['selection'].start()
             parents = self.do_selection_step()
+            # self.performance_timers['selection'].stop()
+
+            # Crossover
+            # self.performance_timers['crossover'].start()
             children = self.do_crossover_step(parents)
+            # self.performance_timers['crossover'].stop()
+
+            # Mutation
+            # self.performance_timers['mutation'].start()
             mutated_children = self.do_mutation_step(children)
-            
+            # self.performance_timers['mutation'].stop()
+
             # smoothed_children = self.smooth_emission_probabilities(mutated_children)
             # normalized_children = self.normalize_children(children)
+
             normalized_children = normalize_population(mutated_children)
-            # normalized_children[:, self.slices.fitness] = self.calculate_fitness_values(normalized_children)
-            normalized_children[:, self.slices.fitness] = calculate_fitness_of_population(normalized_children, self.n_states, self.n_symbols, self.observations)
+            # normalized_children[:, representation.FIELDS.FITNESS] = self.calculate_fitness_values(normalized_children)
+            # self.performance_timers['fitness'].start()
+            normalized_children[:, representation.FIELDS.FITNESS] = calculate_fitness_of_population(normalized_children, self.observations)
+            # self.performance_timers['fitness'].stop()
 
             self.do_replacement_step(normalized_children)
-            population_fitness_values = self.population[:, self.slices.fitness]
+            population_fitness_values = self.population[:, representation.FIELDS.FITNESS]
             self.logs.insert_ga_iterations(population_fitness_values)
             
 
-            if (self.n_bw_iterations_per_gen > 0) and  (i % self.apply_bw_every_nth_generaton == 0):
-                self._train_population_with_bw(self.n_bw_iterations_per_gen)
+            if (self.n_bw_iterations_per_gen > 0) and  (i % self.apply_bw_every_nth_gen == 0):
+                self.population = train_population_with_bw(self.population, self.observations, self.n_bw_iterations_per_gen)
 
-            self.sort_population_by_fitness()
-            
-
-
-
-            
-
+            self.population = sort_population_by_fitness_values(self.population)
+        
+        # self.performance_timers['total'].stop()
 
     def bake(self):
         self._initialize_logs()
@@ -396,22 +337,25 @@ class GaHMM:
         # because the values are not set via the constructor
         self.bake()
 
-        self.population[:, self.slices.fitness] = self.calculate_fitness_values(self.population)
-        population_fitness_values = self.population[:, self.slices.fitness]
+        self.population[:, representation.FIELDS.FITNESS] = calculate_fitness_of_population(self.population, self.observations)
+        population_fitness_values = self.population[:, representation.FIELDS.FITNESS]
         self.logs.insert_ga_iterations(population_fitness_values)
-        self.sort_population_by_fitness()
         
         if self.n_bw_iterations_before_ga > 0:
-            self._train_population_with_bw(self.n_bw_iterations_before_ga)
-            self.sort_population_by_fitness()
+            self.population = train_population_with_bw(self.population, self.observations, self.n_bw_iterations_before_ga)
         
+        self.population = sort_population_by_fitness_values(self.population)
         self._start()
 
+        best_chromosome_hmm = representation.chromosome_as_hmm_params(self.population[0])
+        best_chromosome_fitness = self.population[0, representation.FIELDS.FITNESS]
         if self.n_bw_iterations_after_ga > 0:
-            self._train_population_with_bw(self.n_bw_iterations_after_ga)
+            
+            best_chromosome_hmm, log_trace = bw.train_single_hmm(best_chromosome_hmm, self.observations, self.n_bw_iterations_after_ga)
+            best_chromosome_fitness = log_trace[-1]
 
-    
-    
+        return best_chromosome_hmm, best_chromosome_fitness
+
     def plot(self):
         self.logs.plot()
 

@@ -1,15 +1,19 @@
 [0] Config.pm:306> INFO - This is Biber 2.18
 [0] Config.pm:309> INFO - Logfile is 'thesis.blg'
-[215] biber-MSWIN32:340> INFO - === 
-[282] Biber.pm:418> INFO - Reading 'thesis.bcf'
-[484] Biber.pm:978> INFO - Found 26 citekeys in bib section 0
-[507] Biber.pm:4401> INFO - Processing section 0
-[526] Biber.pm:4592> INFO - Looking for bibtex file 'bib/references.bib' for section 0
-[635] bibtex.pm:1713> INFO - LaTeX decoding ...
-[676] bibtex.pm:1518> INFO - Found BibTeX data source 'bib/references.bib'
-[872] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[873] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[873] Biber.pm:4221> INFO - Sorting list 'anyt/global//global/global' of type 'entry' with template 'anyt' and locale 'en-US'
-[873] Biber.pm:4227> INFO - No sort tailoring available for locale 'en-US'
-[923] bbl.pm:654> INFO - Writing 'thesis.bbl' with encoding 'UTF-8'
-[939] bbl.pm:757> INFO - Output to thesis.bbl
+[200] biber-MSWIN32:340> INFO - === 
+[270] Biber.pm:418> INFO - Reading 'thesis.bcf'
+[483] Biber.pm:978> INFO - Found 23 citekeys in bib section 0
+[515] Biber.pm:4401> INFO - Processing section 0
+[534] Biber.pm:4592> INFO - Looking for bibtex file 'bib/references.bib' for section 0
+[634] bibtex.pm:1713> INFO - LaTeX decoding ...
+[681] bibtex.pm:1518> INFO - Found BibTeX data source 'bib/references.bib'
+[799] Utils.pm:410> ERROR - Name "M. Sliane, G. Venturini, J.-P. Asselin de Beauville, T. Brouard" has too many commas, skipping entry 'LiteratureEvalGASlimane'
+[849] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[850] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[850] Biber.pm:4221> INFO - Sorting list 'anyt/global//global/global' of type 'entry' with template 'anyt' and locale 'en-US'
+[850] Biber.pm:4227> INFO - No sort tailoring available for locale 'en-US'
+[879] bbl.pm:654> INFO - Writing 'thesis.bbl' with encoding 'UTF-8'
+[892] bbl.pm:757> INFO - Output to thesis.bbl
+[892] Biber.pm:130> WARN - Entry with key 'LiteratureEvalGASlimane' in section '0' is cited and found but not created (likely due to sourcemap)
+[893] Biber.pm:132> INFO - WARNINGS: 1
+[893] Biber.pm:135> INFO - ERRORS: 1

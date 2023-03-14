@@ -110,6 +110,23 @@ def roulette_wheel_selection(
     return parents
 
 
+def rank_selection(
+    population: numpy.ndarray,
+    n_parents: int,
+    gabw: ga.GaHMM
+    ) -> numpy.ndarray:
+
+    def gauss_sum(n):
+        return (n**2 + n)//2
+    
+    population_size = len(population)
+    total_rank = gauss_sum(population_size)
+    selection_probs = numpy.arange(population_size, 0, -1) / total_rank
+
+    parent_indices = npr.choice(population_size, p=selection_probs, size=n_parents)
+    parents = _selection(population, n_parents, parent_indices)
+    return parents
+
 
 def rank_selection_factory(population_size:int) -> SelectionFunction:
 

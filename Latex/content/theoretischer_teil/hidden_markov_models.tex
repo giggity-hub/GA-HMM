@@ -1,27 +1,20 @@
-\section{Markovprozesse und Markov Modelle}
+\section{Markovketten und Markovmodelle}
 
-\subsection{Markovketten}
-Eine Markovkette ist ein stochastischer Prozess in welchem der nächste Zustand einzig vom gegenwärtigen Zustand abhängt. Diese Eigenschaft ist bekannt als Markov-Eigneschaft \cite{StochasticProcesses}.
-\begin{definition}[Markovkette]
+\begin{definition}[Markov-Eigenschaft]
 
-    Ein Stochastischer Prozess $\{X_t\}_{t \in T}$, welcher Werte aus einer Menge an Zuständen $S = \{s_1, s_2, \dots, s_n\}$ annehmen kann ist ein Markovprozess, falls gilt
+    Man sagt ein stochastischer Prozess $\{X_t\}_{t \in T}$ besitzt die \textbf{Markov-Eigenschaft}, wenn der Zustand des nächsten Zeitpunktes $t +1$ einzig und allein vom Zustand im gegenwärtigen Zeitpunkt $t$ abhängt.
     \begin{equation}
-        P(X_{n+1}=s_{n+1} \mid X_{n} = i_{n}, \dots, X_2=i_2, X_1=i_1) = P(X_{n+1}=i_{n+1} \mid X_{n} = i_{n})
+        P(X_{t+1}=i_{t+1} \mid X_{t} = i_{t}, \dots, X_2=i_2, X_1=i_1) = P(X_{t+1}=i_{t+1} \mid X_{t} = i_{t})
     \end{equation}
-    Für alle $n \in N_0$ und alle $i_k \in S$ unter der Vorraussetzung, dass alle bedingten Wahrscheinlichkeiten Wohldefiniert sind, also $P(X_{n} = i_{n}, \dots, X_2=i_2, X_1=i_1) > 0$.
+    Für alle $t \in T$ und alle $i_k \in S$ unter der Vorraussetzung, dass alle bedingten Wahrscheinlichkeiten Wohldefiniert sind, also $P(X_{t} = i_{t}, \dots, X_2=i_2, X_1=i_1) > 0$.
 \end{definition}
 
-Für solch eine Markovkette definieren wir nun die zwei folgenden Variablen.
+\begin{definition}[Markovkette]
 
-\begin{definition}[Startwahrscheinlichkeitsvektor $pi$]
-
-    $\pi$ ist ein Vektor mit Länge $n= |S|$. $\pi_i$ gibt die Wahrscheinlichkeit an, in Zustand $s_i$ zu starten. Also die Wahrscheinlichkeit, dass sich der Prozess in Zeitpunkt $t=0$ in Zustand $s_i$ befindet.
+    Eine Markovkette ist gegeben durch einen stochastischen Prozess $\{X_t\}_{t \in T}$, welcher Werte aus einer Menge an Zuständen $S = \{s_1, s_2, \dots, s_n\}$ annehmen kann und die Markov-Eigneschaft erfüllt. Solch ein Markovprozess wird beschrieben durch zwei Variablen. Einen \textbf{Startwahrscheinlichkeitsvektor} $\pi$ mit Länge $n$ und eine \textbf{Transitionsmatrix} $A$ mit Dimension $n \times n$, wobei $n$ die Anzahl der Zustände $S$ ist. $\pi_i$ gibt die Wahrscheinlichkeit an, in Zustand $s_i$ zu starten. Also die Wahrscheinlichkeit, dass sich der Prozess in Zeitpunkt $t=0$ in Zustand $s_i$ befindet.
     \begin{equation}
         \pi_i = P(X_0 = s_i)
     \end{equation}
-\end{definition}
-\begin{definition}[Transitionsmatrix $A$]
-
     Die Transitionsmatrix $A$ beschreibt die bedingten Wahrscheinlichkeiten, mit denen ein Zustandsübergang geschieht. $a_i(j)$ ist die Wahrscheinlichkeit dass sich der Prozess in Zeitpunkt $t+1$ in Zustand $s_j$ befindet, unter der Bedingung das er sich in Zeitpunk $t$ in Zustand $s_i$ befindet.
     \begin{equation}
         a_{ij} = P(X_{t+1} = s_j \mid X_t = s_i)
@@ -61,22 +54,19 @@ Mit unserem Temperaturmodell können wir nun zum Beispiel berechnen, was die Wah
     & = 0.7 \cdot 0.2 \cdot 0.6 \cdot 0.4 \cdot 0.8 = 0.02688
 \end{align*}
 
-Eine Markovkette gibt uns also die möglichkeit probabilistische Systeme, in denen die Zustände zu den Observationen korrespondieren zu modellieren.
+Eine Markovkette gibt uns also die möglichkeit probabilistische Systeme, in denen wir die Zustände und die Zuständsübergänge direkt beobachten können zu modellieren.
 
-\subsection{Hidden Markov Modelle}
-Bei einem Hidden Markov Modell ist die Observationssequenz nicht identisch zur Zustandssequenz, sondern die Observationssymbole sind das Ergebnis einer stochastischen Funktion der Zustände. Die Zustände selbst können wir nicht beobachten denn sie sind "hidden". Ein HMM besteht also aus zwei stochastischen Prozessen. Ein versteckter Prozess, der die Transitionen in Abhängigkeit des vorherigen Zustandes bestimmt und ein zweiter Prozess, der die Observationssymbole in Abhängigkeit des gegenwärtigen Zustandes bestimmt.
-Dieser zweite Prozess wird beschrieben durch eine Emissionsmatrix $B$.
-\begin{definition}[Emissionsmatrix $B=\{b_j(k)\}$]
-
-    Die Emissionsmatrix $B$ gibt die Wahrscheinlichkeit eines Observationssymbols $v_k$ unter der Bedingung, dass sich der Prozess im gegenwärtigen Zeitpunkt $t$ in Zustand $s_j$ befindet an.
+\subsection{Hidden Markov Modelle (HMMs)}
+Bei einem Hidden Markov Modell ist die Observationssequenz nicht identisch zur Zustandssequenz, sondern die Observationssymbole sind das Ergebnis einer stochastischen Funktion der Zustände. Die Zustände selbst, so wie die Zustandsübergänge können wir \textit{nicht beobachten} denn die Zustände sind ,,hidden". Ein HMM besteht also aus zwei stochastischen Prozessen. Ein versteckter Prozess, der die Transitionen in Abhängigkeit des vorherigen Zustandes bestimmt und ein zweiter Prozess, der die Observationssymbole in Abhängigkeit des gegenwärtigen Zustandes bestimmt.
+Formal definieren wir ein Hidden Markov Modell wie folgt.
+\begin{definition}[Hidden Markov Modell]
+    Ein Hidden Markov Modell ist definiert durch den Startwahrscheinlichkeitsvektor $\pi$ und die Transitionsmatrix $A$ einer Markovkette und einer zusätzlichen \textbf{Emissionsmatrix} $B=\{b_j(k)\}$ mit Dimension $N \times M$ wobei $N$ die Anzahl der Zustände der Markovkette und $M$ die Anzahl der möglichen Observationssymbole ist. Die Emissionsmatrix $B$ gibt die Wahrscheinlichkeit eines Observationssymbols $v_k$ unter der Bedingung, dass sich der Prozess im gegenwärtigen Zeitpunkt $t$ in Zustand $s_j$ befindet an.
     \begin{align}
         b_j(k) = P(O_t = v_k \mid q_t = S_j) && 1 \leq j \leq N && 1 \leq k \leq M
     \end{align}
 \end{definition}
-
 Wie ein solches HMM nun eine Observationssequenz $O$ von Länge $T$ erzeugen kann möchte ich durch folgendes Gedankenexperiment verdeutlichen.
-
-Stellen wir uns einen Raum vor, in dem $N$ Urnen stehen und in welchem sich eine Person befindet. Wir können in diesen Raum nicht hineinsehen. Die Person wird nun insgesamt $T$ Kugeln aus den Urnen ziehen und zurücklegen, wobei sie sich abhängig von einem Zufallsprozess von einer Urne zur nächsten bewegt. Um ethische Bedenken über dieses Gedankenexperiment zu minimieren sei angemerkt, dass der Raum klimatisiert ist und der Person Kakao und Kekse zur Verfügung stehen.
+Stellen wir uns einen Raum vor, in dem $N$ Urnen stehen. Die Urnen enthalten Kugel aus $M$ verschiedenen Farben, wobei die Urnen verschiedene Verteilungen dieser Farben enthalten können. In dem Raum befindet sich eine Person welche nun insgesamt $T$ Kugeln aus den Urnen ziehen und zurücklegen wird, wobei sie sich abhängig von einem Zufallsprozess von einer Urne zur nächsten bewegt. Wir können in diesen Raum nicht hineinsehen und somit nicht beobachten aus welcher Urne ein Kugel gezogen wurde. Wir kennen nur die Observationssequenz, also die Abfolge der Farben der gezogenen Kugeln. Um ethische Bedenken über dieses Gedankenexperiment zu minimieren sei angemerkt, dass der Raum klimatisiert ist und der Person Kakao und Kekse zur Verfügung stehen.
 \begin{itemize}
     \item Zunächst wird die initiale Urne anhand des Startwahrscheinlichkeitsvektor $\pi$ ausgewählt.
     \item Dann zieht die Person eine Kugel aus der Urne, notiert deren Farbe als $O_1$ und legt die Kugel zurück.

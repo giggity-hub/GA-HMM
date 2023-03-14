@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.1.29)  6 MAR 2023 22:47
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.1.29)  14 MAR 2023 23:13
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -361,48 +361,32 @@ Grid set 16 x 16 = 37.34424pt x 52.81543pt
 \TP@oy=\dimen187
 \TP@tbargs=\toks28
 TextBlockOrigin set to 0pt x 0pt
-) (c:/texlive/2022/texmf-dist/tex/latex/subfigure/subfigure.sty
-Package: subfigure 2002/03/15 v2.1.5 subfigure package
-\subfigtopskip=\skip71
-\subfigcapskip=\skip72
-\subfigcaptopadj=\dimen188
-\subfigbottomskip=\skip73
-\subfigcapmargin=\dimen189
-\subfiglabelskip=\skip74
-\c@subfigure=\count278
-\c@lofdepth=\count279
-\c@subtable=\count280
-\c@lotdepth=\count281
-
-****************************************
-* Local config file subfigure.cfg used *
-****************************************
-(c:/texlive/2022/texmf-dist/tex/latex/subfigure/subfigure.cfg)
-\subfig@top=\skip75
-\subfig@bottom=\skip76
 ) (c:/texlive/2022/texmf-dist/tex/latex/caption/caption.sty
 Package: caption 2022/03/01 v3.6b Customizing captions (AR)
  (c:/texlive/2022/texmf-dist/tex/latex/caption/caption3.sty
 Package: caption3 2022/03/17 v2.3b caption3 kernel (AR)
-\caption@tempdima=\dimen190
-\captionmargin=\dimen191
-\caption@leftmargin=\dimen192
-\caption@rightmargin=\dimen193
-\caption@width=\dimen194
-\caption@indent=\dimen195
-\caption@parindent=\dimen196
-\caption@hangindent=\dimen197
+\caption@tempdima=\dimen188
+\captionmargin=\dimen189
+\caption@leftmargin=\dimen190
+\caption@rightmargin=\dimen191
+\caption@width=\dimen192
+\caption@indent=\dimen193
+\caption@parindent=\dimen194
+\caption@hangindent=\dimen195
 Package caption Info: KOMA-Script document class detected.
  (c:/texlive/2022/texmf-dist/tex/latex/caption/caption-koma.sto
 File: caption-koma.sto 2020/09/21 v2.0b Adaption of the caption package to the KOMA-Script document classes (AR)
 ))
-\c@caption@flags=\count282
-\c@continuedfloat=\count283
-Package caption Info: subfigure package is loaded.
+\c@caption@flags=\count278
+\c@continuedfloat=\count279
 Package caption Info: supertabular package is loaded.
+) (c:/texlive/2022/texmf-dist/tex/latex/caption/subcaption.sty
+Package: subcaption 2022/01/07 v1.5 Sub-captions (AR)
+\c@subfigure=\count280
+\c@subtable=\count281
 ) (c:/texlive/2022/texmf-dist/tex/latex/amsmath/amsmath.sty
 Package: amsmath 2022/04/08 v2.17n AMS math features
-\@mathmargin=\skip77
+\@mathmargin=\skip71
 
 For additional information on amsmath, use the `?' option.
 (c:/texlive/2022/texmf-dist/tex/latex/amsmath/amstext.sty
@@ -410,21 +394,21 @@ Package: amstext 2021/08/26 v2.01 AMS text
  (c:/texlive/2022/texmf-dist/tex/latex/amsmath/amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0 generic functions
 \@emptytoks=\toks29
-\ex@=\dimen198
+\ex@=\dimen196
 )) (c:/texlive/2022/texmf-dist/tex/latex/amsmath/amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d Bold Symbols
-\pmbraise@=\dimen199
+\pmbraise@=\dimen197
 ) (c:/texlive/2022/texmf-dist/tex/latex/amsmath/amsopn.sty
 Package: amsopn 2022/04/08 v2.04 operator names
 )
-\inf@bad=\count284
+\inf@bad=\count282
 LaTeX Info: Redefining \frac on input line 234.
-\uproot@=\count285
-\leftroot@=\count286
+\uproot@=\count283
+\leftroot@=\count284
 LaTeX Info: Redefining \overline on input line 399.
 LaTeX Info: Redefining \colon on input line 410.
-\classnum@=\count287
-\DOTSCASE@=\count288
+\classnum@=\count285
+\DOTSCASE@=\count286
 LaTeX Info: Redefining \ldots on input line 496.
 LaTeX Info: Redefining \dots on input line 499.
 LaTeX Info: Redefining \cdots on input line 620.
@@ -434,53 +418,53 @@ LaTeX Info: Redefining \big on input line 722.
 LaTeX Info: Redefining \Big on input line 723.
 LaTeX Info: Redefining \bigg on input line 724.
 LaTeX Info: Redefining \Bigg on input line 725.
-\big@size=\dimen256
+\big@size=\dimen198
 LaTeX Font Info:    Redeclaring font encoding OML on input line 743.
 LaTeX Font Info:    Redeclaring font encoding OMS on input line 744.
-\macc@depth=\count289
+\macc@depth=\count287
 LaTeX Info: Redefining \bmod on input line 905.
 LaTeX Info: Redefining \pmod on input line 910.
 LaTeX Info: Redefining \smash on input line 940.
 LaTeX Info: Redefining \relbar on input line 970.
 LaTeX Info: Redefining \Relbar on input line 971.
-\c@MaxMatrixCols=\count290
+\c@MaxMatrixCols=\count288
 \dotsspace@=\muskip17
-\c@parentequation=\count291
-\dspbrk@lvl=\count292
+\c@parentequation=\count289
+\dspbrk@lvl=\count290
 \tag@help=\toks30
-\row@=\count293
-\column@=\count294
-\maxfields@=\count295
+\row@=\count291
+\column@=\count292
+\maxfields@=\count293
 \andhelp@=\toks31
-\eqnshift@=\dimen257
-\alignsep@=\dimen258
-\tagshift@=\dimen259
-\tagwidth@=\dimen260
-\totwidth@=\dimen261
-\lineht@=\dimen262
+\eqnshift@=\dimen199
+\alignsep@=\dimen256
+\tagshift@=\dimen257
+\tagwidth@=\dimen258
+\totwidth@=\dimen259
+\lineht@=\dimen260
 \@envbody=\toks32
-\multlinegap=\skip78
-\multlinetaggap=\skip79
+\multlinegap=\skip72
+\multlinetaggap=\skip73
 \mathdisplay@stack=\toks33
 LaTeX Info: Redefining \[ on input line 2953.
 LaTeX Info: Redefining \] on input line 2954.
 ) (c:/texlive/2022/texmf-dist/tex/latex/listings/listings.sty
-\lst@mode=\count296
+\lst@mode=\count294
 \lst@gtempboxa=\box62
 \lst@token=\toks34
-\lst@length=\count297
-\lst@currlwidth=\dimen263
-\lst@column=\count298
-\lst@pos=\count299
-\lst@lostspace=\dimen264
-\lst@width=\dimen265
-\lst@newlines=\count300
-\lst@lineno=\count301
-\lst@maxwidth=\dimen266
+\lst@length=\count295
+\lst@currlwidth=\dimen261
+\lst@column=\count296
+\lst@pos=\count297
+\lst@lostspace=\dimen262
+\lst@width=\dimen263
+\lst@newlines=\count298
+\lst@lineno=\count299
+\lst@maxwidth=\dimen264
  (c:/texlive/2022/texmf-dist/tex/latex/listings/lstmisc.sty
 File: lstmisc.sty 2020/03/24 1.8d (Carsten Heinz)
-\c@lstnumber=\count302
-\lst@skipnumbers=\count303
+\c@lstnumber=\count300
+\lst@skipnumbers=\count301
 \lst@framebox=\box63
 ) (c:/texlive/2022/texmf-dist/tex/latex/listings/listings.cfg
 File: listings.cfg 2020/03/24 1.8d listings configuration
@@ -492,7 +476,7 @@ Package: scrhack 2022/10/12 v3.38 KOMA-Script package (hacking other packages)
 Package: expl3 2023-01-24 L3 programming layer (loader) 
  (c:/texlive/2022/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2023-01-16 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count304
+\l__color_backend_stack_int=\count302
 \l__pdf_internal_box=\box64
 ))
 Package: xpatch 2020/03/25 v0.3a Extending etoolbox patching commands
@@ -500,7 +484,7 @@ Package: xpatch 2020/03/25 v0.3a Extending etoolbox patching commands
 Package: xparse 2023-01-16 L3 Experimental document command parser
 ) (c:/texlive/2022/texmf-dist/tex/latex/etoolbox/etoolbox.sty
 Package: etoolbox 2020/10/05 v2.5k e-TeX tools for LaTeX (JAW)
-\etb@tempcnta=\count305
+\etb@tempcnta=\count303
 ))
 Package scrhack Info: loading listings hack on input line 185.
  (c:/texlive/2022/texmf-dist/tex/latex/koma-script/listings.hak
@@ -512,7 +496,7 @@ Package scrhack Info: loading lscape hack on input line 207.
  (c:/texlive/2022/texmf-dist/tex/latex/koma-script/lscape.hak
 File: lscape.hak 2022/10/12 v3.38 KOMA-Script scrhack part (hacking package lscape)
 Package scrhack Info: \landscape patched to make \textheight change optional on input line 90.
-\scrh@LT@textheight=\skip80
+\scrh@LT@textheight=\skip74
 )) (c:/texlive/2022/texmf-dist/tex/latex/biblatex/biblatex.sty
 Package: biblatex 2022/07/12 v3.18b programmable bibliographies (PK/MW)
  (c:/texlive/2022/texmf-dist/tex/latex/kvoptions/kvoptions.sty
@@ -521,67 +505,67 @@ Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
 Package: kvsetkeys 2022-10-05 v1.19 Key value parser (HO)
 )) (c:/texlive/2022/texmf-dist/tex/latex/logreq/logreq.sty
 Package: logreq 2010/08/04 v1.0 xml request logger
-\lrq@indent=\count306
+\lrq@indent=\count304
  (c:/texlive/2022/texmf-dist/tex/latex/logreq/logreq.def
 File: logreq.def 2010/08/04 v1.0 logreq spec v1.0
 ))
-\c@tabx@nest=\count307
-\c@listtotal=\count308
-\c@listcount=\count309
-\c@liststart=\count310
-\c@liststop=\count311
-\c@citecount=\count312
-\c@citetotal=\count313
-\c@multicitecount=\count314
-\c@multicitetotal=\count315
-\c@instcount=\count316
-\c@maxnames=\count317
-\c@minnames=\count318
-\c@maxitems=\count319
-\c@minitems=\count320
-\c@citecounter=\count321
-\c@maxcitecounter=\count322
-\c@savedcitecounter=\count323
-\c@uniquelist=\count324
-\c@uniquename=\count325
-\c@refsection=\count326
-\c@refsegment=\count327
-\c@maxextratitle=\count328
-\c@maxextratitleyear=\count329
-\c@maxextraname=\count330
-\c@maxextradate=\count331
-\c@maxextraalpha=\count332
-\c@abbrvpenalty=\count333
-\c@highnamepenalty=\count334
-\c@lownamepenalty=\count335
-\c@maxparens=\count336
-\c@parenlevel=\count337
-\blx@tempcnta=\count338
-\blx@tempcntb=\count339
-\blx@tempcntc=\count340
-\c@blx@maxsection=\count341
-\blx@maxsegment@0=\count342
-\blx@notetype=\count343
-\blx@parenlevel@text=\count344
-\blx@parenlevel@foot=\count345
-\blx@sectionciteorder@0=\count346
-\blx@sectionciteorderinternal@0=\count347
-\blx@entrysetcounter=\count348
-\blx@biblioinstance=\count349
-\labelnumberwidth=\skip81
-\labelalphawidth=\skip82
-\biblabelsep=\skip83
-\bibitemsep=\skip84
-\bibnamesep=\skip85
-\bibinitsep=\skip86
-\bibparsep=\skip87
-\bibhang=\skip88
+\c@tabx@nest=\count305
+\c@listtotal=\count306
+\c@listcount=\count307
+\c@liststart=\count308
+\c@liststop=\count309
+\c@citecount=\count310
+\c@citetotal=\count311
+\c@multicitecount=\count312
+\c@multicitetotal=\count313
+\c@instcount=\count314
+\c@maxnames=\count315
+\c@minnames=\count316
+\c@maxitems=\count317
+\c@minitems=\count318
+\c@citecounter=\count319
+\c@maxcitecounter=\count320
+\c@savedcitecounter=\count321
+\c@uniquelist=\count322
+\c@uniquename=\count323
+\c@refsection=\count324
+\c@refsegment=\count325
+\c@maxextratitle=\count326
+\c@maxextratitleyear=\count327
+\c@maxextraname=\count328
+\c@maxextradate=\count329
+\c@maxextraalpha=\count330
+\c@abbrvpenalty=\count331
+\c@highnamepenalty=\count332
+\c@lownamepenalty=\count333
+\c@maxparens=\count334
+\c@parenlevel=\count335
+\blx@tempcnta=\count336
+\blx@tempcntb=\count337
+\blx@tempcntc=\count338
+\c@blx@maxsection=\count339
+\blx@maxsegment@0=\count340
+\blx@notetype=\count341
+\blx@parenlevel@text=\count342
+\blx@parenlevel@foot=\count343
+\blx@sectionciteorder@0=\count344
+\blx@sectionciteorderinternal@0=\count345
+\blx@entrysetcounter=\count346
+\blx@biblioinstance=\count347
+\labelnumberwidth=\skip75
+\labelalphawidth=\skip76
+\biblabelsep=\skip77
+\bibitemsep=\skip78
+\bibnamesep=\skip79
+\bibinitsep=\skip80
+\bibparsep=\skip81
+\bibhang=\skip82
 \blx@bcfin=\read4
 \blx@bcfout=\write4
 \blx@langwohyphens=\language88
-\c@mincomprange=\count350
-\c@maxcomprange=\count351
-\c@mincompwidth=\count352
+\c@mincomprange=\count348
+\c@maxcomprange=\count349
+\c@mincompwidth=\count350
 Package biblatex Info: Trying to load biblatex default data model...
 Package biblatex Info: ... file 'blx-dm.def' found.
  (c:/texlive/2022/texmf-dist/tex/latex/biblatex/blx-dm.def
@@ -589,88 +573,88 @@ File: blx-dm.def 2022/07/12 v3.18b biblatex localization (PK/MW)
 )
 Package biblatex Info: Trying to load biblatex custom data model...
 Package biblatex Info: ... file 'biblatex-dm.cfg' not found.
-\c@afterword=\count353
-\c@savedafterword=\count354
-\c@annotator=\count355
-\c@savedannotator=\count356
-\c@author=\count357
-\c@savedauthor=\count358
-\c@bookauthor=\count359
-\c@savedbookauthor=\count360
-\c@commentator=\count361
-\c@savedcommentator=\count362
-\c@editor=\count363
-\c@savededitor=\count364
-\c@editora=\count365
-\c@savededitora=\count366
-\c@editorb=\count367
-\c@savededitorb=\count368
-\c@editorc=\count369
-\c@savededitorc=\count370
-\c@foreword=\count371
-\c@savedforeword=\count372
-\c@holder=\count373
-\c@savedholder=\count374
-\c@introduction=\count375
-\c@savedintroduction=\count376
-\c@namea=\count377
-\c@savednamea=\count378
-\c@nameb=\count379
-\c@savednameb=\count380
-\c@namec=\count381
-\c@savednamec=\count382
-\c@translator=\count383
-\c@savedtranslator=\count384
-\c@shortauthor=\count385
-\c@savedshortauthor=\count386
-\c@shorteditor=\count387
-\c@savedshorteditor=\count388
-\c@labelname=\count389
-\c@savedlabelname=\count390
-\c@institution=\count391
-\c@savedinstitution=\count392
-\c@lista=\count393
-\c@savedlista=\count394
-\c@listb=\count395
-\c@savedlistb=\count396
-\c@listc=\count397
-\c@savedlistc=\count398
-\c@listd=\count399
-\c@savedlistd=\count400
-\c@liste=\count401
-\c@savedliste=\count402
-\c@listf=\count403
-\c@savedlistf=\count404
-\c@location=\count405
-\c@savedlocation=\count406
-\c@organization=\count407
-\c@savedorganization=\count408
-\c@origlocation=\count409
-\c@savedoriglocation=\count410
-\c@origpublisher=\count411
-\c@savedorigpublisher=\count412
-\c@publisher=\count413
-\c@savedpublisher=\count414
-\c@language=\count415
-\c@savedlanguage=\count416
-\c@origlanguage=\count417
-\c@savedoriglanguage=\count418
-\c@pageref=\count419
-\c@savedpageref=\count420
-\shorthandwidth=\skip89
-\shortjournalwidth=\skip90
-\shortserieswidth=\skip91
-\shorttitlewidth=\skip92
-\shortauthorwidth=\skip93
-\shorteditorwidth=\skip94
-\locallabelnumberwidth=\skip95
-\locallabelalphawidth=\skip96
-\localshorthandwidth=\skip97
-\localshortjournalwidth=\skip98
-\localshortserieswidth=\skip99
-\localshorttitlewidth=\skip100
-\localshortauthorwidth=\skip101
-\localshorteditorwidth=\skip102
+\c@afterword=\count351
+\c@savedafterword=\count352
+\c@annotator=\count353
+\c@savedannotator=\count354
+\c@author=\count355
+\c@savedauthor=\count356
+\c@bookauthor=\count357
+\c@savedbookauthor=\count358
+\c@commentator=\count359
+\c@savedcommentator=\count360
+\c@editor=\count361
+\c@savededitor=\count362
+\c@editora=\count363
+\c@savededitora=\count364
+\c@editorb=\count365
+\c@savededitorb=\count366
+\c@editorc=\count367
+\c@savededitorc=\count368
+\c@foreword=\count369
+\c@savedforeword=\count370
+\c@holder=\count371
+\c@savedholder=\count372
+\c@introduction=\count373
+\c@savedintroduction=\count374
+\c@namea=\count375
+\c@savednamea=\count376
+\c@nameb=\count377
+\c@savednameb=\count378
+\c@namec=\count379
+\c@savednamec=\count380
+\c@translator=\count381
+\c@savedtranslator=\count382
+\c@shortauthor=\count383
+\c@savedshortauthor=\count384
+\c@shorteditor=\count385
+\c@savedshorteditor=\count386
+\c@labelname=\count387
+\c@savedlabelname=\count388
+\c@institution=\count389
+\c@savedinstitution=\count390
+\c@lista=\count391
+\c@savedlista=\count392
+\c@listb=\count393
+\c@savedlistb=\count394
+\c@listc=\count395
+\c@savedlistc=\count396
+\c@listd=\count397
+\c@savedlistd=\count398
+\c@liste=\count399
+\c@savedliste=\count400
+\c@listf=\count401
+\c@savedlistf=\count402
+\c@location=\count403
+\c@savedlocation=\count404
+\c@organization=\count405
+\c@savedorganization=\count406
+\c@origlocation=\count407
+\c@savedoriglocation=\count408
+\c@origpublisher=\count409
+\c@savedorigpublisher=\count410
+\c@publisher=\count411
+\c@savedpublisher=\count412
+\c@language=\count413
+\c@savedlanguage=\count414
+\c@origlanguage=\count415
+\c@savedoriglanguage=\count416
+\c@pageref=\count417
+\c@savedpageref=\count418
+\shorthandwidth=\skip83
+\shortjournalwidth=\skip84
+\shortserieswidth=\skip85
+\shorttitlewidth=\skip86
+\shortauthorwidth=\skip87
+\shorteditorwidth=\skip88
+\locallabelnumberwidth=\skip89
+\locallabelalphawidth=\skip90
+\localshorthandwidth=\skip91
+\localshortjournalwidth=\skip92
+\localshortserieswidth=\skip93
+\localshorttitlewidth=\skip94
+\localshortauthorwidth=\skip95
+\localshorteditorwidth=\skip96
 Package biblatex Info: Trying to load compatibility code...
 Package biblatex Info: ... file 'blx-compat.def' found.
  (c:/texlive/2022/texmf-dist/tex/latex/biblatex/blx-compat.def
@@ -680,19 +664,19 @@ Package biblatex Info: Trying to load generic definitions...
 Package biblatex Info: ... file 'biblatex.def' found.
  (c:/texlive/2022/texmf-dist/tex/latex/biblatex/biblatex.def
 File: biblatex.def 2022/07/12 v3.18b biblatex compatibility (PK/MW)
-\c@textcitecount=\count421
-\c@textcitetotal=\count422
-\c@textcitemaxnames=\count423
-\c@biburlbigbreakpenalty=\count424
-\c@biburlbreakpenalty=\count425
-\c@biburlnumpenalty=\count426
-\c@biburlucpenalty=\count427
-\c@biburllcpenalty=\count428
+\c@textcitecount=\count419
+\c@textcitetotal=\count420
+\c@textcitemaxnames=\count421
+\c@biburlbigbreakpenalty=\count422
+\c@biburlbreakpenalty=\count423
+\c@biburlnumpenalty=\count424
+\c@biburlucpenalty=\count425
+\c@biburllcpenalty=\count426
 \biburlbigskip=\muskip18
 \biburlnumskip=\muskip19
 \biburlucskip=\muskip20
 \biburllcskip=\muskip21
-\c@smartand=\count429
+\c@smartand=\count427
 )
 Package biblatex Info: Trying to load bibliography style 'numeric'...
 Package biblatex Info: ... file 'numeric.bbx' found.
@@ -702,8 +686,8 @@ Package biblatex Info: Trying to load bibliography style 'standard'...
 Package biblatex Info: ... file 'standard.bbx' found.
  (c:/texlive/2022/texmf-dist/tex/latex/biblatex/bbx/standard.bbx
 File: standard.bbx 2022/07/12 v3.18b biblatex bibliography style (PK/MW)
-\c@bbx:relatedcount=\count430
-\c@bbx:relatedtotal=\count431
+\c@bbx:relatedcount=\count428
+\c@bbx:relatedtotal=\count429
 ))
 Package biblatex Info: Trying to load citation style 'numeric'...
 Package biblatex Info: ... file 'numeric.cbx' found.
@@ -736,12 +720,12 @@ Package biblatex Info: ... and expl3
 Package: blx-case-expl3 2022/07/12 v3.18b expl3 case changing code for biblatex
 )) (c:/texlive/2022/texmf-dist/tex/latex/csquotes/csquotes.sty
 Package: csquotes 2022-09-14 v5.2n context-sensitive quotations (JAW)
-\csq@reset=\count432
-\csq@gtype=\count433
-\csq@glevel=\count434
-\csq@qlevel=\count435
-\csq@maxlvl=\count436
-\csq@tshold=\count437
+\csq@reset=\count430
+\csq@gtype=\count431
+\csq@glevel=\count432
+\csq@qlevel=\count433
+\csq@maxlvl=\count434
+\csq@tshold=\count435
 \csq@ltx@everypar=\toks35
  (c:/texlive/2022/texmf-dist/tex/latex/csquotes/csquotes.def
 File: csquotes.def 2022-09-14 v5.2n csquotes generic definitions (JAW)
@@ -753,7 +737,7 @@ File: csquotes.cfg
 ))
 Package scrhack Info: hyperref hack deactivated because of
 (scrhack)             detection of KOMA-Script class, that doesn't
-(scrhack)             need that hack, on input line 139.
+(scrhack)             need that hack, on input line 145.
  (c:/texlive/2022/texmf-dist/tex/latex/hyperref/hyperref.sty
 Package: hyperref 2022-11-13 v7.00u Hypertext links for LaTeX
  (c:/texlive/2022/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty
@@ -771,11 +755,11 @@ Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
 ) (c:/texlive/2022/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
 Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
-\c@section@level=\count438
+\c@section@level=\count436
 )
-\@linkdim=\dimen267
-\Hy@linkcounter=\count439
-\Hy@pagecounter=\count440
+\@linkdim=\dimen265
+\Hy@linkcounter=\count437
+\Hy@pagecounter=\count438
  (c:/texlive/2022/texmf-dist/tex/latex/hyperref/pd1enc.def
 File: pd1enc.def 2022-11-13 v7.00u Hyperref: PDFDocEncoding definition (HO)
 Now handling font encoding PD1 ...
@@ -785,7 +769,7 @@ Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
 ) (c:/texlive/2022/texmf-dist/tex/generic/etexcmds/etexcmds.sty
 Package: etexcmds 2019/12/15 v1.7 Avoid name clashes with e-TeX commands (HO)
 )
-\Hy@SavedSpaceFactor=\count441
+\Hy@SavedSpaceFactor=\count439
  (c:/texlive/2022/texmf-dist/tex/latex/hyperref/puenc.def
 File: puenc.def 2022-11-13 v7.00u Hyperref: PDF Unicode definition (HO)
 Now handling font encoding PU ...
@@ -801,17 +785,17 @@ Package hyperref Info: Plain pages OFF on input line 4177.
 Package hyperref Info: Backreferencing OFF on input line 4182.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
 Package hyperref Info: Bookmarks ON on input line 4410.
-\c@Hy@tempcnt=\count442
+\c@Hy@tempcnt=\count440
 LaTeX Info: Redefining \url on input line 4748.
-\XeTeXLinkMargin=\dimen268
+\XeTeXLinkMargin=\dimen266
  (c:/texlive/2022/texmf-dist/tex/generic/bitset/bitset.sty
 Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
  (c:/texlive/2022/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty
 Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO)
 ))
-\Fld@menulength=\count443
-\Field@Width=\dimen269
-\Fld@charsize=\dimen270
+\Fld@menulength=\count441
+\Field@Width=\dimen267
+\Fld@charsize=\dimen268
 Package hyperref Info: Hyper figures OFF on input line 6027.
 Package hyperref Info: Link nesting OFF on input line 6032.
 Package hyperref Info: Hyper index ON on input line 6035.
@@ -823,9 +807,9 @@ Package hyperref Info: PDF/A mode OFF on input line 6057.
 Package: atbegshi-ltx 2021/01/10 v1.0c Emulation of the original atbegshi
 package with kernel methods
 )
-\Hy@abspage=\count444
-\c@Item=\count445
-\c@Hfootnote=\count446
+\Hy@abspage=\count442
+\c@Item=\count443
+\c@Hfootnote=\count444
 )
 Package hyperref Info: Driver: hpdftex.
  (c:/texlive/2022/texmf-dist/tex/latex/hyperref/hpdftex.def
@@ -834,8 +818,8 @@ File: hpdftex.def 2022-11-13 v7.00u Hyperref driver for pdfTeX
 Package: atveryend-ltx 2020/08/19 v1.0a Emulation of the original atveryend package
 with kernel methods
 )
-\Fld@listcount=\count447
-\c@bookmark@seq@number=\count448
+\Fld@listcount=\count445
+\c@bookmark@seq@number=\count446
  (c:/texlive/2022/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
 Package: rerunfilecheck 2022-07-10 v1.10 Rerun checks for auxiliary files (HO)
  (c:/texlive/2022/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty
@@ -843,7 +827,7 @@ Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
 )
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 285.
 )
-\Hy@SectionHShift=\skip103
+\Hy@SectionHShift=\skip97
 )
 Package typearea Info: These are the values describing the layout:
 (typearea)             DIV  = areaset
@@ -860,55 +844,55 @@ Package typearea Info: These are the values describing the layout:
 (typearea)              \topskip        = 11.0pt
 (typearea)              \footskip       = 47.60002pt
 (typearea)              \baselineskip   = 13.6pt
-(typearea)              on input line 145.
-\c@definition=\count449
+(typearea)              on input line 151.
+\c@definition=\count447
 Package csquotes Info: Checking for multilingual support...
 Package csquotes Info: ... found 'babel' package.
 Package csquotes Info: Adjusting default style.
 Package csquotes Info: Redefining alias 'default' -> 'english'.
- (./thesis.aux (./content/introduction/abstract.aux) (./content/introduction/introduction.aux) (./content/theoretischer_teil/__import__.aux) (./content/konzept/__import__.aux) (./content/evaluation/__import__.aux) (./content/conclusion/conclusion.aux) (./clause.aux))
+ (./thesis.aux)
 \openout1 = `thesis.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 173.
-LaTeX Font Info:    ... okay on input line 173.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 173.
-LaTeX Font Info:    ... okay on input line 173.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 173.
-LaTeX Font Info:    ... okay on input line 173.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 173.
-LaTeX Font Info:    ... okay on input line 173.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 173.
-LaTeX Font Info:    ... okay on input line 173.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 173.
-LaTeX Font Info:    ... okay on input line 173.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 173.
-LaTeX Font Info:    ... okay on input line 173.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 173.
-LaTeX Font Info:    ... okay on input line 173.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 173.
-LaTeX Font Info:    ... okay on input line 173.
-Package scrbase Info: activating english \partname on input line 173.
-Package scrbase Info: activating english \chaptername on input line 173.
-Package scrbase Info: activating english \appendixname on input line 173.
-Package scrbase Info: activating english \figurename on input line 173.
-Package scrbase Info: activating english \tablename on input line 173.
-Package scrbase Info: activating english \contentsname on input line 173.
-Package scrbase Info: activating english \listfigurename on input line 173.
-Package scrbase Info: activating english \listtablename on input line 173.
-Package scrbase Info: activating english \bibname on input line 173.
-Package scrbase Info: activating english \indexname on input line 173.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 179.
+LaTeX Font Info:    ... okay on input line 179.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 179.
+LaTeX Font Info:    ... okay on input line 179.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 179.
+LaTeX Font Info:    ... okay on input line 179.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 179.
+LaTeX Font Info:    ... okay on input line 179.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 179.
+LaTeX Font Info:    ... okay on input line 179.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 179.
+LaTeX Font Info:    ... okay on input line 179.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 179.
+LaTeX Font Info:    ... okay on input line 179.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 179.
+LaTeX Font Info:    ... okay on input line 179.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 179.
+LaTeX Font Info:    ... okay on input line 179.
+Package scrbase Info: activating english \partname on input line 179.
+Package scrbase Info: activating english \chaptername on input line 179.
+Package scrbase Info: activating english \appendixname on input line 179.
+Package scrbase Info: activating english \figurename on input line 179.
+Package scrbase Info: activating english \tablename on input line 179.
+Package scrbase Info: activating english \contentsname on input line 179.
+Package scrbase Info: activating english \listfigurename on input line 179.
+Package scrbase Info: activating english \listtablename on input line 179.
+Package scrbase Info: activating english \bibname on input line 179.
+Package scrbase Info: activating english \indexname on input line 179.
  (c:/texlive/2022/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count450
-\scratchdimen=\dimen271
+\scratchcounter=\count448
+\scratchdimen=\dimen269
 \scratchbox=\box65
-\nofMPsegments=\count451
-\nofMParguments=\count452
+\nofMPsegments=\count449
+\nofMParguments=\count450
 \everyMPshowfont=\toks36
-\MPscratchCnt=\count453
-\MPscratchDim=\dimen272
-\MPnumerator=\count454
-\makeMPintoPDFobject=\count455
+\MPscratchCnt=\count451
+\MPscratchDim=\dimen270
+\MPnumerator=\count452
+\makeMPintoPDFobject=\count453
 \everyMPtoPDFconversion=\toks37
 ) (c:/texlive/2022/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
@@ -920,8 +904,8 @@ Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: hyperref package is loaded.
 Package caption Info: listings package is loaded.
 Package caption Info: End \AtBeginDocument code.
-\c@lstlisting=\count456
-Package scrhack Info: undefining \float@addtolists on input line 173.
+\c@lstlisting=\count454
+Package scrhack Info: undefining \float@addtolists on input line 179.
 Package biblatex Info: Trying to load language 'english'...
 Package biblatex Info: ... file 'english.lbx' found.
  (c:/texlive/2022/texmf-dist/tex/latex/biblatex/lbx/english.lbx
@@ -938,12 +922,12 @@ Package biblatex Info: Automatic encoding selection.
 \openout4 = `thesis.bcf'.
 
 Package biblatex Info: Trying to load bibliographic data...
-Package biblatex Info: ... file 'thesis.bbl' found.
- (./thesis.bbl)
-Package biblatex Info: Reference section=0 on input line 173.
-Package biblatex Info: Reference segment=0 on input line 173.
-Package hyperref Info: Link coloring OFF on input line 173.
- (./thesis.out) (./thesis.out)
+Package biblatex Info: ... file 'thesis.bbl' not found.
+
+No file thesis.bbl.
+Package biblatex Info: Reference section=0 on input line 179.
+Package biblatex Info: Reference segment=0 on input line 179.
+Package hyperref Info: Link coloring OFF on input line 179.
 \@outlinefile=\write5
 \openout5 = `thesis.out'.
 
@@ -954,14 +938,14 @@ Class scrbook Info: loading recommended package `bookmark'.
 (scrbook)           `bookmarkpackage=false' before \begin{document} and
 (scrbook)           you can avoid this message adding:
 (scrbook)             \usepackage{bookmark}
-(scrbook)           before \begin{document} on input line 173.
- (c:/texlive/2022/texmf-dist/tex/latex/bookmark/bookmark.sty
+(scrbook)           before \begin{document} on input line 179.
+(c:/texlive/2022/texmf-dist/tex/latex/bookmark/bookmark.sty
 Package: bookmark 2020-11-06 v1.29 PDF bookmarks (HO)
  (c:/texlive/2022/texmf-dist/tex/latex/bookmark/bkm-pdftex.def
 File: bkm-pdftex.def 2020-11-06 v1.29 bookmark driver for pdfTeX (HO)
-\BKM@id=\count457
+\BKM@id=\count455
 )) (./frontpage.tex
-\links=\skip104
+\links=\skip98
 
 TextBlockOrigin set to 0pt x 0pt
 
@@ -997,23 +981,35 @@ Overfull \hbox (0.53687pt too wide) in paragraph at lines 34--37
 
 
 
-] (./thesis.toc)
+]
+No file thesis.toc.
 \tf@toc=\write6
 \openout6 = `thesis.toc'.
 
- [5] [6]
+[5] [6
+
+
+]
 \openout2 = `content/introduction/introduction.aux'.
 
  (./content/introduction/introduction.tex
 chapter 1.
 
-Overfull \hbox (13.11623pt too wide) in paragraph at lines 2--3
-\OT1/cmr/m/n/10.95 wur-den im fr^^?uhen zwanzig-sten Jahrhun-dert durch An-drey Markov eingef^^?uhrt [[]15[]]. Zun^^?achst
- []
+LaTeX Warning: Citation 'rabiner' on page 1 undefined on input line 2.
+
+
+LaTeX Warning: Citation 'HmmReview' on page 1 undefined on input line 2.
+
+
+LaTeX Warning: Citation 'ApplicationSpeechRecognition' on page 1 undefined on input line 2.
+
+
+LaTeX Warning: Citation 'ApplicationComputationalBiology' on page 1 undefined on input line 2.
+
+
+LaTeX Warning: Citation 'ApplicationPageRank' on page 1 undefined on input line 2.
 
 ) [1
-
-
 
 
 
@@ -1022,63 +1018,95 @@ Overfull \hbox (13.11623pt too wide) in paragraph at lines 2--3
 
  (./content/theoretischer_teil/__import__.tex
 chapter 2.
-(./content/theoretischer_teil/random_variables.tex [3
+(./content/theoretischer_teil/stochastik.tex [3
 
 
 
 
 
 ]
-Overfull \hbox (11.94098pt too wide) in paragraph at lines 21--23
-\OT1/cmr/bx/n/10.95 sraum $\OT1/cmr/m/n/10.95 (
-\OML/cmm/m/it/10.95 ; \OMS/cmsy/m/n/10.95 E\OML/cmm/m/it/10.95 ; P\OT1/cmr/m/n/10.95 )$. Im fol-gen-den beschr^^?anken wir uns auf diskrete Wahrschein-lichkeitsr^^?aume,
- []
 
-) (./content/theoretischer_teil/hidden_markov_models.tex
-Overfull \hbox (12.56868pt too wide) in paragraph at lines 4--5
-\OT1/cmr/m/n/10.95 vom gegenw^^?arti-gen Zu-s-tand abh^^?angt. Diese Eigen-schaft ist bekannt als Markov-Eigneschaft
- []
+LaTeX Warning: Citation 'ElementareStochastic' on page 4 undefined on input line 23.
 
-[4]
-Overfull \hbox (5.15198pt too wide) in paragraph at lines 10--12
-\OT1/cmr/m/it/10.95 F^^?ur alle $\OML/cmm/m/it/10.95 n \OMS/cmsy/m/n/10.95 2 \OML/cmm/m/it/10.95 N[]$ \OT1/cmr/m/it/10.95 und alle $\OML/cmm/m/it/10.95 i[] \OMS/cmsy/m/n/10.95 2 \OML/cmm/m/it/10.95 S$ \OT1/cmr/m/it/10.95 unter der Vor-raus-set-zung, dass alle be-d-ingten Wahrschein-
+
+Overfull \hbox (100.84863pt too wide) in paragraph at lines 23--24
+\OT1/cmr/m/n/10.95 lichkeitsr^^?aume, welche dadurch gekennze-ich-net sind, dass $
+$ abz^^?ahlbar endlich ist [[]]. 
  []
 
 
-Overfull \hbox (4.60478pt too wide) in paragraph at lines 25--26
-[]\OT1/cmr/m/it/10.95 Die Tran-si-tion-s-ma-trix $\OML/cmm/m/it/10.95 A$ \OT1/cmr/m/it/10.95 beschreibt die be-d-ingten
+LaTeX Warning: Citation 'ElementareStochastic' on page 4 undefined on input line 26.
+
+
+Overfull \hbox (67.3851pt too wide) in paragraph at lines 26--27
+\OT1/cmr/m/n/10.95 Eine \OT1/cmr/bx/n/10.95 Zu-fallsvari-able $\OML/cmm/m/it/10.95 X$ \OT1/cmr/m/n/10.95 ist eine Ab-bil-dung von $
+$ in eine be-liebige Menge $\OML/cmm/m/it/10.95 C$ \OT1/cmr/m/n/10.95 [[]].
  []
 
 
-Overfull \hbox (11.18918pt too wide) in paragraph at lines 25--26
-\OT1/cmr/m/it/10.95 Wahrschein-lichkeiten, mit de-nen ein Zu-s-tands^^?ubergang geschieht. $\OML/cmm/m/it/10.95 a[]\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 j\OT1/cmr/m/n/10.95 )$ \OT1/cmr/m/it/10.95 ist die Wahrschein-
+LaTeX Warning: Citation 'StochasticProcesses' on page 4 undefined on input line 36.
+
+
+LaTeX Warning: Citation 'StochastischeProzesse' on page 4 undefined on input line 36.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 38--38
+[][]\OT1/cmr/m/n/10.95 TODO:[]
  []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 38--38
+\OT1/cmr/m/n/10.95 W^^?urfel
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 38--38
+\OT1/cmr/m/n/10.95 Beispiel f^^?ur
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 38--38
+\OT1/cmr/m/n/10.95 Stochastis-
+ []
+
+
+Underfull \hbox (badness 7151) in paragraph at lines 38--38
+\OT1/cmr/m/n/10.95 chen Prozess
+ []
+
+[4]) (./content/theoretischer_teil/hidden_markov_models.tex
+Overfull \hbox (1.17651pt too wide) in paragraph at lines 14--15
+\OT1/cmr/m/it/10.95 beschrieben durch zwei Vari-ablen. Einen \OT1/cmr/bx/it/10.95 Start-wahrschein-lichkeitsvek-tor $\OML/cmm/m/it/10.95 ^^Y$ \OT1/cmr/m/it/10.95 mit L^^?ange
+ []
+
+
+LaTeX Warning: Citation 'HmmIntroduction' on page 5 undefined on input line 24.
 
 [5]
-<images/Markov_Chain_Example.png, id=173, 120.45pt x 96.36pt>
+<images/Markov_Chain_Example.png, id=98, 120.45pt x 96.36pt>
 File: images/Markov_Chain_Example.png Graphic file (type png)
 <use images/Markov_Chain_Example.png>
-Package pdftex.def Info: images/Markov_Chain_Example.png  used on input line 54.
+Package pdftex.def Info: images/Markov_Chain_Example.png  used on input line 47.
 (pdftex.def)             Requested size: 120.44969pt x 96.35974pt.
 
-Overfull \hbox (20.51755pt too wide) in paragraph at lines 56--57
+Overfull \hbox (20.51755pt too wide) in paragraph at lines 49--50
 []\OT1/cmr/m/n/10.95 Mit un-serem Tem-per-atur-mod-ell k^^?onnen wir nun zum Beispiel berech-nen, was die Wahrschein-
  []
 
 [6 <./images/Markov_Chain_Example.png>]
-Overfull \hbox (30.05042pt too wide) in paragraph at lines 71--72
-[]\OT1/cmr/m/it/10.95 Die Emis-sion-s-ma-trix $\OML/cmm/m/it/10.95 B$ \OT1/cmr/m/it/10.95 gibt die Wahrschein-
+Overfull \hbox (7.78178pt too wide) in paragraph at lines 63--64
+[]\OT1/cmr/m/it/10.95 Ein Hid-den Markov Mod-ell ist definiert durch
  []
 
-<images/Ball_Urn_Model.png, id=184, 120.45pt x 96.36pt>
+
+LaTeX Warning: Reference `fig:urn_ball_model' on page 7 undefined on input line 76.
+
+<images/Ball_Urn_Model.png, id=108, 120.45pt x 96.36pt>
 File: images/Ball_Urn_Model.png Graphic file (type png)
 <use images/Ball_Urn_Model.png>
-Package pdftex.def Info: images/Ball_Urn_Model.png  used on input line 89.
+Package pdftex.def Info: images/Ball_Urn_Model.png  used on input line 79.
 (pdftex.def)             Requested size: 120.44969pt x 96.35974pt.
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-) (./content/theoretischer_teil/drei_probleme.tex [7]
+[7]) (./content/theoretischer_teil/drei_probleme.tex
 Overfull \hbox (41.23854pt too wide) in paragraph at lines 6--7
 []\OT1/cmr/bx/n/10.95 Problem 3 \OT1/cmr/m/n/10.95 Wie k^^?onnen wir die Pa-ram-e-ter des Mod-ells $\OML/cmm/m/it/10.95 ^^U$ \OT1/cmr/m/n/10.95 an-passen um die Wahrscheilichkeit
  []
@@ -1093,8 +1121,18 @@ Overfull \hbox (11.47585pt too wide) in paragraph at lines 75--76
 \OT1/cmr/m/n/10.95 gen Pfad-wahrschein-lichkeiten be-tra-chtet, wohinge-gen der Forw^^?art-sal-go-rith-mus die \OT1/cmr/bx/n/10.95 Summe
  []
 
-[10] [11]) (./content/theoretischer_teil/metaheuristische.tex [12] [13]
-<images/Unterteilung_Optimierungsverfahren.png, id=233, 192.72pt x 144.54pt>
+[10] [11] [12]) (./content/theoretischer_teil/optimierung.tex
+
+LaTeX Warning: Citation 'MetaheuristicsEGT' on page 13 undefined on input line 9.
+
+[13]
+
+LaTeX Warning: Citation 'MetaheuristicsEGT' on page 14 undefined on input line 14.
+
+
+LaTeX Warning: Reference `fig:optimierungsverfahren' on page 14 undefined on input line 18.
+
+<images/Unterteilung_Optimierungsverfahren.png, id=159, 192.72pt x 144.54pt>
 File: images/Unterteilung_Optimierungsverfahren.png Graphic file (type png)
 <use images/Unterteilung_Optimierungsverfahren.png>
 Package pdftex.def Info: images/Unterteilung_Optimierungsverfahren.png  used on input line 20.
@@ -1104,44 +1142,152 @@ Overfull \hbox (3.0888pt too wide) in paragraph at lines 18--24
 \OT1/cmr/m/n/10.95 ange-merkt, dass die un-ter-nommene Un-terteilung keineswegs Anspruch auf Vollst^^?andigkeit
  []
 
-[14 <./images/Unterteilung_Optimierungsverfahren.png>]
-Overfull \hbox (6.24199pt too wide) in paragraph at lines 33--34
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+LaTeX Warning: Citation 'NFL' on page 14 undefined on input line 26.
+
+) (./content/theoretischer_teil/metaheuristiken.tex
+
+LaTeX Warning: Citation 'MetaheuristicsExposed' on page 14 undefined on input line 2.
+
+[14]
+
+LaTeX Warning: Citation 'MetaheuristicsEGT' on page 15 undefined on input line 4.
+
+
+LaTeX Warning: Citation 'metaheuristics' on page 15 undefined on input line 6.
+
+
+LaTeX Warning: Citation 'MetaheuristicsSurvey' on page 15 undefined on input line 9.
+
+
+Overfull \hbox (6.24199pt too wide) in paragraph at lines 9--10
 \OT1/cmr/m/n/10.95 disierung. Das kom-binieren von meta-heuris-tis-chen Al-go-rith-men ist ein ak-tives Forschungs-
  []
 
-[15]) (./content/theoretischer_teil/genetische.tex [16]
-<images/Population_Chromosom_Gen.png, id=270, 120.45pt x 96.36pt>
+[15 <./images/Unterteilung_Optimierungsverfahren.png>]
+
+LaTeX Warning: Citation 'MetaheuristicsEGT' on page 16 undefined on input line 11.
+
+
+LaTeX Warning: Citation 'MetaheuristicsSurvey' on page 16 undefined on input line 13.
+
+
+LaTeX Warning: Citation 'MetaheuristicsEGT' on page 16 undefined on input line 13.
+
+
+LaTeX Warning: Citation 'MetaheuristicsEGT' on page 16 undefined on input line 16.
+
+
+LaTeX Warning: Citation 'MetaheuristicsSurvey' on page 16 undefined on input line 23.
+
+[16]
+
+LaTeX Warning: Citation 'MetaheuristicsExampleRoachInfestation' on page 17 undefined on input line 27.
+
+
+LaTeX Warning: Citation 'MetaheuristicsExampleHarmonySearch' on page 17 undefined on input line 27.
+
+
+LaTeX Warning: Citation 'MetaheuristicsExampleBlackHole' on page 17 undefined on input line 27.
+
+
+LaTeX Warning: Citation 'MetaheuristicsExampleIntelligentWaterDrops' on page 17 undefined on input line 27.
+
+
+LaTeX Warning: Citation 'NoNovelty' on page 17 undefined on input line 27.
+
+
+LaTeX Warning: Citation 'HarmonySearch' on page 17 undefined on input line 27.
+
+
+LaTeX Warning: Citation 'MetaheuristicsExposed' on page 17 undefined on input line 27.
+
+) (./content/theoretischer_teil/genetische.tex
+Overfull \hbox (71.04018pt too wide) in paragraph at lines 27--1
+\OT1/cmr/m/n/10.95 tiken ern-ten im-mer mehr Kri-tik. Ob Kak-er-laken Be-fall [[]],
+ []
+
+
+Overfull \hbox (146.7119pt too wide) in paragraph at lines 27--1
+\OT1/cmr/m/n/10.95 Jazz-Musiker [[]], Schwarze L^^?ocher [[]]
+ []
+
+
+Overfull \hbox (16.56604pt too wide) in paragraph at lines 27--1
+\OT1/cmr/m/n/10.95 oder auch in-tel-li-gente Wassertropfen [[]].
+ []
+
+
+LaTeX Warning: Citation 'MetaheuristicsEGT' on page 17 undefined on input line 4.
+
+
+Overfull \hbox (3.39293pt too wide) in paragraph at lines 4--10
+\OT1/cmr/m/n/10.95 Ablauf eines genetis-chen Al-go-rith-mus ver-schaf-fen und schlie^^Ylich auf die einzel-nen genetis-
+ []
+
+
+LaTeX Warning: Citation 'TerminologiesAndOperators' on page 17 undefined on input line 15.
+
+
+LaTeX Warning: Reference `fig:population_chromosome_gene' on page 17 undefined on input line 15.
+
+<images/Population_Chromosom_Gen.png, id=180, 120.45pt x 96.36pt>
 File: images/Population_Chromosom_Gen.png Graphic file (type png)
 <use images/Population_Chromosom_Gen.png>
 Package pdftex.def Info: images/Population_Chromosom_Gen.png  used on input line 17.
 (pdftex.def)             Requested size: 120.44969pt x 96.35974pt.
- [17 <./images/Population_Chromosom_Gen.png>]
+[17]
+
+LaTeX Warning: Citation 'GeneticAlgorithms' on page 18 undefined on input line 25.
+
+
 Overfull \hbox (4.73137pt too wide) in paragraph at lines 30--31
 []\OT1/cmr/m/n/10.95 Evaluation: Je-dem Kind wird ein fitness-Wert durch die fitness-Funktion zugewiesen 
  []
 
-<images/Genetic_Algorithm_Flowchart.png, id=281, 240.9pt x 240.9pt>
+
+LaTeX Warning: Citation 'TerminologiesAndOperators' on page 18 undefined on input line 33.
+
+
+LaTeX Warning: Reference `fig:genetic_algorithm_flowchart' on page 18 undefined on input line 33.
+
+<images/Genetic_Algorithm_Flowchart.png, id=187, 240.9pt x 240.9pt>
 File: images/Genetic_Algorithm_Flowchart.png Graphic file (type png)
 <use images/Genetic_Algorithm_Flowchart.png>
 Package pdftex.def Info: images/Genetic_Algorithm_Flowchart.png  used on input line 35.
 (pdftex.def)             Requested size: 240.8994pt x 240.8994pt.
-[18 <./images/Genetic_Algorithm_Flowchart.png>]
-<images/Selection_Methods.png, id=291, 289.08pt x 144.54pt>
-File: images/Selection_Methods.png Graphic file (type png)
-<use images/Selection_Methods.png>
-Package pdftex.def Info: images/Selection_Methods.png  used on input line 58.
-(pdftex.def)             Requested size: 289.07928pt x 144.53963pt.
+
+Overfull \hbox (86.61496pt too wide) in paragraph at lines 33--39
+\OT1/cmr/m/n/10.95 Al-go-rith-mus oder max-i-male An-zahl an Gen-er-a-tio-nen ohne Verbesserung [[]].
+ []
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[19]
+
+LaTeX Warning: Citation 'TerminologiesAndOperators' on page 18 undefined on input line 42.
+
+
+LaTeX Warning: Citation 'TerminologiesAndOperators' on page 18 undefined on input line 42.
+
+[18 <./images/Population_Chromosom_Gen.png>] [19 <./images/Genetic_Algorithm_Flowchart.png>]
+<images/Selection_Methods.png, id=203, 289.08pt x 144.54pt>
+File: images/Selection_Methods.png Graphic file (type png)
+<use images/Selection_Methods.png>
+Package pdftex.def Info: images/Selection_Methods.png  used on input line 58.
+(pdftex.def)             Requested size: 289.07928pt x 144.53963pt.
+ [20 <./images/Selection_Methods.png>]
 Overfull \hbox (30.0379pt too wide) in paragraph at lines 66--67
 \OT1/cmr/m/n/10.95 Als Crossover beze-ich-net man das Rekom-binieren von typ-is-cher-weise zwei Eltern-Chromosomen
  []
 
-[20 <./images/Selection_Methods.png>]
-<images/Crossover_Methods.png, id=310, 512.1534pt x 256.0767pt>
+
+LaTeX Warning: Citation 'TerminologiesAndOperators' on page 21 undefined on input line 70.
+
+<images/Crossover_Methods.png, id=214, 512.1534pt x 256.0767pt>
 File: images/Crossover_Methods.png Graphic file (type png)
 <use images/Crossover_Methods.png>
 Package pdftex.def Info: images/Crossover_Methods.png  used on input line 74.
@@ -1152,120 +1298,124 @@ Overfull \hbox (105.10217pt too wide) in paragraph at lines 74--75
  []
 
 
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [21]
+
+LaTeX Warning: Citation 'TerminologiesAndOperators' on page 22 undefined on input line 79.
+
+
 Overfull \hbox (3.87956pt too wide) in paragraph at lines 79--80
 \OT1/cmr/m/n/10.95 Das mehrfache An-wen-den von Crossover und Se-lek-tion ver-ringert un-weiger-lich die genetis-
  []
 
-[21 <./images/Crossover_Methods.png>]
+
+LaTeX Warning: Citation 'TerminologiesAndOperators' on page 22 undefined on input line 81.
+
+
+LaTeX Warning: Citation 'MetaheuristicsEGT' on page 22 undefined on input line 81.
+
+[22 <./images/Crossover_Methods.png>]
 Overfull \hbox (1.28403pt too wide) in paragraph at lines 93--94
 \OT1/cmr/m/n/10.95 dass sie neue Pa-ram-e-ter einf^^?uhren. Ein genetis-cher Al-go-rith-mus, wie er zu-vor beschrieben
  []
 
-) [22]) [23]
-\openout2 = `content/konzept/__import__.aux'.
 
- (./content/konzept/__import__.tex [24
+LaTeX Warning: Citation 'TerminologiesAndOperators' on page 23 undefined on input line 103.
 
+)
+Overfull \hbox (66.52469pt too wide) in paragraph at lines 103--9
+\OT1/cmr/m/n/10.95 eine gro^^Ye Pop-u-la-tioni auch mehr Rechen-leis-tung, Spe-icher und Zeit [[]].
+ []
 
+[23]) [24]
+\openout2 = `content/evaluation/evaluation.aux'.
 
-
-
-]
+ (./content/evaluation/evaluation.tex
 chapter 3.
-(./content/konzept/konzept.tex [25]
-<images/Hmm_Chromosom_Representation.png, id=362, 240.9pt x 192.72pt>
-File: images/Hmm_Chromosom_Representation.png Graphic file (type png)
-<use images/Hmm_Chromosom_Representation.png>
-Package pdftex.def Info: images/Hmm_Chromosom_Representation.png  used on input line 21.
-(pdftex.def)             Requested size: 240.8994pt x 192.71951pt.
+<images/charts/crossover_function_improvement_chance_parents_max.png, id=243, 416.2752pt x 312.2064pt>
+File: images/charts/crossover_function_improvement_chance_parents_max.png Graphic file (type png)
+<use images/charts/crossover_function_improvement_chance_parents_max.png>
+Package pdftex.def Info: images/charts/crossover_function_improvement_chance_parents_max.png  used on input line 5.
+(pdftex.def)             Requested size: 209.0pt x 156.7507pt.
+<images/charts/crossover_function_improvement_chance_parents_min.png, id=244, 409.7709pt x 312.2064pt>
+File: images/charts/crossover_function_improvement_chance_parents_min.png Graphic file (type png)
+<use images/charts/crossover_function_improvement_chance_parents_min.png>
+Package pdftex.def Info: images/charts/crossover_function_improvement_chance_parents_min.png  used on input line 6.
+(pdftex.def)             Requested size: 209.0pt x 159.23744pt.
 
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[26]
-Overfull \hbox (0.35135pt too wide) in paragraph at lines 46--47
-\OT1/cmr/m/n/10.95 Hybridisierung, Teamwork-Hybridisierung und auch keine Hy-bri-disierung in-ner-halb eines
+Overfull \hbox (13.38336pt too wide) in paragraph at lines 5--7
+[][] [] 
  []
 
-[27 <./images/Hmm_Chromosom_Representation.png>]
-<images/GA-HMM_Flowchart.png, id=380, 240.9pt x 192.72pt>
-File: images/GA-HMM_Flowchart.png Graphic file (type png)
-<use images/GA-HMM_Flowchart.png>
-Package pdftex.def Info: images/GA-HMM_Flowchart.png  used on input line 49.
-(pdftex.def)             Requested size: 240.8994pt x 192.71951pt.
-
-Underfull \vbox (badness 5316) has occurred while \output is active []
-
- [28 <./images/GA-HMM_Flowchart.png>]))
-Overfull \hbox (5.56664pt too wide) in paragraph at lines 63--209
-\OT1/cmr/m/n/10.95 Um die Ko-r-rek-theit der Im-ple-men-ta-tion des GA-HMM zu ver-i-fizieren wurde ein Dom^^?anen-
- []
-
-
-Overfull \hbox (0.28021pt too wide) in paragraph at lines 63--209
-\OT1/cmr/m/n/10.95 spez-i-fis-ches Test-Framework en-twick-elt. Die dom^^?anen-spez-i-fis-chen Meth-o-den erm^^?oglichen
- []
-
-[29]
-\openout2 = `content/evaluation/__import__.aux'.
-
- (./content/evaluation/__import__.tex [30
+[25
 
 
 
 
 
-]
-chapter 4.
-(./content/evaluation/evaluation.tex [31])) [32]
-\openout2 = `content/conclusion/conclusion.aux'.
+ <./images/charts/crossover_function_improvement_chance_parents_max.png> <./images/charts/crossover_function_improvement_chance_parents_min.png>]
+<images/charts/mutation_function_improvement_chance.png, id=254, 416.2752pt x 313.6518pt>
+File: images/charts/mutation_function_improvement_chance.png Graphic file (type png)
+<use images/charts/mutation_function_improvement_chance.png>
+Package pdftex.def Info: images/charts/mutation_function_improvement_chance.png  used on input line 11.
+(pdftex.def)             Requested size: 209.0pt x 157.4764pt.
+<images/charts/mean_fitness_after_mutation.png, id=255, 427.8384pt x 312.2064pt>
+File: images/charts/mean_fitness_after_mutation.png Graphic file (type png)
+<use images/charts/mean_fitness_after_mutation.png>
+Package pdftex.def Info: images/charts/mean_fitness_after_mutation.png  used on input line 12.
+(pdftex.def)             Requested size: 209.0pt x 152.51561pt.
 
- (./content/conclusion/conclusion.tex
-chapter 5.
-<images/KACK_Algorithmus.png, id=413, 240.9pt x 192.72pt>
-File: images/KACK_Algorithmus.png Graphic file (type png)
-<use images/KACK_Algorithmus.png>
-Package pdftex.def Info: images/KACK_Algorithmus.png  used on input line 6.
-(pdftex.def)             Requested size: 240.8994pt x 192.71951pt.
-[33
-
-
-
-
-
- <./images/KACK_Algorithmus.png>]) [34]
-chapter without number
-
-Overfull \hbox (2.99762pt too wide) in paragraph at lines 224--224
-[]\OT1/cmr/m/n/10.95 Fatemeh Yas-saee Mey-bodi Akram Em-dadi Fate-meh Ah-madi Moughari and Changiz
+Overfull \hbox (13.38336pt too wide) in paragraph at lines 10--13
+[] [] 
  []
 
 
-Overfull \hbox (3.02902pt too wide) in paragraph at lines 224--224
-[]\OT1/cmr/m/n/10.95 Richard S. Barr. \OT1/cmr/m/it/10.95 De-sign-ing and re-port-ing on com-pu-ta-tional ex-per-i-ments with heuris-
+LaTeX Warning: Citation 'LiteratureEvalGASlimane' on page 26 undefined on input line 17.
+
+[26 <./images/charts/mutation_function_improvement_chance.png> <./images/charts/mean_fitness_after_mutation.png>]
+<images/charts/slimane_log_prob_comparison.png, id=263, 414.8298pt x 312.9291pt>
+File: images/charts/slimane_log_prob_comparison.png Graphic file (type png)
+<use images/charts/slimane_log_prob_comparison.png>
+Package pdftex.def Info: images/charts/slimane_log_prob_comparison.png  used on input line 36.
+(pdftex.def)             Requested size: 209.0pt x 157.65788pt.
+<images/charts/slimane_log_prob_comparison_showdown.png, id=264, 424.2249pt x 312.9291pt>
+File: images/charts/slimane_log_prob_comparison_showdown.png Graphic file (type png)
+<use images/charts/slimane_log_prob_comparison_showdown.png>
+Package pdftex.def Info: images/charts/slimane_log_prob_comparison_showdown.png  used on input line 37.
+(pdftex.def)             Requested size: 209.0pt x 154.16742pt.
+
+Overfull \hbox (13.38336pt too wide) in paragraph at lines 36--38
+[][] [] 
  []
 
-[35
+[27 <./images/charts/slimane_log_prob_comparison.png> <./images/charts/slimane_log_prob_comparison_showdown.png>]
+<images/charts/slimane_execution_time.png, id=271, 461.0826pt x 312.2064pt>
+File: images/charts/slimane_execution_time.png Graphic file (type png)
+<use images/charts/slimane_execution_time.png>
+Package pdftex.def Info: images/charts/slimane_execution_time.png  used on input line 42.
+(pdftex.def)             Requested size: 209.0pt x 141.51581pt.
+<images/charts/slimane_rolling_window.png, id=272, 419.8887pt x 312.2064pt>
+File: images/charts/slimane_rolling_window.png Graphic file (type png)
+<use images/charts/slimane_rolling_window.png>
+Package pdftex.def Info: images/charts/slimane_rolling_window.png  used on input line 43.
+(pdftex.def)             Requested size: 209.0pt x 155.40253pt.
 
-
-
-
-]
-Overfull \hbox (2.17548pt too wide) in paragraph at lines 224--224
-[]\OT1/cmr/m/n/10.95 Sivanandam. \OT1/cmr/m/it/10.95 Ge-netic Al-go-rithms. In: In-tro-duc-tion to Ge-netic Al-go-rithms. Springer\OT1/cmr/m/n/10.95 .
+Overfull \hbox (13.38336pt too wide) in paragraph at lines 42--44
+[][] [] 
  []
 
+) [28 <./images/charts/slimane_execution_time.png> <./images/charts/slimane_rolling_window.png>]
 
-Overfull \hbox (3.48497pt too wide) in paragraph at lines 224--224
-[]\OT1/cmr/m/n/10.95 Rahati-Q Saeed So-mayeh Cheshomi and Mohammah-R Akbarzadeh-T. \OT1/cmr/m/it/10.95 HMM train-
- []
+LaTeX Warning: Empty bibliography on input line 230.
 
-[36]
 \openout2 = `clause.aux'.
 
- (./clause.tex [37
+(./clause.tex [29
 
-] [38
+
+
+] [30
 
 
 ]
@@ -1273,31 +1423,48 @@ Underfull \hbox (badness 10000) in paragraph at lines 14--15
 
  []
 
-) [39]
+) [31]
 
-Package caption Warning: Unused \captionsetup[ContinuedFloat] on input line 67.
+Package caption Warning: Unused \captionsetup[ContinuedFloat] on input line 69.
 See the caption package documentation for explanation.
 
-(./thesis.aux (./content/introduction/abstract.aux) (./content/introduction/introduction.aux) (./content/theoretischer_teil/__import__.aux) (./content/konzept/__import__.aux) (./content/evaluation/__import__.aux) (./content/conclusion/conclusion.aux) (./clause.aux))
-Package rerunfilecheck Info: File `thesis.out' has not changed.
-(rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
+(./thesis.aux (./content/introduction/abstract.aux) (./content/introduction/introduction.aux) (./content/theoretischer_teil/__import__.aux) (./content/evaluation/evaluation.aux) (./clause.aux))
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+
+Package rerunfilecheck Warning: File `thesis.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `thesis.out':
+(rerunfilecheck)             Before: <no file>
+(rerunfilecheck)             After:  D41D8CD98F00B204E9800998ECF8427E;0.
+
+Package biblatex Warning: Please (re)run Biber on the file:
+(biblatex)                thesis
+(biblatex)                and rerun LaTeX afterwards.
+
 Package logreq Info: Writing requests to 'thesis.run.xml'.
 \openout1 = `thesis.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 27662 strings out of 476065
- 526071 string characters out of 5795020
+ 27358 strings out of 476065
+ 518545 string characters out of 5795020
  1864299 words of memory out of 5000000
- 47427 multiletter control sequences out of 15000+600000
+ 47215 multiletter control sequences out of 15000+600000
  520401 words of font info for 59 fonts, out of 8000000 for 9000
  1143 hyphenation exceptions out of 8191
  108i,14n,106p,10639b,2341s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {c:/texlive/2022/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}<c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsl10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmss12.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmss17.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb>
-Output written on thesis.pdf (45 pages, 649735 bytes).
+Output written on thesis.pdf (37 pages, 731115 bytes).
 PDF statistics:
- 666 PDF objects out of 1000 (max. 8388607)
- 550 compressed objects within 6 object streams
- 168 named destinations out of 1000 (max. 500000)
- 324 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 450 PDF objects out of 1000 (max. 8388607)
+ 334 compressed objects within 4 object streams
+ 110 named destinations out of 1000 (max. 500000)
+ 221 words of extra memory for PDF output out of 10000 (max. 10000000)
 

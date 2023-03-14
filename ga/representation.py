@@ -11,6 +11,7 @@ from ga.types import (
     ChromosomeSlices,
     ChromosomeMask
 )
+from numba import njit, jit
 
 
 FIELDS = ChromosomeFields(
@@ -21,6 +22,7 @@ FIELDS = ChromosomeFields(
 )
 
 
+@jit
 def calc_chromosome_length(n_states: int, n_symbols: int) -> int:
     n_genes = n_states * (1 + n_symbols + n_states)
     n_fields = len(FIELDS)
@@ -35,7 +37,7 @@ def initialize_chromosome_fields(n_states, n_symbols, n_chromosomes):
     chromosome_fields[:, FIELDS.RANK] = numpy.arange(n_chromosomes)
     return chromosome_fields
 
-
+@jit
 def multiple_hmm_params_as_population(hmm_params: MultipleHmmParams) -> Population:
     PIs, Bs, As = hmm_params
     n_hmms, n_states, n_symbols = Bs.shape
@@ -54,22 +56,25 @@ def multiple_hmm_params_as_population(hmm_params: MultipleHmmParams) -> Populati
     ))
     return chromosomes
 
+@jit
 def hmm_params_list_as_multiple_hmm_params(hmm_params_list: List[HmmParams]) -> MultipleHmmParams:
     PIs, Bs, As = map(numpy.array, zip(*hmm_params_list))
     return MultipleHmmParams(PIs, Bs, As)
     
 
-
+@jit
 def hmm_params_as_multiple_hmm_params(hmm_params: HmmParams) -> MultipleHmmParams:
     PIs, Bs, As = (numpy.expand_dims(param, axis=0) for param in hmm_params)
     return MultipleHmmParams(PIs, Bs, As)
 
+@jit
 def hmm_params_as_chromosome(hmm_params: HmmParams) -> Chromosome:
     multiple_hmm_params = hmm_params_as_multiple_hmm_params(hmm_params)
     population = multiple_hmm_params_as_population(multiple_hmm_params)
     chromosome = population[0]
     return chromosome
 
+@jit
 def calc_starts_and_stops(n_states: int, n_symbols: int) -> Tuple[numpy.array, numpy.array]:
     lengths = (n_states, (n_states*n_symbols), (n_states**2))
     stops = numpy.cumsum(lengths)
@@ -77,7 +82,7 @@ def calc_starts_and_stops(n_states: int, n_symbols: int) -> Tuple[numpy.array, n
     return starts, stops
 
 
-
+@jit
 def calc_chromosome_slices(n_states: int, n_symbols: int) -> ChromosomeSlices:
 
     starts, stops = calc_starts_and_stops(n_states, n_symbols)
@@ -89,7 +94,7 @@ def calc_chromosome_slices(n_states: int, n_symbols: int) -> ChromosomeSlices:
     return ChromosomeSlices(PI_slice, B_slice, A_slice)
 
 
-
+@jit
 def calc_chromosome_ranges(n_states: int, n_symbols: int) -> ChromosomeRanges:
     n_states = int(n_states)
     n_symbols = int(n_symbols)
@@ -104,7 +109,7 @@ def calc_chromosome_ranges(n_states: int, n_symbols: int) -> ChromosomeRanges:
         RangeTuple(*B_range), 
         RangeTuple(*A_range))
 
-
+@jit
 def population_as_multiple_hmm_params(population: Population) -> MultipleHmmParams:
     n_hmms = len(population)
     n_states = int(population[0, FIELDS.N_STATES])
@@ -119,10 +124,12 @@ def population_as_multiple_hmm_params(population: Population) -> MultipleHmmPara
     hmm_params = MultipleHmmParams(PIs, Bs, As)
     return hmm_params
 
+@jit
 def chromosome_as_population(chromosome):
     population = numpy.expand_dims(chromosome, axis=0)
     return population
 
+@jit
 def chromosome_as_hmm_params(chromosome):
     population = chromosome_as_population(chromosome)
     multiple_hmm_params = population_as_multiple_hmm_params(population)

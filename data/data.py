@@ -26,7 +26,7 @@ def observations(ndarray_list: List[numpy.ndarray]) -> MultipleObservationSequen
     return MultipleObservationSequences(slices=indices, arrays=unified_array, length=len(ndarray_list))
 
 
-class Observations:
+class Dataset:
     def __init__(self, dataset: Literal['fsdd', 'orl'], n_symbols: int) -> None:
         self.dataset = dataset
         self.n_symbols = n_symbols

@@ -18,12 +18,12 @@ class GABWLogger:
         
         
     def _insert(self, log_sequences, was_performed_with: int):
-        n_logs = log_sequences.shape[1]
+        n_logs = len(log_sequences)
 
         start = self.current_log_index
         stop = self.current_log_index + n_logs
 
-        self.logs[:, start: stop] = log_sequences
+        self.logs[:, start: stop] = numpy.atleast_2d(log_sequences).T
         self._nth_iteration_was_perfored_with[start:stop] = was_performed_with
 
         self.current_log_index += n_logs
